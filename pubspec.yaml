@@ -1,5 +1,5 @@
 name: hackathon
-description: "A new Flutter project."
+description: "The winning project"
 publish_to: 'none'
 version: 0.1.0
 
@@ -9,6 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  go_router: ^17.1.0
+  google_fonts: ^8.0.2
 
 dev_dependencies:
   flutter_test:

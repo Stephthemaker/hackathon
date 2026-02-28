@@ -1,11 +1,11 @@
 {
-    "name": "hackathon",
-    "short_name": "hackathon",
+    "name": "Department of Computer Science — Stellenbosch University",
+    "short_name": "CS@SU",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F5F4F2",
+    "theme_color": "#7C1033",
+    "description": "Department of Computer Science at Stellenbosch University — leading research, innovative programmes, and student resources.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

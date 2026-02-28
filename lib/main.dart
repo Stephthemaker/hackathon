@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
+
+import 'theme/app_theme.dart';
+import 'router/app_router.dart';
 
 void main() {
-  runApp(const MainApp());
+  usePathUrlStrategy();
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello Abi!'))),
+    return MaterialApp.router(
+      title: 'CS Department — Stellenbosch University',
+      theme: AppTheme.lightTheme,
+      routerConfig: goRouter,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
