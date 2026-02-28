@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
+import '../ui/widgets/google_map_web.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -72,7 +73,10 @@ class _ContactPageState extends State<ContactPage> {
                     ],
                   ),
                 const SizedBox(height: 60),
-                const _MapPlaceholder(),
+                const GoogleMapWeb(
+                  location: 'Stellenbosch University Faculty of Engineering',
+                  height: 400,
+                ),
               ],
             ),
           ),
@@ -349,47 +353,6 @@ class _KeyContact extends StatelessWidget {
           Text(
             email,
             style: GoogleFonts.inter(fontSize: 12, color: AppTheme.maroon),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _MapPlaceholder extends StatelessWidget {
-  const _MapPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 280,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: const Color(0xFFE8E3DC),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.divider),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.map_outlined,
-            size: 48,
-            color: AppTheme.maroon.withValues(alpha: 0.5),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Stellenbosch University — Engineering Campus',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.textMuted,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '77 Techno Park Dr, Stellenbosch, 7600',
-            style: GoogleFonts.inter(fontSize: 12, color: AppTheme.textMuted),
           ),
         ],
       ),

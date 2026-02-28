@@ -7,6 +7,7 @@ import '../theme/app_theme.dart';
 import '../ui/widgets/animated_section.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -173,17 +174,22 @@ class _HeroSectionState extends State<_HeroSection>
                           runSpacing: 12,
                           children: [
                             ElevatedButton(
-                              onPressed: () => context.go('/programmes'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.gold,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 28,
-                                  vertical: 18,
+                                  onPressed: () => context.go('/programmes'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.gold,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 28,
+                                      vertical: 18,
+                                    ),
+                                  ),
+                                  child: const Text('Explore Programmes'),
+                                )
+                                .animate(onPlay: (c) => c.repeat(reverse: true))
+                                .shimmer(
+                                  duration: 2000.ms,
+                                  color: Colors.white.withValues(alpha: 0.5),
                                 ),
-                              ),
-                              child: const Text('Explore Programmes'),
-                            ),
                             OutlinedButton(
                               onPressed: () => context.go('/research'),
                               style: OutlinedButton.styleFrom(

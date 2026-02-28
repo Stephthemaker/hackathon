@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Official Stellenbosch University brand colors
-  static const Color maroon = Color(0xFF7C1033);
-  static const Color maroonDark = Color(0xFF560822);
-  static const Color maroonLight = Color(0xFF9E1A43);
-  static const Color gold = Color(0xFFC8A35A);
-  static const Color goldLight = Color(0xFFE2C06F);
+  static const Color maroon = Color(0xFF61223B); // SU Confident Maroon
+  static const Color maroonDark = Color(0xFF4C1A2E);
+  static const Color maroonLight = Color(0xFF8B3155);
+  static const Color gold = Color(0xFFB79962); // SU Brilliant Gold
+  static const Color goldLight = Color(0xFFD4B785);
   static const Color background = Color(0xFFF5F4F2);
   static const Color surface = Color(0xFFFFFFFF);
   static const Color textDark = Color(0xFF1A1A1A);

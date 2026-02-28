@@ -103,15 +103,9 @@ class _NavBar extends StatelessWidget {
       height: 72,
       decoration: BoxDecoration(
         color: AppTheme.maroon,
-        boxShadow: scrolled
-            ? [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.3),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
-                ),
-              ]
-            : [],
+        border: scrolled
+            ? const Border(bottom: BorderSide(color: AppTheme.gold, width: 2))
+            : null,
       ),
       child: Center(
         child: ConstrainedBox(
