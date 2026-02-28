@@ -178,6 +178,7 @@ class _GroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
+      depth: 0.3,
       onTap: () {},
       child: Padding(
         padding: const EdgeInsets.all(28),
@@ -328,6 +329,7 @@ class _PubCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
+      depth: 0.3,
       onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -454,6 +456,7 @@ class _LabsTab extends StatelessWidget {
             (l) => Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: HoverCard(
+                depth: 0.3,
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.all(24),

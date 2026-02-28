@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -98,20 +99,65 @@ class _NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final maxNavWidth = 1280.0;
+
+    double edgeSpacing = 0.0;
+    if (screenWidth > maxNavWidth) {
+      edgeSpacing = (screenWidth - maxNavWidth) / 2;
+    }
+
+    double currentMargin = 0.0;
+    double currentPadding = 32.0;
+
+    if (scrolled) {
+      currentMargin = isDesktop
+          ? (edgeSpacing > 32.0 ? edgeSpacing : 32.0)
+          : 16.0;
+      currentPadding = isDesktop ? 32.0 : 20.0;
+    } else {
+      currentMargin = 0.0;
+      currentPadding = edgeSpacing > 0 ? edgeSpacing + 32.0 : 32.0;
+    }
+
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.fastLinearToSlowEaseIn,
       height: 72,
-      decoration: BoxDecoration(
-        color: AppTheme.maroon,
-        border: scrolled
-            ? const Border(bottom: BorderSide(color: AppTheme.gold, width: 2))
-            : null,
+      margin: EdgeInsets.only(
+        top: scrolled ? 16 : 0,
+        left: currentMargin,
+        right: currentMargin,
       ),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1280),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
+        child: TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 450),
+          curve: Curves.fastLinearToSlowEaseIn,
+          tween: Tween<double>(begin: 0.001, end: scrolled ? 24.0 : 0.001),
+          builder: (context, sigma, child) {
+            return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+              child: child,
+            );
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.fastLinearToSlowEaseIn,
+            decoration: BoxDecoration(
+              color: scrolled
+                  ? AppTheme.maroon.withValues(
+                      alpha: 0.35,
+                    ) // Reduced maroon coloring for better glass
+                  : AppTheme.maroon,
+              border: scrolled
+                  ? Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      width: 1,
+                    )
+                  : Border.all(color: Colors.transparent, width: 0),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: currentPadding),
             child: Row(
               children: [
                 // Logo

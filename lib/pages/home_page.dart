@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_theme.dart';
 import '../ui/widgets/animated_section.dart';
+import '../ui/widgets/hero_background.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -83,11 +83,7 @@ class _HeroSectionState extends State<_HeroSection>
         fit: StackFit.expand,
         children: [
           // Animated geometric background
-          AnimatedBuilder(
-            animation: _bgCtrl,
-            builder: (_, _) =>
-                CustomPaint(painter: _HeroPainter(_bgCtrl.value)),
-          ),
+          AnimatedHeroBackground(height: isDesktop ? 680 : 520),
           // Gradient overlay
           Container(
             decoration: BoxDecoration(
@@ -95,8 +91,8 @@ class _HeroSectionState extends State<_HeroSection>
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  AppTheme.maroonDark.withValues(alpha: 0.97),
-                  AppTheme.maroon.withValues(alpha: 0.88),
+                  AppTheme.maroon.withValues(alpha: 0.9),
+                  AppTheme.maroon.withValues(alpha: 0.6),
                   Colors.transparent,
                 ],
                 stops: const [0.0, 0.55, 1.0],
@@ -174,22 +170,17 @@ class _HeroSectionState extends State<_HeroSection>
                           runSpacing: 12,
                           children: [
                             ElevatedButton(
-                                  onPressed: () => context.go('/programmes'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppTheme.gold,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 28,
-                                      vertical: 18,
-                                    ),
-                                  ),
-                                  child: const Text('Explore Programmes'),
-                                )
-                                .animate(onPlay: (c) => c.repeat(reverse: true))
-                                .shimmer(
-                                  duration: 2000.ms,
-                                  color: Colors.white.withValues(alpha: 0.5),
+                              onPressed: () => context.go('/programmes'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.gold,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 28,
+                                  vertical: 18,
                                 ),
+                              ),
+                              child: const Text('Explore Programmes'),
+                            ),
                             OutlinedButton(
                               onPressed: () => context.go('/research'),
                               style: OutlinedButton.styleFrom(
@@ -286,68 +277,6 @@ class _ScrollChevronState extends State<_ScrollChevron>
       ),
     );
   }
-}
-
-// ---------------------------------------------------------------------------
-// Hero background painter - animated geometric grid
-// ---------------------------------------------------------------------------
-class _HeroPainter extends CustomPainter {
-  final double t;
-  _HeroPainter(this.t);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppTheme.maroon
-      ..style = PaintingStyle.fill;
-    canvas.drawRect(Offset.zero & size, paint);
-
-    // Animated circuit-board style dots
-    final dotPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.04)
-      ..style = PaintingStyle.fill;
-    const spacing = 48.0;
-    for (double x = 0; x < size.width; x += spacing) {
-      for (double y = 0; y < size.height; y += spacing) {
-        final phase = (x + y) / (size.width + size.height);
-        final offset = math.sin((t * math.pi * 2) + phase * math.pi * 4) * 6;
-        canvas.drawCircle(Offset(x + offset, y), 1.5, dotPaint);
-      }
-    }
-
-    // Glowing orb top-right
-    final orbPaint = Paint()
-      ..shader =
-          RadialGradient(
-            colors: [AppTheme.gold.withValues(alpha: 0.15), Colors.transparent],
-          ).createShader(
-            Rect.fromCircle(
-              center: Offset(size.width * 0.85, size.height * 0.2),
-              radius: size.width * 0.35,
-            ),
-          );
-    canvas.drawCircle(
-      Offset(size.width * 0.85, size.height * 0.2),
-      size.width * 0.35,
-      orbPaint,
-    );
-
-    // Diagonal lines
-    final linePaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.03)
-      ..strokeWidth = 1;
-    for (int i = -5; i < 15; i++) {
-      final x0 = i * 80.0 + (t * 40 % 80);
-      canvas.drawLine(
-        Offset(x0, 0),
-        Offset(x0 + size.height, size.height),
-        linePaint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_HeroPainter old) => old.t != t;
 }
 
 // ---------------------------------------------------------------------------
@@ -549,6 +478,7 @@ class _AboutHighlights extends StatelessWidget {
               child: AnimatedSection(
                 delay: Duration(milliseconds: 200 + e.key * 120),
                 child: HoverCard(
+                  depth: 0.25,
                   padding: const EdgeInsets.all(24),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -745,6 +675,7 @@ class _QuickLinkCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
+      depth: 0.5,
       onTap: () => context.go(link.route),
       padding: const EdgeInsets.all(28),
       child: Column(
@@ -890,6 +821,7 @@ class _NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
+      depth: 0.3,
       onTap: () {},
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

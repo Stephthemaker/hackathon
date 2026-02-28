@@ -19,8 +19,16 @@ class AnimatedSection extends StatelessWidget {
         .animate(delay: delay)
         .fade(duration: duration, curve: Curves.easeOut)
         .slideY(
-          begin: 0.05,
+          begin: 0.1,
           end: 0,
+          duration: duration,
+          curve: Curves.easeOutQuart,
+        )
+        // 3D fold-up effect
+        .flipH(
+          begin: -0.1,
+          end: 0,
+          perspective: 1.5,
           duration: duration,
           curve: Curves.easeOutQuart,
         );
