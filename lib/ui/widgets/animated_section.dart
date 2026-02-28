@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-class AnimatedSection extends StatelessWidget {
+class AnimatedSection extends StatefulWidget {
   final Widget child;
   final Duration delay;
   final Duration duration;
@@ -14,23 +15,44 @@ class AnimatedSection extends StatelessWidget {
   });
 
   @override
+  State<AnimatedSection> createState() => _AnimatedSectionState();
+}
+
+class _AnimatedSectionState extends State<AnimatedSection> {
+  bool _isVisible = false;
+  bool _hasTriggered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return child
-        .animate(delay: delay)
-        .fade(duration: duration, curve: Curves.easeOut)
-        .slideY(
-          begin: 0.1,
-          end: 0,
-          duration: duration,
-          curve: Curves.easeOutQuart,
-        )
-        // 3D fold-up effect
-        .flipH(
-          begin: -0.1,
-          end: 0,
-          perspective: 1.5,
-          duration: duration,
-          curve: Curves.easeOutQuart,
-        );
+    return VisibilityDetector(
+      key: widget.key ?? Key(widget.hashCode.toString()),
+      onVisibilityChanged: (info) {
+        if (!_hasTriggered && info.visibleFraction > 0.1) {
+          setState(() {
+            _isVisible = true;
+            _hasTriggered = true;
+          });
+        }
+      },
+      child: _isVisible
+          ? widget.child
+                .animate(delay: widget.delay)
+                .fade(duration: widget.duration, curve: Curves.easeOut)
+                .slideY(
+                  begin: 0.1,
+                  end: 0,
+                  duration: widget.duration,
+                  curve: Curves.easeOutQuart,
+                )
+                // 3D fold-up effect
+                .flipH(
+                  begin: -0.1,
+                  end: 0,
+                  perspective: 1.5,
+                  duration: widget.duration,
+                  curve: Curves.easeOutQuart,
+                )
+          : Opacity(opacity: 0, child: widget.child),
+    );
   }
 }

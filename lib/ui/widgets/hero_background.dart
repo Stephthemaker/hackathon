@@ -49,8 +49,8 @@ class _SpectacularHeroPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint bgPaint = Paint()..color = AppTheme.darkBg;
-    canvas.drawRect(Offset.zero & size, bgPaint);
+    // Making it transparent to allow Global3DBackground to show through
+    // Removed solid darkBg background draw here.
 
     void drawOrb(double cx, double cy, double radius, Color c) {
       final rect = Rect.fromCircle(center: Offset(cx, cy), radius: radius);

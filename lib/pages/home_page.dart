@@ -8,6 +8,7 @@ import '../ui/widgets/animated_section.dart';
 import '../ui/widgets/hero_background.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
+import '../ui/widgets/animated_3d_scroll_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -78,12 +79,14 @@ class _HeroSectionState extends State<_HeroSection>
     final isDesktop = width >= 900;
 
     return SizedBox(
-      height: isDesktop ? 680 : 520,
+      height: isDesktop
+          ? 680 + 72
+          : 520 + 72, // accommodate for nav bar overlay
       child: Stack(
         fit: StackFit.expand,
         children: [
           // Animated geometric background
-          AnimatedHeroBackground(height: isDesktop ? 680 : 520),
+          AnimatedHeroBackground(height: isDesktop ? 680 + 72 : 520 + 72),
           // Gradient overlay
           Container(
             decoration: BoxDecoration(
@@ -104,7 +107,11 @@ class _HeroSectionState extends State<_HeroSection>
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1280),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.only(
+                  left: 40,
+                  right: 40,
+                  top: 72,
+                ), // Offset text down for the nav bar
                 child: FadeTransition(
                   opacity: _textOpacity,
                   child: SlideTransition(
@@ -204,8 +211,16 @@ class _HeroSectionState extends State<_HeroSection>
                 ),
               ),
             ),
-          ),
-          // Scroll hint
+          ), // Large 3D render floating in Hero (Desktop only)
+          if (isDesktop)
+            Positioned(
+              right: (width - 1280 > 0 ? (width - 1280) / 2 : 0) + 40,
+              top: 100,
+              bottom: 100,
+              child: const Center(
+                child: Interactive3DScrollModel(size: 380, variant: 2),
+              ), // 2 = Network Globe
+            ), // Scroll hint
           Positioned(
             bottom: 32,
             left: 0,
@@ -374,7 +389,7 @@ class _AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDesktop = MediaQuery.of(context).size.width >= 900;
     return Container(
-      color: AppTheme.background,
+      color: Colors.transparent,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -750,7 +765,7 @@ class _NewsPreviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
+      color: Colors.transparent,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),

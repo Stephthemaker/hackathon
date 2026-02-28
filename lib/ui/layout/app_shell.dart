@@ -5,6 +5,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_theme.dart';
 import '../widgets/footer.dart';
+import '../widgets/app_background_3d.dart';
+
+class ScrollProvider extends InheritedNotifier<ScrollController> {
+  const ScrollProvider({
+    super.key,
+    required ScrollController controller,
+    required super.child,
+  }) : super(notifier: controller);
+
+  static ScrollController of(BuildContext context) {
+    return context
+        .dependOnInheritedWidgetOfExactType<ScrollProvider>()!
+        .notifier!;
+  }
+}
 
 class AppShell extends StatefulWidget {
   final Widget child;
@@ -16,11 +31,28 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   bool _scrolled = false;
+  late final ScrollController _scrollController;
 
-  void _onScroll(ScrollUpdateNotification n) {
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onGlobalScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onGlobalScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onGlobalScroll() {
     final wasScrolled = _scrolled;
-    _scrolled = n.metrics.pixels > 10;
-    if (_scrolled != wasScrolled) setState(() {});
+    _scrolled = _scrollController.hasClients && _scrollController.offset > 10;
+    if (_scrolled != wasScrolled) {
+      setState(() {});
+    }
   }
 
   static const _navItems = [
@@ -44,23 +76,16 @@ class _AppShellState extends State<AppShell> {
       drawer: isDesktop
           ? null
           : _MobileDrawer(navItems: _navItems, currentPath: currentPath),
-      body: NotificationListener<ScrollUpdateNotification>(
-        onNotification: (n) {
-          _onScroll(n);
-          return false;
-        },
+      body: ScrollProvider(
+        controller: _scrollController,
         child: Stack(
           children: [
+            // 3D background that animates natively on scroll
+            const Positioned.fill(child: Global3DBackground()),
             // Scrollable content
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Top spacer so content doesn't hide under nav
-                  const SizedBox(height: 72),
-                  widget.child,
-                  const SiteFooter(),
-                ],
-              ),
+              controller: _scrollController,
+              child: Column(children: [widget.child, const SiteFooter()]),
             ),
             // Sticky nav bar on top
             Positioned(
@@ -68,6 +93,7 @@ class _AppShellState extends State<AppShell> {
               left: 0,
               right: 0,
               child: _NavBar(
+                scrollController: _scrollController,
                 isDesktop: isDesktop,
                 scrolled: _scrolled,
                 navItems: _navItems,
@@ -85,12 +111,14 @@ class _AppShellState extends State<AppShell> {
 // Nav Bar
 // ---------------------------------------------------------------------------
 class _NavBar extends StatelessWidget {
+  final ScrollController scrollController;
   final bool isDesktop;
   final bool scrolled;
   final List<_NavItem> navItems;
   final String currentPath;
 
   const _NavBar({
+    required this.scrollController,
     required this.isDesktop,
     required this.scrolled,
     required this.navItems,
@@ -141,23 +169,50 @@ class _NavBar extends StatelessWidget {
               child: child,
             );
           },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 450),
-            curve: Curves.fastLinearToSlowEaseIn,
-            decoration: BoxDecoration(
-              color: scrolled
-                  ? AppTheme.maroon.withValues(
-                      alpha: 0.35,
-                    ) // Reduced maroon coloring for better glass
-                  : AppTheme.maroon,
-              border: scrolled
-                  ? Border.all(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      width: 1,
-                    )
-                  : Border.all(color: Colors.transparent, width: 0),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: currentPadding),
+          child: AnimatedBuilder(
+            animation: scrollController,
+            builder: (context, child) {
+              final offset = scrollController.hasClients
+                  ? scrollController.offset
+                  : 0.0;
+
+              // Smart transparency mapping depending on the active page:
+              // If on the home page ('/'), we only use the "static 0.8 alpha" when
+              // the user *isn't* scrolling so the hero background shines through.
+              // Once you scroll or if you're on any other route, we drive the alpha
+              // according to `factor` so the tint is identical while resting or moving.
+              double factor = 0.0;
+              if (currentPath == '/') {
+                if (offset > 400) {
+                  factor = ((offset - 400) / 400).clamp(0.0, 1.0);
+                }
+              } else {
+                // Other pages start white right away, so start fully tinted.
+                factor = 1.0;
+              }
+
+              final double baseAlpha = 0.15 + (factor * 0.8);
+              final double dynamicAlpha = (!scrolled && currentPath == '/')
+                  ? 0.8 // keep hero-visible when stationary on home page
+                  : baseAlpha;
+              return Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.maroon.withValues(alpha: dynamicAlpha),
+                  border: scrolled
+                      ? Border.all(
+                          color: Colors.white.withValues(alpha: 0.15),
+                          width: 1,
+                        )
+                      : Border.all(color: Colors.transparent, width: 0),
+                ),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 450),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  padding: EdgeInsets.symmetric(horizontal: currentPadding),
+                  child: child,
+                ),
+              );
+            },
             child: Row(
               children: [
                 // Logo
