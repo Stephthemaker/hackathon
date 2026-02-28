@@ -32,12 +32,21 @@ class _HoverCardState extends State<HoverCard> {
   @override
   Widget build(BuildContext context) {
     Matrix4 transform = Matrix4.identity();
+    double activeDepth = widget.depth;
+
     if (_hovered) {
       final RenderBox? box =
           _key.currentContext?.findRenderObject() as RenderBox?;
       if (box != null) {
         final size = box.size;
         final center = Offset(size.width / 2, size.height / 2);
+
+        // Adaptive lift dependent on widget dimensions and interaction.
+        // Larger items float less to appear naturally heavier.
+        double area = size.width * size.height;
+        double areaScale = area > 0 ? (60000 / area).clamp(0.2, 1.0) : 1.0;
+        double interactionScale = widget.onTap != null ? 1.0 : 0.2;
+        activeDepth = widget.depth * areaScale * interactionScale;
 
         double dx = (_mousePos.dx - center.dx) / center.dx;
         double dy = (_mousePos.dy - center.dy) / center.dy;
@@ -50,15 +59,15 @@ class _HoverCardState extends State<HoverCard> {
         double maxAngleY = 6.0 / (center.dx > 1 ? center.dx : 1);
 
         // Bound cards from over-rotating or under-rotating
-        maxAngleX = maxAngleX.clamp(0.01, 0.045);
-        maxAngleY = maxAngleY.clamp(0.01, 0.045);
+        maxAngleX = maxAngleX.clamp(0.005, 0.02);
+        maxAngleY = maxAngleY.clamp(0.005, 0.02);
 
         transform
           ..setEntry(3, 2, 0.001) // perspective
-          ..rotateX(-dy * maxAngleX * widget.depth) // pitch up/down
-          ..rotateY(dx * maxAngleY * widget.depth); // yaw left/right
+          ..rotateX(-dy * maxAngleX * activeDepth) // pitch up/down
+          ..rotateY(dx * maxAngleY * activeDepth); // yaw left/right
 
-        transform = Matrix4.translationValues(0.0, -4.0 * widget.depth, 0.0)
+        transform = Matrix4.translationValues(0.0, -3.5 * activeDepth, 0.0)
           ..multiply(transform); // lift slightly
       }
     }
@@ -101,18 +110,19 @@ class _HoverCardState extends State<HoverCard> {
               borderRadius: BorderRadius.circular(widget.borderRadius),
               border: Border.all(
                 color: _hovered
-                    ? AppTheme.maroon.withValues(alpha: 0.5)
+                    ? AppTheme.maroon.withValues(alpha: 0.8)
                     : AppTheme.divider,
+                width: _hovered ? 1.2 : 1.0,
               ),
               boxShadow: [
                 if (_hovered)
                   BoxShadow(
                     color: AppTheme.maroon.withValues(
-                      alpha: 0.15,
-                    ), // Deepened shadow for 3D effect
-                    blurRadius: 24,
-                    spreadRadius: 8,
-                    offset: const Offset(0, 12),
+                      alpha: 0.16 * activeDepth.clamp(0.2, 1.0),
+                    ), // Deepened shadow for 3D effect scaled by depth
+                    blurRadius: 20 * activeDepth,
+                    spreadRadius: 5 * activeDepth,
+                    offset: Offset(0, 8 * activeDepth),
                   ),
               ],
             ),

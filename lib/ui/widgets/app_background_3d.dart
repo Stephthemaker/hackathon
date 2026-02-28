@@ -23,17 +23,17 @@ class Global3DBackground extends StatelessWidget {
           child: Opacity(
             opacity: 0.6,
             child: Interactive3DScrollModel(
-              size: 150,
-              variant: 1,
-            ), // 1 = Floating rings
+              size: 250,
+              variant: 1, // 1 = Stellenbosch location
+            ),
           ),
         ),
-        // Bottom right large cube moving very slowly
+        // Bottom right large cube moving very slowly (Tailored to SU CS)
         Positioned(
           top: 1500 - (offset * 0.2),
           right: -50,
           child: Opacity(
-            opacity: 0.2,
+            opacity: 0.85,
             child: Interactive3DScrollModel(
               size: 300,
               variant: 0,

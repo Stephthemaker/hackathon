@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'CS Department — Stellenbosch University',
+      title: 'CS Department - Stellenbosch University',
       theme: AppTheme.lightTheme,
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,

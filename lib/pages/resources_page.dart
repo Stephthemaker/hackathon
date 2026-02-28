@@ -553,8 +553,10 @@ class _FaqRow extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(color: AppTheme.divider),
                       ),
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         faq.a,
+                        textAlign: TextAlign.left,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: AppTheme.textMuted,
                           height: 1.65,

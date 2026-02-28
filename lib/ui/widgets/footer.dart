@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_theme.dart';
 
 class SiteFooter extends StatelessWidget {
@@ -98,13 +99,17 @@ class _FooterBrand extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 42,
+                height: 42,
+                padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  color: AppTheme.gold,
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Icon(Icons.memory, color: Colors.white, size: 20),
+                child: SvgPicture.asset(
+                  'web/assets/favicon.svg',
+                  fit: BoxFit.contain,
+                ),
               ),
               const SizedBox(width: 12),
               Column(

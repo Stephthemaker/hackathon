@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/app_theme.dart';
 import '../widgets/footer.dart';
@@ -258,27 +259,27 @@ class _NavLogo extends StatefulWidget {
 }
 
 class _NavLogoState extends State<_NavLogo> {
-  bool _hovered = false;
-
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
         onTap: () => context.go('/'),
         child: Row(
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 36,
-              height: 36,
+              width: 42,
+              height: 42,
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: _hovered ? AppTheme.goldLight : AppTheme.gold,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: const Icon(Icons.memory, color: Colors.white, size: 20),
+              child: SvgPicture.asset(
+                'web/assets/favicon.svg',
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(width: 12),
             Column(
