@@ -88,17 +88,19 @@ class _HeroSectionState extends State<_HeroSection>
           // Animated geometric background
           AnimatedHeroBackground(height: isDesktop ? 680 + 72 : 520 + 72),
           // Gradient overlay
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  AppTheme.maroon.withValues(alpha: 0.9),
-                  AppTheme.maroon.withValues(alpha: 0.6),
-                  Colors.transparent,
-                ],
-                stops: const [0.0, 0.55, 1.0],
+          IgnorePointer(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    AppTheme.maroon.withValues(alpha: 0.9),
+                    AppTheme.maroon.withValues(alpha: 0.6),
+                    Colors.transparent,
+                  ],
+                  stops: const [0.0, 0.55, 1.0],
+                ),
               ),
             ),
           ),
@@ -837,7 +839,7 @@ class _NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return HoverCard(
       depth: 0.3,
-      onTap: () {},
+      onTap: () => context.go('/news'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

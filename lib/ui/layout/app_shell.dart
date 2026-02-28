@@ -47,6 +47,17 @@ class _AppShellState extends State<AppShell> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant AppShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Scroll to top when the page (child) changes
+    if (oldWidget.child != widget.child) {
+      if (_scrollController.hasClients) {
+        _scrollController.jumpTo(0);
+      }
+    }
+  }
+
   void _onGlobalScroll() {
     final wasScrolled = _scrolled;
     _scrolled = _scrollController.hasClients && _scrollController.offset > 10;

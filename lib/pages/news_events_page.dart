@@ -232,7 +232,14 @@ class _NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = _catColors[item.cat] ?? AppTheme.maroon;
     return HoverCard(
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('"${item.title}" — full article coming soon'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Row(
@@ -344,7 +351,14 @@ class _EventsSidebar extends StatelessWidget {
           (e) => Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: HoverCard(
-              onTap: () {},
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${e.name} event details — coming soon'),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,

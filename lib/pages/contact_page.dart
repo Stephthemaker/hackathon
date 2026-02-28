@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
@@ -13,7 +14,7 @@ class ContactPage extends StatefulWidget {
 
 class _ContactPageState extends State<ContactPage> {
   final _formKey = GlobalKey<FormState>();
-  String _name = '', _email = '', _subject = 'General Enquiry';
+  String _name = '', _email = '', _subject = 'General Enquiry', _message = '';
   bool _submitted = false;
 
   static const _subjects = [
@@ -29,6 +30,16 @@ class _ContactPageState extends State<ContactPage> {
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
+      // Open the user's email client with pre-filled fields
+      final mailUri = Uri(
+        scheme: 'mailto',
+        path: 'stephhenning1@gmail.com',
+        queryParameters: {
+          'subject': '[$_subject] from $_name',
+          'body': 'From: $_name ($_email)\n\n$_message',
+        },
+      );
+      launchUrl(mailUri);
       setState(() => _submitted = true);
     }
   }
@@ -74,7 +85,8 @@ class _ContactPageState extends State<ContactPage> {
                   ),
                 const SizedBox(height: 60),
                 const GoogleMapWeb(
-                  location: 'Stellenbosch University Faculty of Engineering',
+                  location:
+                      'Stellenbosch University Engineering Building, Banghoek Rd, Stellenbosch',
                   height: 400,
                 ),
               ],
@@ -185,7 +197,11 @@ class _ContactPageState extends State<ContactPage> {
                 onSaved: (v) => _subject = v ?? _subject,
               ),
               const SizedBox(height: 16),
-              _textField('Message', maxLines: 5, onSaved: (_) {}),
+              _textField(
+                'Message',
+                maxLines: 5,
+                onSaved: (v) => _message = v ?? '',
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
@@ -330,9 +346,16 @@ class _InfoRow extends StatelessWidget {
   }
 }
 
-class _KeyContact extends StatelessWidget {
+class _KeyContact extends StatefulWidget {
   final String name, email;
   const _KeyContact(this.name, this.email);
+
+  @override
+  State<_KeyContact> createState() => _KeyContactState();
+}
+
+class _KeyContactState extends State<_KeyContact> {
+  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +365,7 @@ class _KeyContact extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            name,
+            widget.name,
             style: GoogleFonts.inter(
               fontSize: 12,
               fontWeight: FontWeight.w600,
@@ -350,9 +373,26 @@ class _KeyContact extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Text(
-            email,
-            style: GoogleFonts.inter(fontSize: 12, color: AppTheme.maroon),
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            onEnter: (_) => setState(() => _hovered = true),
+            onExit: (_) => setState(() => _hovered = false),
+            child: GestureDetector(
+              onTap: () {
+                launchUrl(Uri(scheme: 'mailto', path: widget.email));
+              },
+              child: Text(
+                widget.email,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: AppTheme.maroon,
+                  decoration: _hovered
+                      ? TextDecoration.underline
+                      : TextDecoration.none,
+                  decorationColor: AppTheme.maroon,
+                ),
+              ),
+            ),
           ),
         ],
       ),

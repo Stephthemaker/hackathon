@@ -252,7 +252,14 @@ class _StaffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Profile for ${member.name} — coming soon'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

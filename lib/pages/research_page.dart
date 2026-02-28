@@ -179,7 +179,14 @@ class _GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return HoverCard(
       depth: 0.3,
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${g.name} group details — coming soon'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.all(28),
         child: Column(
@@ -330,7 +337,14 @@ class _PubCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return HoverCard(
       depth: 0.3,
-      onTap: () {},
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('PDF for "${pub.title}" — coming soon'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Row(
@@ -457,7 +471,14 @@ class _LabsTab extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: HoverCard(
                 depth: 0.3,
-                onTap: () {},
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${l.name} lab details — coming soon'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Row(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../theme/app_theme.dart';
 
 class SiteFooter extends StatelessWidget {
@@ -255,7 +256,10 @@ class _FooterLinkItemState extends State<_FooterLinkItem> {
       child: GestureDetector(
         onTap: () {
           if (widget.route.startsWith('http')) {
-            // external link – do nothing for now (would use url_launcher)
+            launchUrl(
+              Uri.parse(widget.route),
+              mode: LaunchMode.externalApplication,
+            );
           } else {
             context.go(widget.route);
           }
