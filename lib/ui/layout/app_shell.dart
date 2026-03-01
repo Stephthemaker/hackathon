@@ -189,24 +189,12 @@ class _NavBar extends StatelessWidget {
                   : 0.0;
 
               // Smart transparency mapping depending on the active page:
-              // If on the home page ('/'), we only use the "static 0.8 alpha" when
-              // the user *isn't* scrolling so the hero background shines through.
-              // Once you scroll or if you're on any other route, we drive the alpha
-              // according to `factor` so the tint is identical while resting or moving.
-              double factor = 0.0;
-              if (currentPath == '/') {
-                if (offset > 400) {
-                  factor = ((offset - 400) / 400).clamp(0.0, 1.0);
-                }
-              } else {
-                // Other pages start white right away, so start fully tinted.
-                factor = 1.0;
-              }
+              // If on the home page ('/'), we once used a hero-visible resting state,
+              // but now we match the stationary style of all other pages (white-tinted/maroon).
+              double factor = 1.0;
 
               final double baseAlpha = 0.15 + (factor * 0.8);
-              final double dynamicAlpha = (!scrolled && currentPath == '/')
-                  ? 0.8 // keep hero-visible when stationary on home page
-                  : baseAlpha;
+              final double dynamicAlpha = baseAlpha;
               return Container(
                 decoration: BoxDecoration(
                   color: AppTheme.maroon.withValues(alpha: dynamicAlpha),

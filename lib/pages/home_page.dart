@@ -5,10 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../theme/app_theme.dart';
 import '../ui/widgets/animated_section.dart';
-import '../ui/widgets/hero_background.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
-import '../ui/widgets/animated_3d_scroll_model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -31,123 +29,22 @@ class HomePage extends StatelessWidget {
 // ---------------------------------------------------------------------------
 // Hero
 // ---------------------------------------------------------------------------
-class _HeroSection extends StatefulWidget {
+class _HeroSection extends StatelessWidget {
   const _HeroSection();
-
-  @override
-  State<_HeroSection> createState() => _HeroSectionState();
-}
-
-class _HeroSectionState extends State<_HeroSection>
-    with TickerProviderStateMixin {
-  late AnimationController _bgCtrl;
-  late AnimationController _textCtrl;
-  late Animation<double> _textOpacity;
-  late Animation<Offset> _textSlide;
-  late Animation<double> _titleOpacity;
-  late Animation<Offset> _titleSlide;
-  late Animation<double> _descOpacity;
-  late Animation<Offset> _descSlide;
-  late Animation<double> _buttonsOpacity;
-
-  @override
-  void initState() {
-    super.initState();
-    _bgCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 20),
-    )..repeat();
-    _textCtrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1400),
-    );
-
-    _textOpacity = CurvedAnimation(
-      parent: _textCtrl,
-      curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
-    );
-    _textSlide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(
-          CurvedAnimation(
-            parent: _textCtrl,
-            curve: const Interval(0.0, 0.4, curve: Curves.easeOut),
-          ),
-        );
-
-    _titleOpacity = CurvedAnimation(
-      parent: _textCtrl,
-      curve: const Interval(0.2, 0.6, curve: Curves.easeOut),
-    );
-    _titleSlide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(
-          CurvedAnimation(
-            parent: _textCtrl,
-            curve: const Interval(0.2, 0.6, curve: Curves.easeOut),
-          ),
-        );
-
-    _descOpacity = CurvedAnimation(
-      parent: _textCtrl,
-      curve: const Interval(0.4, 0.8, curve: Curves.easeOut),
-    );
-    _descSlide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
-        .animate(
-          CurvedAnimation(
-            parent: _textCtrl,
-            curve: const Interval(0.4, 0.8, curve: Curves.easeOut),
-          ),
-        );
-
-    _buttonsOpacity = CurvedAnimation(
-      parent: _textCtrl,
-      curve: const Interval(0.6, 1.0, curve: Curves.easeOut),
-    );
-
-    Future.delayed(const Duration(milliseconds: 200), () {
-      if (mounted) _textCtrl.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _bgCtrl.dispose();
-    _textCtrl.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= 900;
 
-    return SizedBox(
+    return Container(
+      color: Colors.white,
       height: isDesktop
           ? 680 + 72
           : 520 + 72, // accommodate for nav bar overlay
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Animated geometric background running under everything clearly
-          AnimatedHeroBackground(height: isDesktop ? 680 + 72 : 520 + 72),
-
-          // Much softer gradient overlay so the animations show through properly
-          IgnorePointer(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    AppTheme.darkBg.withValues(alpha: 0.8),
-                    AppTheme.darkBg.withValues(alpha: 0.2),
-                    Colors.transparent,
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
-                ),
-              ),
-            ),
-          ),
-
           // Text content and 3D Model
           Center(
             child: ConstrainedBox(
@@ -167,133 +64,103 @@ class _HeroSectionState extends State<_HeroSection>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          FadeTransition(
-                            opacity: _textOpacity,
-                            child: SlideTransition(
-                              position: _textSlide,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.gold.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(
-                                    color: AppTheme.gold.withValues(alpha: 0.4),
-                                  ),
-                                ),
-                                child: Text(
-                                  'STELLENBOSCH UNIVERSITY',
-                                  style: GoogleFonts.inter(
-                                    color: AppTheme.goldLight,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 2.5,
-                                  ),
-                                ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.gold.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color: AppTheme.gold.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: Text(
+                              'STELLENBOSCH UNIVERSITY',
+                              style: GoogleFonts.inter(
+                                color: AppTheme.maroon,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 2.5,
                               ),
                             ),
                           ),
                           const SizedBox(height: 24),
-                          FadeTransition(
-                            opacity: _titleOpacity,
-                            child: SlideTransition(
-                              position: _titleSlide,
-                              child: isDesktop
-                                  ? Text(
-                                      'Department of\nComputer Science',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge
-                                          ?.copyWith(height: 1.05),
-                                    )
-                                  : Text(
-                                      'Department of\nComputer Science',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                            height: 1.1,
-                                          ),
-                                    ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          FadeTransition(
-                            opacity: _descOpacity,
-                            child: SlideTransition(
-                              position: _descSlide,
-                              child: SizedBox(
-                                width: isDesktop ? 520 : double.infinity,
-                                child: Text(
-                                  'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
-                                  style: GoogleFonts.inter(
-                                    color: Colors.white.withValues(alpha: 0.75),
-                                    fontSize: isDesktop ? 18 : 15,
-                                    height: 1.7,
-                                  ),
+                          isDesktop
+                              ? Text(
+                                  'Department of\nComputer Science',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.copyWith(
+                                        color: AppTheme.textDark,
+                                        height: 1.05,
+                                      ),
+                                )
+                              : Text(
+                                  'Department of\nComputer Science',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium
+                                      ?.copyWith(
+                                        color: AppTheme.textDark,
+                                        height: 1.1,
+                                      ),
                                 ),
+                          const SizedBox(height: 24),
+                          SizedBox(
+                            width: isDesktop ? 520 : double.infinity,
+                            child: Text(
+                              'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
+                              style: GoogleFonts.inter(
+                                color: AppTheme.textMuted,
+                                fontSize: isDesktop ? 18 : 15,
+                                height: 1.7,
                               ),
                             ),
                           ),
                           const SizedBox(height: 40),
-                          FadeTransition(
-                            opacity: _buttonsOpacity,
-                            child: Wrap(
-                              spacing: 16,
-                              runSpacing: 12,
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () => context.go('/programmes'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppTheme.gold,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 28,
-                                      vertical: 18,
-                                    ),
-                                    elevation: 8,
-                                    shadowColor: AppTheme.gold.withValues(
-                                      alpha: 0.5,
-                                    ),
+                          Wrap(
+                            spacing: 16,
+                            runSpacing: 12,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () => context.go('/programmes'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppTheme.gold,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 28,
+                                    vertical: 18,
                                   ),
-                                  child: const Text('Explore Programmes'),
-                                ),
-                                OutlinedButton(
-                                  onPressed: () => context.go('/research'),
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    side: const BorderSide(
-                                      color: Colors.white,
-                                      width: 1.5,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 28,
-                                      vertical: 18,
-                                    ),
+                                  elevation: 8,
+                                  shadowColor: AppTheme.gold.withValues(
+                                    alpha: 0.5,
                                   ),
-                                  child: const Text('Our Research'),
                                 ),
-                              ],
-                            ),
+                                child: const Text('Explore Programmes'),
+                              ),
+                              OutlinedButton(
+                                onPressed: () => context.go('/research'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppTheme.textDark,
+                                  side: const BorderSide(
+                                    color: AppTheme.textDark,
+                                    width: 1.5,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 28,
+                                    vertical: 18,
+                                  ),
+                                ),
+                                child: const Text('Our Research'),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
-                    if (isDesktop) ...[
-                      const SizedBox(width: 40),
-                      const Expanded(
-                        flex: 5,
-                        child: Center(
-                          child: Interactive3DScrollModel(
-                            size: 400,
-                            variant: 2,
-                          ), // 2 = Network Globe
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -305,70 +172,27 @@ class _HeroSectionState extends State<_HeroSection>
             bottom: 32,
             left: 0,
             right: 0,
-            child: FadeTransition(
-              opacity: _textOpacity,
-              child: Column(
-                children: [
-                  Text(
-                    'scroll to explore',
-                    style: GoogleFonts.inter(
-                      color: Colors.white.withValues(alpha: 0.4),
-                      fontSize: 11,
-                      letterSpacing: 1.5,
-                    ),
+            child: Column(
+              children: [
+                Text(
+                  'scroll to explore',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    color: AppTheme.textMuted,
+                    fontSize: 11,
+                    letterSpacing: 1.5,
                   ),
-                  const SizedBox(height: 8),
-                  _ScrollChevron(),
-                ],
-              ),
+                ),
+                const SizedBox(height: 8),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: AppTheme.textMuted,
+                  size: 24,
+                ),
+              ],
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ScrollChevron extends StatefulWidget {
-  @override
-  State<_ScrollChevron> createState() => _ScrollChevronState();
-}
-
-class _ScrollChevronState extends State<_ScrollChevron>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _ctrl;
-  late Animation<double> _anim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 900),
-    )..repeat(reverse: true);
-    _anim = Tween<double>(
-      begin: 0,
-      end: 6,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _anim,
-      builder: (_, _) => Transform.translate(
-        offset: Offset(0, _anim.value),
-        child: Icon(
-          Icons.keyboard_arrow_down,
-          color: Colors.white.withValues(alpha: 0.4),
-          size: 24,
-        ),
       ),
     );
   }
