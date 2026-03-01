@@ -120,7 +120,7 @@ class _StaffPageState extends State<StaffPage> {
                         color: AppTheme.textMuted,
                         size: 20,
                       ),
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: GoogleFonts.playfairDisplay(
                         color: AppTheme.textMuted,
                         fontSize: 14,
                       ),
@@ -221,24 +221,29 @@ class _FilterChip extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-        decoration: BoxDecoration(
-          color: selected ? AppTheme.maroon : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: selected ? AppTheme.maroon : AppTheme.divider,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: selected ? Colors.white : AppTheme.textDark,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: SelectionContainer.disabled(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            decoration: BoxDecoration(
+              color: selected ? AppTheme.maroon : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: selected ? AppTheme.maroon : AppTheme.divider,
+              ),
+            ),
+            child: Text(
+              label,
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: selected ? Colors.white : AppTheme.textDark,
+              ),
+            ),
           ),
         ),
       ),
@@ -297,7 +302,7 @@ class _StaffCard extends StatelessWidget {
                   ),
                   child: Text(
                     member.group,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
@@ -315,7 +320,7 @@ class _StaffCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   member.title,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     color: AppTheme.maroon,
                     fontWeight: FontWeight.w500,
@@ -366,7 +371,7 @@ class _Chip extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             label,
-            style: GoogleFonts.inter(
+            style: GoogleFonts.playfairDisplay(
               fontSize: 11,
               fontWeight: FontWeight.w500,
               color: AppTheme.textMuted,

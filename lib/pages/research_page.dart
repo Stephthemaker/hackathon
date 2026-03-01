@@ -82,24 +82,32 @@ class _ResearchTabBar extends StatelessWidget {
       runSpacing: 4,
       children: tabs.asMap().entries.map((e) {
         final sel = controller.index == e.key;
-        return GestureDetector(
-          onTap: () => controller.animateTo(e.key),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: sel ? AppTheme.maroon : Colors.white,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: sel ? AppTheme.maroon : AppTheme.divider,
-              ),
-            ),
-            child: Text(
-              e.value,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: sel ? Colors.white : AppTheme.textDark,
+        return MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => controller.animateTo(e.key),
+            child: SelectionContainer.disabled(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: sel ? AppTheme.maroon : Colors.white,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: sel ? AppTheme.maroon : AppTheme.divider,
+                  ),
+                ),
+                child: Text(
+                  e.value,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: sel ? Colors.white : AppTheme.textDark,
+                  ),
+                ),
               ),
             ),
           ),
@@ -250,7 +258,7 @@ class _ResearchTag extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.inter(
+        style: GoogleFonts.playfairDisplay(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: AppTheme.gold,
@@ -359,7 +367,7 @@ class _PubCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   pub.year,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -382,7 +390,7 @@ class _PubCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     pub.authors,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 12,
                       color: AppTheme.textMuted,
                     ),
@@ -390,7 +398,7 @@ class _PubCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     pub.venue,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 12,
                       color: AppTheme.maroon,
                       fontWeight: FontWeight.w500,
@@ -413,7 +421,7 @@ class _PubCard extends StatelessWidget {
                   ),
                   child: Text(
                     pub.rank,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
@@ -498,7 +506,7 @@ class _LabsTab extends StatelessWidget {
                           children: [
                             Text(
                               l.shortName,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
                                 color: AppTheme.gold,

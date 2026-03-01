@@ -38,7 +38,7 @@ class SectionHeading extends StatelessWidget {
                 const SizedBox(width: 10),
                 Text(
                   label.toUpperCase(),
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: AppTheme.gold,

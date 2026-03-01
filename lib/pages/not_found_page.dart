@@ -41,7 +41,7 @@ class NotFoundPage extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'Page Not Found',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textDark,
@@ -50,7 +50,7 @@ class NotFoundPage extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'The page you\'re looking for doesn\'t exist or has been moved.',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 15,
                   color: AppTheme.textMuted,
                   height: 1.6,
@@ -58,19 +58,21 @@ class NotFoundPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 36),
-              ElevatedButton.icon(
-                onPressed: () => context.go('/'),
-                icon: const Icon(Icons.home_outlined, size: 18),
-                label: Text(
-                  'Back to Home',
-                  style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.maroon,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 16,
+              SelectionContainer.disabled(
+                child: ElevatedButton.icon(
+                  onPressed: () => context.go('/'),
+                  icon: const Icon(Icons.home_outlined, size: 18),
+                  label: Text(
+                    'Back to Home',
+                    style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.maroon,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: 16,
+                    ),
                   ),
                 ),
               ),

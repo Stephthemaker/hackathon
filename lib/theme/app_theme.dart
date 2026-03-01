@@ -16,7 +16,7 @@ class AppTheme {
   static const Color darkBg = Color(0xFF0E0608);
 
   static ThemeData get lightTheme {
-    final base = GoogleFonts.interTextTheme();
+    final base = GoogleFonts.playfairDisplayTextTheme();
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
@@ -29,6 +29,11 @@ class AppTheme {
         onSurface: textDark,
       ),
       scaffoldBackgroundColor: background,
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: maroon,
+        selectionColor: gold.withValues(alpha: 0.4),
+        selectionHandleColor: maroon,
+      ),
       textTheme: base.copyWith(
         displayLarge: GoogleFonts.playfairDisplay(
           fontSize: 64,
@@ -54,40 +59,40 @@ class AppTheme {
           color: textDark,
           height: 1.25,
         ),
-        headlineMedium: GoogleFonts.inter(
+        headlineMedium: GoogleFonts.playfairDisplay(
           fontSize: 26,
           fontWeight: FontWeight.w600,
           color: textDark,
           height: 1.3,
         ),
-        headlineSmall: GoogleFonts.inter(
+        headlineSmall: GoogleFonts.playfairDisplay(
           fontSize: 22,
           fontWeight: FontWeight.w600,
           color: textDark,
         ),
-        titleLarge: GoogleFonts.inter(
+        titleLarge: GoogleFonts.playfairDisplay(
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: textDark,
         ),
-        titleMedium: GoogleFonts.inter(
+        titleMedium: GoogleFonts.playfairDisplay(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           color: textDark,
         ),
-        bodyLarge: GoogleFonts.inter(
+        bodyLarge: GoogleFonts.playfairDisplay(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: textDark,
           height: 1.7,
         ),
-        bodyMedium: GoogleFonts.inter(
+        bodyMedium: GoogleFonts.playfairDisplay(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: textMuted,
           height: 1.6,
         ),
-        labelLarge: GoogleFonts.inter(
+        labelLarge: GoogleFonts.playfairDisplay(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
@@ -113,7 +118,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: GoogleFonts.inter(
+          textStyle: GoogleFonts.playfairDisplay(
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -151,7 +156,7 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: background,
         selectedColor: maroon,
-        labelStyle: GoogleFonts.inter(
+        labelStyle: GoogleFonts.playfairDisplay(
           fontSize: 13,
           fontWeight: FontWeight.w500,
         ),

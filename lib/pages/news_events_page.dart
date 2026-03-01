@@ -160,24 +160,29 @@ class _CatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-        decoration: BoxDecoration(
-          color: selected ? AppTheme.maroon : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: selected ? AppTheme.maroon : AppTheme.divider,
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            color: selected ? Colors.white : AppTheme.textDark,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: SelectionContainer.disabled(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            decoration: BoxDecoration(
+              color: selected ? AppTheme.maroon : Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: selected ? AppTheme.maroon : AppTheme.divider,
+              ),
+            ),
+            child: Text(
+              label,
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: selected ? Colors.white : AppTheme.textDark,
+              ),
+            ),
           ),
         ),
       ),
@@ -270,7 +275,7 @@ class _NewsCard extends StatelessWidget {
                         ),
                         child: Text(
                           item.cat,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.playfairDisplay(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
                             color: color,
@@ -281,7 +286,7 @@ class _NewsCard extends StatelessWidget {
                       const Spacer(),
                       Text(
                         item.date,
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 12,
                           color: AppTheme.textMuted,
                         ),
@@ -337,7 +342,7 @@ class _EventsSidebar extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               'Upcoming Events',
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: AppTheme.textDark,
@@ -376,7 +381,7 @@ class _EventsSidebar extends StatelessWidget {
                       child: Center(
                         child: Text(
                           e.date,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.playfairDisplay(
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -393,7 +398,7 @@ class _EventsSidebar extends StatelessWidget {
                         children: [
                           Text(
                             e.name,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.textDark,
@@ -402,7 +407,7 @@ class _EventsSidebar extends StatelessWidget {
                           const SizedBox(height: 2),
                           Text(
                             e.location,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               fontSize: 11,
                               color: AppTheme.textMuted,
                             ),

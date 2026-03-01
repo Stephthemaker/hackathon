@@ -193,7 +193,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                       const SizedBox(width: 12),
                       Text(
                         'Module Catalogue',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1.0,
@@ -245,7 +245,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
             width: 600,
             child: Text(
               'Applications for 2027 open on 1 March. Prepare your documents and apply online through the Stellenbosch University portal.',
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 15,
                 color: Colors.white.withValues(alpha: 0.8),
                 height: 1.7,
@@ -257,44 +257,50 @@ class _ProgrammesPageState extends State<ProgrammesPage>
             spacing: 16,
             runSpacing: 12,
             children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  launchUrl(
-                    Uri.parse(
-                      'https://www.sun.ac.za/english/faculty/engineering/Pages/Apply.aspx',
+              SelectionContainer.disabled(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    launchUrl(
+                      Uri.parse(
+                        'https://www.sun.ac.za/english/faculty/engineering/Pages/Apply.aspx',
+                      ),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  },
+                  icon: const Icon(Icons.launch, size: 16),
+                  label: const Text('Apply Online'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.gold,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: 16,
                     ),
-                    mode: LaunchMode.externalApplication,
-                  );
-                },
-                icon: const Icon(Icons.launch, size: 16),
-                label: const Text('Apply Online'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.gold,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 16,
                   ),
                 ),
               ),
-              OutlinedButton.icon(
-                onPressed: () {
-                  launchUrl(
-                    Uri(
-                      scheme: 'mailto',
-                      path: 'stephhenning1@gmail.com',
-                      queryParameters: {'subject': 'Admissions Enquiry'},
+              SelectionContainer.disabled(
+                child: OutlinedButton.icon(
+                  onPressed: () {
+                    launchUrl(
+                      Uri(
+                        scheme: 'mailto',
+                        path: 'stephhenning1@gmail.com',
+                        queryParameters: {'subject': 'Admissions Enquiry'},
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.email_outlined, size: 16),
+                  label: const Text('Email Admissions'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: BorderSide(
+                      color: Colors.white.withValues(alpha: 0.5),
                     ),
-                  );
-                },
-                icon: const Icon(Icons.email_outlined, size: 16),
-                label: const Text('Email Admissions'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  side: BorderSide(color: Colors.white.withValues(alpha: 0.5)),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 16,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 28,
+                      vertical: 16,
+                    ),
                   ),
                 ),
               ),
@@ -450,7 +456,7 @@ class _ProgCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       Text(
                         prog.duration,
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           color: prog.accent,
@@ -472,7 +478,7 @@ class _ProgCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         prog.requirements,
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 11,
                           color: AppTheme.textMuted,
                           height: 1.5,
@@ -498,7 +504,7 @@ class _ProgCard extends StatelessWidget {
                           ),
                           child: Text(
                             h,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                               color: prog.accent,
@@ -529,24 +535,32 @@ class _ProgTabBar extends StatelessWidget {
       runSpacing: 4,
       children: labels.asMap().entries.map((e) {
         final sel = controller.index == e.key;
-        return GestureDetector(
-          onTap: () => controller.animateTo(e.key),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-            decoration: BoxDecoration(
-              color: sel ? AppTheme.maroon : Colors.white,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: sel ? AppTheme.maroon : AppTheme.divider,
-              ),
-            ),
-            child: Text(
-              e.value,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: sel ? Colors.white : AppTheme.textDark,
+        return MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => controller.animateTo(e.key),
+            child: SelectionContainer.disabled(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18,
+                  vertical: 9,
+                ),
+                decoration: BoxDecoration(
+                  color: sel ? AppTheme.maroon : Colors.white,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: sel ? AppTheme.maroon : AppTheme.divider,
+                  ),
+                ),
+                child: Text(
+                  e.value,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: sel ? Colors.white : AppTheme.textDark,
+                  ),
+                ),
               ),
             ),
           ),
@@ -588,7 +602,7 @@ class _ModuleRow extends StatelessWidget {
                   child: Center(
                     child: Text(
                       '${index + 1}',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         color: AppTheme.maroon,
@@ -617,7 +631,7 @@ class _ModuleRow extends StatelessWidget {
                   ),
                   child: Text(
                     '${mod.credits} credits',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.gold,

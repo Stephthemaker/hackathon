@@ -78,7 +78,7 @@ class _HeroSection extends StatelessWidget {
                             ),
                             child: Text(
                               'STELLENBOSCH UNIVERSITY',
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 color: AppTheme.maroon,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -113,7 +113,7 @@ class _HeroSection extends StatelessWidget {
                             width: isDesktop ? 520 : double.infinity,
                             child: Text(
                               'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 color: AppTheme.textMuted,
                                 fontSize: isDesktop ? 18 : 15,
                                 height: 1.7,
@@ -125,36 +125,40 @@ class _HeroSection extends StatelessWidget {
                             spacing: 16,
                             runSpacing: 12,
                             children: [
-                              ElevatedButton(
-                                onPressed: () => context.go('/programmes'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.gold,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 28,
-                                    vertical: 18,
+                              SelectionContainer.disabled(
+                                child: ElevatedButton(
+                                  onPressed: () => context.go('/programmes'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.gold,
+                                    foregroundColor: Colors.white,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 28,
+                                      vertical: 18,
+                                    ),
+                                    elevation: 8,
+                                    shadowColor: AppTheme.gold.withValues(
+                                      alpha: 0.5,
+                                    ),
                                   ),
-                                  elevation: 8,
-                                  shadowColor: AppTheme.gold.withValues(
-                                    alpha: 0.5,
-                                  ),
+                                  child: const Text('Explore Programmes'),
                                 ),
-                                child: const Text('Explore Programmes'),
                               ),
-                              OutlinedButton(
-                                onPressed: () => context.go('/research'),
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: AppTheme.textDark,
-                                  side: const BorderSide(
-                                    color: AppTheme.textDark,
-                                    width: 1.5,
+                              SelectionContainer.disabled(
+                                child: OutlinedButton(
+                                  onPressed: () => context.go('/research'),
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: AppTheme.textDark,
+                                    side: const BorderSide(
+                                      color: AppTheme.textDark,
+                                      width: 1.5,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 28,
+                                      vertical: 18,
+                                    ),
                                   ),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 28,
-                                    vertical: 18,
-                                  ),
+                                  child: const Text('Our Research'),
                                 ),
-                                child: const Text('Our Research'),
                               ),
                             ],
                           ),
@@ -177,7 +181,7 @@ class _HeroSection extends StatelessWidget {
                 Text(
                   'scroll to explore',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     color: AppTheme.textMuted,
                     fontSize: 11,
                     letterSpacing: 1.5,
@@ -272,7 +276,7 @@ class _StatItem extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           stat.label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.playfairDisplay(
             fontSize: 14,
             color: Colors.white.withValues(alpha: 0.65),
             letterSpacing: 0.3,
@@ -357,9 +361,11 @@ class _AboutText extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text('Read our Annual Report'),
+        SelectionContainer.disabled(
+          child: ElevatedButton(
+            onPressed: () {},
+            child: const Text('Read our Annual Report'),
+          ),
         ),
       ],
     );
@@ -623,7 +629,7 @@ class _QuickLinkCard extends StatelessWidget {
             children: [
               Text(
                 'Learn more',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.maroon,
@@ -686,12 +692,14 @@ class _NewsPreviewSection extends StatelessWidget {
                         label: 'Latest',
                         title: 'News & Events',
                       ),
-                      TextButton.icon(
-                        onPressed: () => context.go('/news'),
-                        icon: const Icon(Icons.arrow_forward, size: 16),
-                        label: const Text('All news'),
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppTheme.maroon,
+                      SelectionContainer.disabled(
+                        child: TextButton.icon(
+                          onPressed: () => context.go('/news'),
+                          icon: const Icon(Icons.arrow_forward, size: 16),
+                          label: const Text('All news'),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppTheme.maroon,
+                          ),
                         ),
                       ),
                     ],
@@ -764,7 +772,7 @@ class _NewsCard extends StatelessWidget {
               children: [
                 Text(
                   item.date,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 12,
                     color: AppTheme.gold,
                     fontWeight: FontWeight.w600,

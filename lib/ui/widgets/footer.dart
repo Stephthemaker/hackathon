@@ -65,14 +65,14 @@ class SiteFooter extends StatelessWidget {
                   children: [
                     Text(
                       '© 2026 Department of Computer Science, Stellenbosch University.',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 13,
                         color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
                     Text(
                       'Private Bag X1, Matieland 7602',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 13,
                         color: Colors.white.withValues(alpha: 0.4),
                       ),
@@ -117,7 +117,7 @@ class _FooterBrand extends StatelessWidget {
                 children: [
                   Text(
                     'Computer Science',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -125,7 +125,7 @@ class _FooterBrand extends StatelessWidget {
                   ),
                   Text(
                     'Stellenbosch University',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 12,
                     ),
@@ -137,7 +137,7 @@ class _FooterBrand extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'Advancing computer science through world-class research, innovative teaching, and community impact in Africa.',
-            style: GoogleFonts.inter(
+            style: GoogleFonts.playfairDisplay(
               color: Colors.white.withValues(alpha: 0.5),
               fontSize: 13,
               height: 1.7,
@@ -211,7 +211,7 @@ class _FooterLinks extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.playfairDisplay(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -269,18 +269,20 @@ class _FooterLinkItemState extends State<_FooterLinkItem> {
             context.go(widget.route);
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 150),
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              color: _hovered
-                  ? AppTheme.gold
-                  : Colors.white.withValues(alpha: 0.5),
-              height: 1.5,
+        child: SelectionContainer.disabled(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 150),
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 13,
+                color: _hovered
+                    ? AppTheme.gold
+                    : Colors.white.withValues(alpha: 0.5),
+                height: 1.5,
+              ),
+              child: Text(widget.label),
             ),
-            child: Text(widget.label),
           ),
         ),
       ),
