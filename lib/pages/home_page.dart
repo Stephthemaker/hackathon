@@ -78,7 +78,7 @@ class _HeroSection extends StatelessWidget {
                             ),
                             child: Text(
                               'STELLENBOSCH UNIVERSITY',
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.openSans(
                                 color: AppTheme.maroon,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -113,7 +113,7 @@ class _HeroSection extends StatelessWidget {
                             width: isDesktop ? 520 : double.infinity,
                             child: Text(
                               'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.openSans(
                                 color: AppTheme.textMuted,
                                 fontSize: isDesktop ? 18 : 15,
                                 height: 1.7,
@@ -181,7 +181,7 @@ class _HeroSection extends StatelessWidget {
                 Text(
                   'scroll to explore',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     color: AppTheme.textMuted,
                     fontSize: 11,
                     letterSpacing: 1.5,
@@ -276,7 +276,7 @@ class _StatItem extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           stat.label,
-          style: GoogleFonts.playfairDisplay(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             color: Colors.white.withValues(alpha: 0.65),
             letterSpacing: 0.3,
@@ -629,7 +629,7 @@ class _QuickLinkCard extends StatelessWidget {
             children: [
               Text(
                 'Learn more',
-                style: GoogleFonts.playfairDisplay(
+                style: GoogleFonts.openSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.maroon,
@@ -772,7 +772,7 @@ class _NewsCard extends StatelessWidget {
               children: [
                 Text(
                   item.date,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     color: AppTheme.gold,
                     fontWeight: FontWeight.w600,

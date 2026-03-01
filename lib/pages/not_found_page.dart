@@ -50,7 +50,7 @@ class NotFoundPage extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'The page you\'re looking for doesn\'t exist or has been moved.',
-                style: GoogleFonts.playfairDisplay(
+                style: GoogleFonts.openSans(
                   fontSize: 15,
                   color: AppTheme.textMuted,
                   height: 1.6,
@@ -64,7 +64,7 @@ class NotFoundPage extends StatelessWidget {
                   icon: const Icon(Icons.home_outlined, size: 18),
                   label: Text(
                     'Back to Home',
-                    style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w600),
+                    style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.maroon,

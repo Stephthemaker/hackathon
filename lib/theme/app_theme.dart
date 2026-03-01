@@ -92,7 +92,7 @@ class AppTheme {
           color: textMuted,
           height: 1.6,
         ),
-        labelLarge: GoogleFonts.playfairDisplay(
+        labelLarge: GoogleFonts.openSans(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
@@ -118,7 +118,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: GoogleFonts.playfairDisplay(
+          textStyle: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -131,6 +131,10 @@ class AppTheme {
           side: const BorderSide(color: maroon, width: 1.5),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+          textStyle: GoogleFonts.openSans(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -156,7 +160,7 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: background,
         selectedColor: maroon,
-        labelStyle: GoogleFonts.playfairDisplay(
+        labelStyle: GoogleFonts.openSans(
           fontSize: 13,
           fontWeight: FontWeight.w500,
         ),

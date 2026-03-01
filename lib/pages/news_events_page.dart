@@ -177,7 +177,7 @@ class _CatChip extends StatelessWidget {
             ),
             child: Text(
               label,
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.openSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: selected ? Colors.white : AppTheme.textDark,
@@ -275,7 +275,7 @@ class _NewsCard extends StatelessWidget {
                         ),
                         child: Text(
                           item.cat,
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.openSans(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
                             color: color,
@@ -286,7 +286,7 @@ class _NewsCard extends StatelessWidget {
                       const Spacer(),
                       Text(
                         item.date,
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.openSans(
                           fontSize: 12,
                           color: AppTheme.textMuted,
                         ),
@@ -342,7 +342,7 @@ class _EventsSidebar extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               'Upcoming Events',
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.openSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: AppTheme.textDark,
@@ -381,7 +381,7 @@ class _EventsSidebar extends StatelessWidget {
                       child: Center(
                         child: Text(
                           e.date,
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.openSans(
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -398,7 +398,7 @@ class _EventsSidebar extends StatelessWidget {
                         children: [
                           Text(
                             e.name,
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.openSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppTheme.textDark,
@@ -407,7 +407,7 @@ class _EventsSidebar extends StatelessWidget {
                           const SizedBox(height: 2),
                           Text(
                             e.location,
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.openSans(
                               fontSize: 11,
                               color: AppTheme.textMuted,
                             ),

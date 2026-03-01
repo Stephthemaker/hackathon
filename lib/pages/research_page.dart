@@ -102,7 +102,7 @@ class _ResearchTabBar extends StatelessWidget {
                 ),
                 child: Text(
                   e.value,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: sel ? Colors.white : AppTheme.textDark,
@@ -258,7 +258,7 @@ class _ResearchTag extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.playfairDisplay(
+        style: GoogleFonts.openSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: AppTheme.gold,
@@ -367,7 +367,7 @@ class _PubCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   pub.year,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -390,7 +390,7 @@ class _PubCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     pub.authors,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 12,
                       color: AppTheme.textMuted,
                     ),
@@ -398,7 +398,7 @@ class _PubCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     pub.venue,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 12,
                       color: AppTheme.maroon,
                       fontWeight: FontWeight.w500,
@@ -421,7 +421,7 @@ class _PubCard extends StatelessWidget {
                   ),
                   child: Text(
                     pub.rank,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
@@ -506,7 +506,7 @@ class _LabsTab extends StatelessWidget {
                           children: [
                             Text(
                               l.shortName,
-                              style: GoogleFonts.playfairDisplay(
+                              style: GoogleFonts.openSans(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
                                 color: AppTheme.gold,

@@ -158,7 +158,7 @@ class _ContactPageState extends State<ContactPage> {
                   const SizedBox(width: 10),
                   Text(
                     'Send a Message',
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.textDark,
@@ -216,7 +216,7 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                     child: Text(
                       'Send Message',
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.openSans(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),
@@ -269,7 +269,7 @@ class _InfoPanel extends StatelessWidget {
                     const SizedBox(width: 10),
                     Text(
                       'Contact Details',
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.openSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
@@ -301,7 +301,7 @@ class _InfoPanel extends StatelessWidget {
                     const SizedBox(width: 10),
                     Text(
                       'Key Contacts',
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.openSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
@@ -370,7 +370,7 @@ class _KeyContactState extends State<_KeyContact> {
         children: [
           Text(
             widget.name,
-            style: GoogleFonts.playfairDisplay(
+            style: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: AppTheme.textDark,
@@ -388,7 +388,7 @@ class _KeyContactState extends State<_KeyContact> {
               child: SelectionContainer.disabled(
                 child: Text(
                   widget.email,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     color: AppTheme.maroon,
                     decoration: _hovered

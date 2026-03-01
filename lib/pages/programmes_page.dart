@@ -193,7 +193,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                       const SizedBox(width: 12),
                       Text(
                         'Module Catalogue',
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.openSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1.0,
@@ -245,7 +245,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
             width: 600,
             child: Text(
               'Applications for 2027 open on 1 March. Prepare your documents and apply online through the Stellenbosch University portal.',
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.openSans(
                 fontSize: 15,
                 color: Colors.white.withValues(alpha: 0.8),
                 height: 1.7,
@@ -456,7 +456,7 @@ class _ProgCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       Text(
                         prog.duration,
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.openSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           color: prog.accent,
@@ -478,7 +478,7 @@ class _ProgCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         prog.requirements,
-                        style: GoogleFonts.playfairDisplay(
+                        style: GoogleFonts.openSans(
                           fontSize: 11,
                           color: AppTheme.textMuted,
                           height: 1.5,
@@ -504,7 +504,7 @@ class _ProgCard extends StatelessWidget {
                           ),
                           child: Text(
                             h,
-                            style: GoogleFonts.playfairDisplay(
+                            style: GoogleFonts.openSans(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                               color: prog.accent,
@@ -555,7 +555,7 @@ class _ProgTabBar extends StatelessWidget {
                 ),
                 child: Text(
                   e.value,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                     color: sel ? Colors.white : AppTheme.textDark,
@@ -602,7 +602,7 @@ class _ModuleRow extends StatelessWidget {
                   child: Center(
                     child: Text(
                       '${index + 1}',
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.openSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         color: AppTheme.maroon,
@@ -631,7 +631,7 @@ class _ModuleRow extends StatelessWidget {
                   ),
                   child: Text(
                     '${mod.credits} credits',
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.gold,

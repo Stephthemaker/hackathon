@@ -120,7 +120,7 @@ class _StaffPageState extends State<StaffPage> {
                         color: AppTheme.textMuted,
                         size: 20,
                       ),
-                      hintStyle: GoogleFonts.playfairDisplay(
+                      hintStyle: GoogleFonts.openSans(
                         color: AppTheme.textMuted,
                         fontSize: 14,
                       ),
@@ -238,7 +238,7 @@ class _FilterChip extends StatelessWidget {
             ),
             child: Text(
               label,
-              style: GoogleFonts.playfairDisplay(
+              style: GoogleFonts.openSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
                 color: selected ? Colors.white : AppTheme.textDark,
@@ -302,7 +302,7 @@ class _StaffCard extends StatelessWidget {
                   ),
                   child: Text(
                     member.group,
-                    style: GoogleFonts.playfairDisplay(
+                    style: GoogleFonts.openSans(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
@@ -320,7 +320,7 @@ class _StaffCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   member.title,
-                  style: GoogleFonts.playfairDisplay(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     color: AppTheme.maroon,
                     fontWeight: FontWeight.w500,
@@ -371,7 +371,7 @@ class _Chip extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             label,
-            style: GoogleFonts.playfairDisplay(
+            style: GoogleFonts.openSans(
               fontSize: 11,
               fontWeight: FontWeight.w500,
               color: AppTheme.textMuted,
