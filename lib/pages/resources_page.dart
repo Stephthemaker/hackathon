@@ -196,7 +196,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
         const SizedBox(width: 12),
         Text(
           text,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w700,
             color: AppTheme.textDark,
@@ -248,7 +248,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
                           child: Center(
                             child: Text(
                               d.date,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.openSans(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -262,7 +262,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
                         Expanded(
                           child: Text(
                             d.label,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.openSans(
                               fontSize: 13,
                               color: AppTheme.textDark,
                               height: 1.4,
@@ -424,7 +424,7 @@ class _LinkCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     link.url,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.openSans(
                       fontSize: 11,
                       color: AppTheme.maroon,
                       fontWeight: FontWeight.w500,

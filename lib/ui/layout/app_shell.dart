@@ -83,36 +83,38 @@ class _AppShellState extends State<AppShell> {
     final isDesktop = width >= 900;
     final currentPath = GoRouterState.of(context).uri.path;
 
-    return Scaffold(
-      backgroundColor: AppTheme.background,
-      drawer: isDesktop
-          ? null
-          : _MobileDrawer(navItems: _navItems, currentPath: currentPath),
-      body: ScrollProvider(
-        controller: _scrollController,
-        child: Stack(
-          children: [
-            // 3D background that animates natively on scroll
-            const Positioned.fill(child: Global3DBackground()),
-            // Scrollable content
-            SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(children: [widget.child, const SiteFooter()]),
-            ),
-            // Sticky nav bar on top
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: _NavBar(
-                scrollController: _scrollController,
-                isDesktop: isDesktop,
-                scrolled: _scrolled,
-                navItems: _navItems,
-                currentPath: currentPath,
+    return SelectionArea(
+      child: Scaffold(
+        backgroundColor: AppTheme.background,
+        drawer: isDesktop
+            ? null
+            : _MobileDrawer(navItems: _navItems, currentPath: currentPath),
+        body: ScrollProvider(
+          controller: _scrollController,
+          child: Stack(
+            children: [
+              // 3D background that animates natively on scroll
+              const Positioned.fill(child: Global3DBackground()),
+              // Scrollable content
+              SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(children: [widget.child, const SiteFooter()]),
               ),
-            ),
-          ],
+              // Sticky nav bar on top
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: _NavBar(
+                  scrollController: _scrollController,
+                  isDesktop: isDesktop,
+                  scrolled: _scrolled,
+                  navItems: _navItems,
+                  currentPath: currentPath,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -184,10 +186,6 @@ class _NavBar extends StatelessWidget {
           child: AnimatedBuilder(
             animation: scrollController,
             builder: (context, child) {
-              final offset = scrollController.hasClients
-                  ? scrollController.offset
-                  : 0.0;
-
               // Smart transparency mapping depending on the active page:
               // If on the home page ('/'), we once used a hero-visible resting state,
               // but now we match the stationary style of all other pages (white-tinted/maroon).
@@ -253,47 +251,49 @@ class _NavLogoState extends State<_NavLogo> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => context.go('/'),
-        child: Row(
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 42,
-              height: 42,
-              padding: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: SvgPicture.asset(
-                'web/assets/favicon.svg',
-                fit: BoxFit.contain,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Computer Science',
-                  style: GoogleFonts.inter(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.3,
-                  ),
+        child: SelectionContainer.disabled(
+          child: Row(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 42,
+                height: 42,
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(6),
                 ),
-                Text(
-                  'Stellenbosch University',
-                  style: GoogleFonts.inter(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: 11,
-                    letterSpacing: 0.2,
-                  ),
+                child: SvgPicture.asset(
+                  'web/assets/favicon.svg',
+                  fit: BoxFit.contain,
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(width: 12),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Computer Science',
+                    style: GoogleFonts.openSans(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  Text(
+                    'Stellenbosch University',
+                    style: GoogleFonts.openSans(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      fontSize: 11,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -320,36 +320,38 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => context.go(widget.item.route),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedDefaultTextStyle(
-                duration: const Duration(milliseconds: 150),
-                style: GoogleFonts.inter(
-                  fontSize: 13.5,
-                  fontWeight: widget.isActive
-                      ? FontWeight.w700
-                      : FontWeight.w400,
-                  color: widget.isActive || _hovered
-                      ? Colors.white
-                      : Colors.white.withValues(alpha: 0.7),
+        child: SelectionContainer.disabled(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 150),
+                  style: GoogleFonts.openSans(
+                    fontSize: 13.5,
+                    fontWeight: widget.isActive
+                        ? FontWeight.w700
+                        : FontWeight.w400,
+                    color: widget.isActive || _hovered
+                        ? Colors.white
+                        : Colors.white.withValues(alpha: 0.7),
+                  ),
+                  child: Text(widget.item.title),
                 ),
-                child: Text(widget.item.title),
-              ),
-              const SizedBox(height: 3),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOut,
-                height: 2,
-                width: widget.isActive ? 24 : (_hovered ? 12 : 0),
-                decoration: BoxDecoration(
-                  color: AppTheme.gold,
-                  borderRadius: BorderRadius.circular(1),
+                const SizedBox(height: 3),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOut,
+                  height: 2,
+                  width: widget.isActive ? 24 : (_hovered ? 12 : 0),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold,
+                    borderRadius: BorderRadius.circular(1),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -395,7 +397,7 @@ class _MobileDrawer extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   'Computer Science',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.openSans(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -403,7 +405,7 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 Text(
                   'Stellenbosch University',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.openSans(
                     color: Colors.white.withValues(alpha: 0.6),
                     fontSize: 13,
                   ),
@@ -434,7 +436,7 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   item.title,
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.openSans(
                     color: isActive
                         ? Colors.white
                         : Colors.white.withValues(alpha: 0.7),
@@ -454,7 +456,7 @@ class _MobileDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               '+27 21 808 4232\ncs@sun.ac.za',
-              style: GoogleFonts.inter(
+              style: GoogleFonts.openSans(
                 color: Colors.white.withValues(alpha: 0.35),
                 fontSize: 13,
                 height: 1.7,
