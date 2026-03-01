@@ -275,7 +275,7 @@ class _NavLogoState extends State<_NavLogo> {
                 children: [
                   Text(
                     'Computer Science',
-                    style: GoogleFonts.openSans(
+                    style: GoogleFonts.playfairDisplay(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -284,7 +284,7 @@ class _NavLogoState extends State<_NavLogo> {
                   ),
                   Text(
                     'Stellenbosch University',
-                    style: GoogleFonts.openSans(
+                    style: GoogleFonts.playfairDisplay(
                       color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 11,
                       letterSpacing: 0.2,
@@ -328,7 +328,7 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
               children: [
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 150),
-                  style: GoogleFonts.openSans(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 13.5,
                     fontWeight: widget.isActive
                         ? FontWeight.w700
@@ -397,7 +397,7 @@ class _MobileDrawer extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   'Computer Science',
-                  style: GoogleFonts.openSans(
+                  style: GoogleFonts.playfairDisplay(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -405,7 +405,7 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 Text(
                   'Stellenbosch University',
-                  style: GoogleFonts.openSans(
+                  style: GoogleFonts.playfairDisplay(
                     color: Colors.white.withValues(alpha: 0.6),
                     fontSize: 13,
                   ),
@@ -436,7 +436,7 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   item.title,
-                  style: GoogleFonts.openSans(
+                  style: GoogleFonts.playfairDisplay(
                     color: isActive
                         ? Colors.white
                         : Colors.white.withValues(alpha: 0.7),
@@ -456,7 +456,7 @@ class _MobileDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               '+27 21 808 4232\ncs@sun.ac.za',
-              style: GoogleFonts.openSans(
+              style: GoogleFonts.playfairDisplay(
                 color: Colors.white.withValues(alpha: 0.35),
                 fontSize: 13,
                 height: 1.7,
