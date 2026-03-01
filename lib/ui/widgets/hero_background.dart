@@ -13,7 +13,6 @@ class AnimatedHeroBackground extends StatefulWidget {
 class _AnimatedHeroBackgroundState extends State<AnimatedHeroBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
-
   Offset _mousePos = Offset.zero;
 
   @override
@@ -56,26 +55,48 @@ class _AnimatedHeroBackgroundState extends State<AnimatedHeroBackground>
   }
 }
 
+class _Particle {
+  final double x, y, size;
+  final double vx, vy;
+  _Particle({required this.x, required this.y, required this.size, required this.vx, required this.vy});
+}
+
 class _SpectacularHeroPainter extends CustomPainter {
   final double t;
   final Offset mousePos;
-  _SpectacularHeroPainter({required this.t, required this.mousePos});
+
+  static List<_Particle>? _particles;
+
+  _SpectacularHeroPainter({required this.t, required this.mousePos}) {
+    if (_particles == null) {
+      _particles = [];
+      final random = math.Random(42);
+      for (int i = 0; i < 80; i++) {
+        _particles!.add(
+          _Particle(
+            x: random.nextDouble(),
+            y: random.nextDouble(),
+            size: random.nextDouble() * 2 + 1,
+            vx: (random.nextDouble() - 0.5) * 0.001,
+            vy: (random.nextDouble() - 0.5) * 0.001,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Making it transparent to allow Global3DBackground to show through
-    // Removed solid darkBg background draw here.
-
     void drawOrb(double cx, double cy, double radius, Color c) {
       final rect = Rect.fromCircle(center: Offset(cx, cy), radius: radius);
       final paint = Paint()
         ..shader = RadialGradient(
           colors: [
-            c.withValues(alpha: 0.5),
-            c.withValues(alpha: 0.1),
+            c.withValues(alpha: 0.15),
+            c.withValues(alpha: 0.05),
             Colors.transparent,
           ],
-          stops: const [0.0, 0.4, 1.0],
+          stops: const [0.0, 0.5, 1.0],
         ).createShader(rect);
       canvas.drawRect(rect, paint);
     }
@@ -83,106 +104,81 @@ class _SpectacularHeroPainter extends CustomPainter {
     final double phase = t * 2 * math.pi;
 
     drawOrb(
-      size.width * 0.1 + math.cos(phase) * 100,
-      size.height * 0.4 + math.sin(phase) * 80,
-      size.width * 0.5,
-      const Color(0xFF9E1A43),
-    ); // AppTheme.maroon
-
+      size.width * 0.2 + math.cos(phase) * 150,
+      size.height * 0.3 + math.sin(phase * 0.8) * 100,
+      size.width * 0.6,
+      AppTheme.maroonLight,
+    );
     drawOrb(
-      size.width * 0.85 + math.sin(phase * 1.5) * 120,
-      size.height * 0.1 + math.cos(phase * 0.8) * 100,
-      size.width * 0.4,
+      size.width * 0.8 + math.sin(phase * 1.2) * 200,
+      size.height * 0.1 + math.cos(phase * 0.7) * 150,
+      size.width * 0.5,
       AppTheme.gold,
     );
-
     drawOrb(
-      size.width * 0.7 + math.cos(phase * 0.5) * 150,
-      size.height * 0.9 + math.sin(phase * 1.2) * 60,
-      size.width * 0.6,
-      AppTheme.maroon,
+      size.width * 0.5 + math.cos(phase * 0.5) * 200,
+      size.height * 0.9 + math.sin(phase * 1.5) * 150,
+      size.width * 0.7,
+      Color(0xFF2B0A16),
     );
 
-    final dotPaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.2)
-      ..style = PaintingStyle.fill;
     final linePaint = Paint()
-      ..color = Colors.white.withValues(alpha: 0.05)
-      ..strokeWidth = 1.0;
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+    
+    final dotPaint = Paint()..style = PaintingStyle.fill;
 
-    final random = math.Random(42);
-    final List<Offset> nodes = [];
+    List<Offset> currentPositions = [];
+    for (var p in _particles!) {
+      double px = (p.x + p.vx * t * 1000) % 1.0;
+      double py = (p.y + p.vy * t * 1000) % 1.0;
+      if (px < 0) px += 1.0;
+      if (py < 0) py += 1.0;
+      
+      px += math.sin(phase * 2 + py * 10) * 0.02;
+      py += math.cos(phase * 2 + px * 10) * 0.02;
 
-    // Add the user's mouse as a "super node" if it's active
-    if (mousePos != Offset.zero) {
-      nodes.add(mousePos);
-      // Give the mouse a slight glowing aura
-      canvas.drawCircle(
-        mousePos,
-        4,
-        Paint()
-          ..color = AppTheme.gold.withValues(alpha: 0.8)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
-      );
-    }
+      double screenX = px * size.width;
+      double screenY = py * size.height;
 
-    for (int i = 0; i < 60; i++) {
-      final nx = random.nextDouble() * size.width;
-      final ny = random.nextDouble() * size.height;
-      final floatX = math.sin(phase + i) * 20;
-      final floatY = math.cos(phase + i * 0.5) * 20;
-
-      Offset pt = Offset(nx + floatX, ny + floatY);
-
-      // Interactive physics: nodes are attracted to the mouse cursor
       if (mousePos != Offset.zero) {
-        final distToMouse = (pt - mousePos).distance;
-        if (distToMouse < 250) {
-          // Calculate an attraction vector (pull closer to mouse)
-          final attractionStr =
-              (1.0 - (distToMouse / 250)) * 40; // max pull distance
-          final dirX = (mousePos.dx - pt.dx) / distToMouse;
-          final dirY = (mousePos.dy - pt.dy) / distToMouse;
-          pt = Offset(
-            pt.dx + (dirX * attractionStr),
-            pt.dy + (dirY * attractionStr),
-          );
+        double dx = mousePos.dx - screenX;
+        double dy = mousePos.dy - screenY;
+        double dist = math.sqrt(dx * dx + dy * dy);
+        if (dist < 250) {
+          double force = (250 - dist) / 250;
+          screenX -= dx * force * 0.1;
+          screenY -= dy * force * 0.1;
         }
       }
 
-      nodes.add(pt);
+      currentPositions.add(Offset(screenX, screenY));
     }
 
-    for (int i = 0; i < nodes.length; i++) {
-      canvas.drawCircle(nodes[i], random.nextDouble() * 2 + 1, dotPaint);
-      for (int j = i + 1; j < nodes.length; j++) {
-        final dist = (nodes[i] - nodes[j]).distance;
-
-        // If connecting to the mouse node (index 0 when active), make the connection glowing & gold
-        final isMouseConnection =
-            (mousePos != Offset.zero && (i == 0 || j == 0));
-        final maxDist = isMouseConnection ? 250.0 : 180.0;
-
-        if (dist < maxDist) {
-          final alphaMultiplier = isMouseConnection ? 0.35 : 0.15;
-          final alpha =
-              (1.0 - (dist / maxDist)).clamp(0.0, 1.0) * alphaMultiplier;
-
-          if (isMouseConnection) {
-            linePaint.color = AppTheme.gold.withValues(alpha: alpha);
-            linePaint.strokeWidth = 1.5;
-          } else {
-            linePaint.color = Colors.white.withValues(alpha: alpha);
-            linePaint.strokeWidth = 1.0;
-          }
-
-          canvas.drawLine(nodes[i], nodes[j], linePaint);
+    for (int i = 0; i < currentPositions.length; i++) {
+      for (int j = i + 1; j < currentPositions.length; j++) {
+        double dx = currentPositions[i].dx - currentPositions[j].dx;
+        double dy = currentPositions[i].dy - currentPositions[j].dy;
+        double dist = math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 150) {
+          double opacity = ((150 - dist) / 150) * 0.3;
+          linePaint.color = AppTheme.goldLight.withValues(alpha: opacity);
+          canvas.drawLine(currentPositions[i], currentPositions[j], linePaint);
         }
       }
+    }
+
+    for (int i = 0; i < currentPositions.length; i++) {
+       dotPaint.color = AppTheme.goldLight.withValues(alpha: 0.5);
+       canvas.drawCircle(currentPositions[i], _particles![i].size, dotPaint);
+       
+       dotPaint.color = AppTheme.gold.withValues(alpha: 0.2);
+       canvas.drawCircle(currentPositions[i], _particles![i].size * 3, dotPaint);
     }
   }
 
   @override
-  bool shouldRepaint(covariant _SpectacularHeroPainter old) =>
-      old.t != t || old.mousePos != mousePos;
+  bool shouldRepaint(covariant _SpectacularHeroPainter oldDelegate) =>
+      oldDelegate.t != t || oldDelegate.mousePos != mousePos;
 }

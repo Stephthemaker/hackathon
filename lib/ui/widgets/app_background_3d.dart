@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../layout/app_shell.dart';
 import '../../theme/app_theme.dart';
 import 'animated_3d_scroll_model.dart';
@@ -12,22 +13,25 @@ class Global3DBackground extends StatelessWidget {
     final offset = scrollCtrl.hasClients ? scrollCtrl.offset : 0.0;
 
     final width = MediaQuery.of(context).size.width;
+    final currentPath = GoRouterState.of(context).uri.path;
 
     return Stack(
       fit: StackFit.expand,
       children: [
         // Top right 3D cube moving slowly downwards
-        Positioned(
-          top: 100 - (offset * 0.4),
-          right: width * 0.1,
-          child: Opacity(
-            opacity: 0.6,
-            child: Interactive3DScrollModel(
-              size: 250,
-              variant: 1, // 1 = Stellenbosch location
+        // Hide on home page to avoid clashing with the hero section's 3D model
+        if (currentPath != '/')
+          Positioned(
+            top: 100 - (offset * 0.4),
+            right: width * 0.1,
+            child: Opacity(
+              opacity: 0.6,
+              child: Interactive3DScrollModel(
+                size: 250,
+                variant: 1, // 1 = Stellenbosch location
+              ),
             ),
           ),
-        ),
         // Bottom right large cube moving very slowly (Tailored to SU CS)
         Positioned(
           top: 1500 - (offset * 0.2),

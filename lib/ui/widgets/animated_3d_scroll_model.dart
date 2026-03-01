@@ -65,54 +65,128 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
         final breath = math.sin(timePlay * 2) * 15; // Continuous breathing
 
         return SizedBox(
-          width: widget.size,
-          height: widget.size,
-          child: Transform(
+          width: widget.size * 1.5, // expanded size for rings
+          height: widget.size * 1.5,
+          child: Stack(
             alignment: Alignment.center,
-            transform: Matrix4.identity()
-              ..setEntry(3, 2, 0.002) // subtle perspective
-              ..rotateX(0.5 + rotX)
-              ..rotateY(-0.5 + rotY)
-              ..rotateZ(0.2 + rotZ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Creating a layered 3D tech / glassmorphism cube effect tailored to Stellenbosch CS
-                // Base layer: Network / Core
-                _buildLayer(
-                  0 - breath * 0.5,
-                  color: AppTheme.maroonDark.withValues(alpha: 0.25),
-                  borderColor: AppTheme.maroon.withValues(alpha: 0.5),
-                  glowColor: AppTheme.maroon.withValues(alpha: 0.3),
-                  icon: Icons.hub, // Network topology
+            children: [
+              // Outer orbit ring 1
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..rotateX(rotX * 2.0)
+                  ..rotateY(rotY * 1.5)
+                  ..rotateZ(timePlay * 1.2),
+                child: Container(
+                  width: widget.size * 1.2,
+                  height: widget.size * 1.2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppTheme.gold.withValues(alpha: 0.1),
+                      width: 1,
+                    ),
+                  ),
                 ),
-                // Middle layer 1: Data / Algorithms
-                _buildLayer(
-                  40 - breath * 0.25,
-                  color: AppTheme.gold.withValues(alpha: 0.2),
-                  borderColor: AppTheme.gold.withValues(alpha: 0.4),
-                  glowColor: AppTheme.gold.withValues(alpha: 0.2),
-                  icon: Icons.data_object,
+              ),
+              // Outer orbit ring 2
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..rotateX(rotY * 2.5)
+                  ..rotateY(rotX * 1.8)
+                  ..rotateZ(-timePlay * 0.8),
+                child: Container(
+                  width: widget.size * 1.35,
+                  height: widget.size * 1.35,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppTheme.maroonLight.withValues(alpha: 0.15),
+                      width: 1,
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: AppTheme.goldLight,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: AppTheme.goldLight, blurRadius: 6),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                // Middle layer 2: AI / ML
-                _buildLayer(
-                  80 + breath * 0.25,
-                  color: AppTheme.maroonLight.withValues(alpha: 0.3),
-                  borderColor: AppTheme.maroonLight.withValues(alpha: 0.6),
-                  glowColor: AppTheme.maroonLight.withValues(alpha: 0.3),
-                  icon: Icons.psychology, // AI
+              ),
+              // Inner glowing core background (Subtle)
+              Container(
+                width: widget.size * 0.8,
+                height: widget.size * 0.8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppTheme.gold.withValues(alpha: 0.1),
+                      Colors.transparent,
+                    ],
+                  ),
                 ),
-                // Top layer: Software Engineering / Terminal
-                _buildLayer(
-                  120 + breath * 0.5,
-                  color: AppTheme.maroon.withValues(alpha: 0.85),
-                  borderColor: AppTheme.goldLight.withValues(alpha: 0.8),
-                  glowColor: AppTheme.gold.withValues(alpha: 0.5),
-                  icon: Icons.terminal,
-                  iconColor: AppTheme.goldLight,
+              ),
+              // The main layered cube
+              Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.002) // subtle perspective
+                  ..rotateX(0.5 + rotX)
+                  ..rotateY(-0.5 + rotY)
+                  ..rotateZ(0.2 + rotZ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Creating a layered 3D tech / glassmorphism cube effect tailored to Stellenbosch CS
+                    // Base layer: Network / Core
+                    _buildLayer(
+                      0 - breath * 0.5,
+                      color: AppTheme.maroonDark.withValues(alpha: 0.25),
+                      borderColor: AppTheme.maroon.withValues(alpha: 0.5),
+                      glowColor: AppTheme.maroon.withValues(alpha: 0.3),
+                      icon: Icons.hub, // Network topology
+                    ),
+                    // Middle layer 1: Data / Algorithms
+                    _buildLayer(
+                      40 - breath * 0.25,
+                      color: AppTheme.gold.withValues(alpha: 0.2),
+                      borderColor: AppTheme.gold.withValues(alpha: 0.4),
+                      glowColor: AppTheme.gold.withValues(alpha: 0.2),
+                      icon: Icons.data_object,
+                    ),
+                    // Middle layer 2: AI / ML
+                    _buildLayer(
+                      80 + breath * 0.25,
+                      color: AppTheme.maroonLight.withValues(alpha: 0.3),
+                      borderColor: AppTheme.maroonLight.withValues(alpha: 0.6),
+                      glowColor: AppTheme.maroonLight.withValues(alpha: 0.3),
+                      icon: Icons.psychology, // AI
+                    ),
+                    // Top layer: Software Engineering / Terminal
+                    _buildLayer(
+                      120 + breath * 0.5,
+                      color: AppTheme.maroon.withValues(alpha: 0.85),
+                      borderColor: AppTheme.goldLight.withValues(alpha: 0.8),
+                      glowColor: AppTheme.gold.withValues(alpha: 0.5),
+                      icon: Icons.terminal,
+                      iconColor: AppTheme.goldLight,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
