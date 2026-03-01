@@ -143,30 +143,28 @@ class _ResourcesPageState extends State<ResourcesPage> {
                 const SizedBox(height: 48),
 
                 // Quick Links
-                AnimatedSection(child: _sectionLabel('Quick Links')),
+                _sectionLabel('Quick Links'),
                 const SizedBox(height: 20),
                 _linksGrid(cols),
 
                 const SizedBox(height: 56),
 
                 // Developer & Study Tools
-                AnimatedSection(
-                  child: _sectionLabel('Developer & Study Tools'),
-                ),
+                _sectionLabel('Developer & Study Tools'),
                 const SizedBox(height: 20),
                 _toolsGrid(w > 800 ? 2 : 1),
 
                 const SizedBox(height: 56),
 
                 // Important Dates
-                AnimatedSection(child: _buildImportantDates(context)),
+                _sectionLabel('Important Dates'),
+                const SizedBox(height: 20),
+                _buildImportantDates(context),
 
                 const SizedBox(height: 56),
 
                 // FAQ
-                AnimatedSection(
-                  child: _sectionLabel('Frequently Asked Questions'),
-                ),
+                _sectionLabel('Frequently Asked Questions'),
                 const SizedBox(height: 24),
                 ..._faqs.asMap().entries.map(
                   (e) => Padding(
