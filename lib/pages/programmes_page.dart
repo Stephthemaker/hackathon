@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
-import '../ui/widgets/animated_section.dart';
 
 class ProgrammesPage extends StatefulWidget {
   const ProgrammesPage({super.key});
@@ -186,29 +185,27 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                 const SizedBox(height: 48),
                 _progGrid(cols),
                 const SizedBox(height: 64),
-                AnimatedSection(
-                  child: Row(
-                    children: [
-                      Container(width: 3, height: 24, color: AppTheme.gold),
-                      const SizedBox(width: 12),
-                      Text(
-                        'Module Catalogue',
-                        style: GoogleFonts.openSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.0,
-                          color: AppTheme.textDark,
-                        ),
+                Row(
+                  children: [
+                    Container(width: 3, height: 24, color: AppTheme.gold),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Module Catalogue',
+                      style: GoogleFonts.openSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 1.0,
+                        color: AppTheme.textDark,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 _ProgTabBar(controller: _tabs, labels: _tabLabels),
                 const SizedBox(height: 24),
                 ..._buildModules(),
                 const SizedBox(height: 64),
-                AnimatedSection(child: _buildApplyCTA(context)),
+                _buildApplyCTA(context),
               ],
             ),
           ),
