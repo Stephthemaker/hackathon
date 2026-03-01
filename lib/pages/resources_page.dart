@@ -157,7 +157,6 @@ class _ResourcesPageState extends State<ResourcesPage> {
                 const SizedBox(height: 56),
 
                 // Important Dates
-                _sectionLabel('Important Dates'),
                 const SizedBox(height: 20),
                 _buildImportantDates(context),
 
