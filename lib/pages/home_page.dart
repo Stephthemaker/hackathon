@@ -113,11 +113,11 @@ class _HeroSection extends StatelessWidget {
                             width: isDesktop ? 520 : double.infinity,
                             child: Text(
                               'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
-                              style: GoogleFonts.openSans(
-                                color: AppTheme.textMuted,
-                                fontSize: isDesktop ? 18 : 15,
-                                height: 1.7,
-                              ),
+                              style: Theme.of(context).textTheme.bodyLarge
+                                  ?.copyWith(
+                                    color: AppTheme.textMuted,
+                                    fontSize: isDesktop ? 18 : 15,
+                                  ),
                             ),
                           ),
                           const SizedBox(height: 40),

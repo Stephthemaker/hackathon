@@ -40,12 +40,14 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           color: Colors.white,
           height: 1.1,
+          letterSpacing: -1,
         ),
         displayMedium: GoogleFonts.playfairDisplay(
           fontSize: 48,
           fontWeight: FontWeight.w700,
           color: textDark,
           height: 1.15,
+          letterSpacing: -0.5,
         ),
         displaySmall: GoogleFonts.openSans(
           fontSize: 36,
@@ -80,7 +82,7 @@ class AppTheme {
           fontWeight: FontWeight.w500,
           color: textDark,
         ),
-        bodyLarge: GoogleFonts.playfairDisplay(
+        bodyLarge: GoogleFonts.openSans(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           color: textDark,
