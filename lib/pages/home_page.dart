@@ -347,18 +347,21 @@ class _AboutText extends StatelessWidget {
         const SectionHeading(
           label: 'About Us',
           title: 'A World-Class Department at Africa\'s Best University*',
-          subtitle:
-              'We are home to some of Africa\'s leading computer scientists, working at the intersection of theory, systems, AI, and societal impact.',
+        ),
+        const SizedBox(height: 32),
+        Text(
+          'We are home to some of Africa\'s leading computer scientists, working at the intersection of theory, systems, AI, and societal impact.',
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 32),
         Text(
           'The Department of Computer Science at Stellenbosch University has a proud tradition of rigorous academic training and pioneering research. Founded with a mission to advance the science and engineering of computing, the department today offers comprehensive undergraduate and postgraduate programmes that prepare graduates for careers in academia, industry, and public service across Africa and globally.',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 20),
         Text(
           'Our researchers contribute to a broad range of fields — from machine learning and theoretical computer science to bioinformatics, information security, and human-computer interaction. Collaboration with international universities, research councils, and industry partners keeps our work at the cutting edge.',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 32),
         SelectionContainer.disabled(

@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
-import '../ui/widgets/animated_section.dart';
 
 class ResourcesPage extends StatefulWidget {
   const ResourcesPage({super.key});
