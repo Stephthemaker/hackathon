@@ -262,7 +262,7 @@ class _NavLogoState extends State<_NavLogo> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: SvgPicture.asset(
-                  'assets/general/logo.svg',
+                  'web/assets/general/favicon.svg',
                   fit: BoxFit.contain,
                 ),
               ),

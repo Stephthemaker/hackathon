@@ -26,6 +26,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - web/assets/
+    - web/assets/general/
     - web/assets/staff/academic/
     - web/assets/staff/admin/

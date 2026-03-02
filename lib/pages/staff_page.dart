@@ -256,11 +256,11 @@ class _StaffPageState extends State<StaffPage> {
                 // Search
                 Wrap(
                   spacing: 16,
-                  runSpacing: 12,
+                  runSpacing: 16,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    SizedBox(
-                      width: 440,
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 440),
                       child: TextField(
                         decoration: InputDecoration(
                           hintText:
@@ -274,10 +274,10 @@ class _StaffPageState extends State<StaffPage> {
                         onChanged: (v) => setState(() => _query = v),
                       ),
                     ),
-                    SizedBox(
-                      width: 230,
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 240),
                       child: DropdownButtonFormField<String>(
-                        initialValue: _sort,
+                        value: _sort,
                         style: AppTheme.uiControlText.copyWith(
                           fontSize: 13.5,
                           color: AppTheme.textDark,
@@ -309,29 +309,60 @@ class _StaffPageState extends State<StaffPage> {
                 ),
                 const SizedBox(height: 16),
                 // Filter buttons
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppTheme.divider),
-                  ),
-                  child: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: _groups
-                        .map(
-                          (g) => _GroupFilterButton(
-                            label: g,
-                            selected: _group == g,
-                            onTap: () => setState(() => _group = g),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final useHorizontalScroll = constraints.maxWidth < 800;
+                    final filterContent = Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: _groups
+                          .map(
+                            (g) => _GroupFilterButton(
+                              label: g,
+                              selected: _group == g,
+                              onTap: () => setState(() => _group = g),
+                            ),
+                          )
+                          .toList(),
+                    );
+
+                    if (useHorizontalScroll) {
+                      return SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Row(
+                            children: _groups
+                                .map(
+                                  (g) => Padding(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: _GroupFilterButton(
+                                      label: g,
+                                      selected: _group == g,
+                                      onTap: () => setState(() => _group = g),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
                           ),
-                        )
-                        .toList(),
-                  ),
+                        ),
+                      );
+                    }
+
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: AppTheme.divider),
+                      ),
+                      child: filterContent,
+                    );
+                  },
                 ),
-                const SizedBox(height: 48),
+                const SizedBox(height: 32),
                 // Academic Grid
                 _buildGrid(_filteredAcademic, cols),
                 const SizedBox(height: 56),
