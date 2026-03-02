@@ -249,8 +249,7 @@ class _StaffPageState extends State<StaffPage> {
         : w > 650
         ? 2
         : 1;
-    return Container(
-      color: AppTheme.background,
+    return SelectionArea(
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -742,35 +741,33 @@ class _Chip extends StatelessWidget {
   const _Chip(this.icon, this.label, {this.onTap});
   @override
   Widget build(BuildContext context) {
-    return SelectionContainer.disabled(
-      child: MouseRegion(
-        cursor: onTap != null
-            ? SystemMouseCursors.click
-            : SystemMouseCursors.basic,
-        child: GestureDetector(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-            decoration: BoxDecoration(
-              color: onTap != null ? Colors.white : Colors.transparent,
-              border: Border.all(color: AppTheme.divider),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, size: 11, color: AppTheme.textMuted),
-                const SizedBox(width: 5),
-                Text(
-                  label,
-                  style: AppTheme.uiControlText.copyWith(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.textMuted,
-                  ),
+    return MouseRegion(
+      cursor: onTap != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+          decoration: BoxDecoration(
+            color: onTap != null ? Colors.white : Colors.transparent,
+            border: Border.all(color: AppTheme.divider),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 11, color: AppTheme.textMuted),
+              const SizedBox(width: 5),
+              Text(
+                label,
+                style: AppTheme.uiControlText.copyWith(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: AppTheme.textMuted,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

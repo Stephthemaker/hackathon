@@ -20,62 +20,54 @@ class SectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-          crossAxisAlignment: alignment,
+      crossAxisAlignment: alignment,
+      children: [
+        Row(
+          mainAxisAlignment: alignment == CrossAxisAlignment.center
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: alignment == CrossAxisAlignment.center
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: 28,
-                  height: 3,
-                  decoration: BoxDecoration(
-                    color: AppTheme.gold,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  label.toUpperCase(),
-                  style: GoogleFonts.openSans(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.gold,
-                    letterSpacing: 2.0,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.displaySmall,
-              textAlign: alignment == CrossAxisAlignment.center
-                  ? TextAlign.center
-                  : TextAlign.start,
-            ),
-            if (subtitle != null) ...[
-              const SizedBox(height: 16),
-              Text(
-                subtitle!,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
-                textAlign: alignment == CrossAxisAlignment.center
-                    ? TextAlign.center
-                    : TextAlign.start,
+            Container(
+              width: 28,
+              height: 3,
+              decoration: BoxDecoration(
+                color: AppTheme.gold,
+                borderRadius: BorderRadius.circular(2),
               ),
-            ],
+            ),
+            const SizedBox(width: 10),
+            Text(
+              label.toUpperCase(),
+              style: GoogleFonts.openSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.gold,
+                letterSpacing: 2.0,
+              ),
+            ),
           ],
-        )
-        .animate()
-        .fade(duration: 600.ms, curve: Curves.easeOut)
-        .slideY(
-          begin: 0.1,
-          end: 0,
-          duration: 600.ms,
-          curve: Curves.easeOutQuart,
-        );
+        ),
+        const SizedBox(height: 12),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.displaySmall,
+          textAlign: alignment == CrossAxisAlignment.center
+              ? TextAlign.center
+              : TextAlign.start,
+        ),
+        if (subtitle != null) ...[
+          const SizedBox(height: 16),
+          Text(
+            subtitle!,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
+            textAlign: alignment == CrossAxisAlignment.center
+                ? TextAlign.center
+                : TextAlign.start,
+          ),
+        ],
+      ],
+    );
   }
 }
