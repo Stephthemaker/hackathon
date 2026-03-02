@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/animated_section.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
@@ -111,7 +112,7 @@ class _HeroSection extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              'STELLENBOSCH UNIVERSITY',
+                              AppSettingsProvider.of(context).tr('home.badge'),
                               style: GoogleFonts.openSans(
                                 color: AppTheme.maroon,
                                 fontSize: 12,
@@ -123,7 +124,9 @@ class _HeroSection extends StatelessWidget {
                           const SizedBox(height: 24),
                           isDesktop
                               ? Text(
-                                  'Department of\nComputer Science',
+                                  AppSettingsProvider.of(
+                                    context,
+                                  ).tr('home.title'),
                                   style: Theme.of(context)
                                       .textTheme
                                       .displayLarge
@@ -133,7 +136,9 @@ class _HeroSection extends StatelessWidget {
                                       ),
                                 )
                               : Text(
-                                  'Department of\nComputer Science',
+                                  AppSettingsProvider.of(
+                                    context,
+                                  ).tr('home.title'),
                                   style: Theme.of(context)
                                       .textTheme
                                       .displayMedium
@@ -146,7 +151,9 @@ class _HeroSection extends StatelessWidget {
                           SizedBox(
                             width: isDesktop ? 520 : double.infinity,
                             child: Text(
-                              'Advancing computing knowledge through world-class research, innovative education, and meaningful impact across Africa and beyond.',
+                              AppSettingsProvider.of(
+                                context,
+                              ).tr('home.subtitle'),
                               style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
                                     color: AppTheme.textMuted,
@@ -191,7 +198,13 @@ class _HeroSection extends StatelessWidget {
                                       vertical: 18,
                                     ),
                                   ),
-                                  child: const Text('Our Research'),
+                                  child: Builder(
+                                    builder: (ctx) => Text(
+                                      AppSettingsProvider.of(
+                                        ctx,
+                                      ).tr('home.btn.research'),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ],

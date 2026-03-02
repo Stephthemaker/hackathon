@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 
@@ -32,125 +33,152 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   static const _programmes = [
     _Prog(
       'BSc Computer Science',
-      'A 3-year undergraduate degree building strong foundations in programming, mathematics, and computational thinking.',
-      ['Programming', 'Mathematics', 'Data Structures', 'Algorithms'],
+      'Undergraduate degrees including General CS, Computer Systems, Data Science, CS with Genetics, and CS with GIT.',
+      ['Programming', 'Data Structures', 'Networks', 'Databases'],
       '3 years full-time',
-      'NSC with Mathematics \u2265 70%, English \u2265 60%',
+      'NSC with required Mathematics & Physical Sciences',
       AppTheme.maroon,
+      Icons.school_outlined,
+      'Undergraduate',
     ),
     _Prog(
       'BScHons Computer Science',
-      'An intensive honours year combining advanced coursework with a research project under faculty supervision.',
-      ['Machine Learning', 'Software Eng', 'Research Project', 'Electives'],
+      'An intensive 1-year programme combining 6 elective modules and a compulsory independent software or research project.',
+      [
+        'Advanced Algorithms',
+        'Machine Learning',
+        'Research Project',
+        'Electives',
+      ],
       '1 year full-time',
       'BSc CS with \u2265 60% average in CS modules',
       AppTheme.gold,
+      Icons.workspace_premium_outlined,
+      'Honours',
     ),
     _Prog(
       'MSc Computer Science',
-      'Thesis-based research degree supervised by internationally recognised faculty members.',
-      ['Research Proposal', 'Publication', 'Thesis Defence'],
+      'Thesis-based research programme evaluated on independent research on an approved topic determined by the supervisor(s).',
+      ['Independent Research', 'Thesis Defence'],
       '1\u20132 years',
-      'BScHons CS with \u2265 65% average',
+      'BScHons CS with \u2265 60% average',
       Color(0xFF1D4ED8),
+      Icons.biotech_outlined,
+      'Postgraduate',
     ),
     _Prog(
       'PhD Computer Science',
-      'Doctoral programme for candidates ready to push the boundaries of the field with original research.',
-      ['Qualifying Exam', 'Dissertation', 'International Collab'],
+      'Dissertation-based programme focused on proposing, conducting, and publishing original cutting-edge research.',
+      ['Original Research', 'Dissertation', 'Publication'],
       '3\u20135 years',
       'MSc CS or equivalent research degree',
       Color(0xFF2D6A4F),
+      Icons.emoji_events_outlined,
+      'Doctoral',
     ),
   ];
 
   static const _modules = [
-    // Year 1
     _Mod(
-      'CS 114 \u2014 Introduction to Programming',
+      'CS 113 \u2014 CS for Actuarial Studies',
       'yr1',
-      'Fundamentals of programming in Python. Variables, control flow, functions, basic OOP.',
+      'Introduction to computer programming for actuarial science students.',
       '16',
     ),
     _Mod(
-      'CS 144 \u2014 Imperative Programming',
+      'CS 114 \u2014 Introductory CS 1',
       'yr1',
-      'C/C++ programming: pointers, memory management, file I/O, structured programming.',
+      'Fundamentals of programming and computer science base principles.',
       '16',
     ),
-    // Year 2
     _Mod(
-      'CS 214 \u2014 Data Structures & Algorithms',
+      'CS 144 \u2014 Introductory CS 2',
+      'yr1',
+      'Further concepts in computer science and programming methodologies.',
+      '16',
+    ),
+    _Mod(
+      'CSE 214 \u2014 Object-Oriented Programming',
       'yr2',
-      'Arrays, linked lists, trees, graphs, sorting, searching. Big-O analysis and algorithmic design.',
+      'Object-oriented design, classes, interfaces, inheritance, polymorphism.',
       '16',
     ),
     _Mod(
-      'CS 244 \u2014 Discrete Maths & Logic',
+      'CS 214 \u2014 Data Structures and Algorithms',
       'yr2',
-      'Propositional logic, sets, relations, induction, combinatorics, graph theory.',
+      'Advanced data structures, algorithm analysis, sorting, and graph algorithms.',
       '16',
     ),
     _Mod(
-      'CS 274 \u2014 Computer Organisation',
+      'CS 244 \u2014 Computer Architecture',
       'yr2',
-      'Digital logic, CPU architecture, assembly language, memory hierarchy.',
+      'Computer organization, low-level programming, machine architecture.',
       '16',
     ),
-    // Year 3
     _Mod(
-      'CS 314 \u2014 Operating Systems',
+      'CS 313 \u2014 Computer Networks',
       'yr3',
-      'Processes, threading, memory management, file systems, synchronisation, virtual memory.',
+      'Network architectures, protocols, TCP/IP stack, and network applications.',
       '16',
     ),
     _Mod(
-      'CS 324 \u2014 Computer Networks',
+      'CS 314 \u2014 Concurrency',
       'yr3',
-      'TCP/IP model, routing protocols, transport layer, network security basics.',
+      'Concurrent programming, synchronization, threads, and parallel processing.',
       '16',
     ),
     _Mod(
-      'CS 334 \u2014 Compiler Construction',
+      'CS 315 \u2014 Machine Learning',
       'yr3',
-      'Lexical analysis, parsing, semantic analysis, code generation, optimisation.',
+      'Introduction to machine learning algorithms, models, and data processing.',
       '16',
     ),
     _Mod(
-      'CS 344 \u2014 Databases',
+      'CS 343 \u2014 Databases & Web Centric Programming',
       'yr3',
-      'Relational model, SQL, normalisation, transactions, indexing, NoSQL intro.',
-      '16',
-    ),
-    // Honours
-    _Mod(
-      'CS 414 \u2014 Machine Learning',
-      'yr4',
-      'Supervised & unsupervised learning, neural networks, evaluation metrics, deep learning intro.',
+      'Database design, SQL, web development frameworks, and architectures.',
       '16',
     ),
     _Mod(
-      'CS 424 \u2014 Software Engineering',
-      'yr4',
-      'Agile methodologies, design patterns, testing strategies, CI/CD, DevOps practices.',
+      'CS 344 \u2014 Program Design',
+      'yr3',
+      'Software engineering principles, design patterns, and large-scale software development.',
       '16',
     ),
     _Mod(
-      'CS 434 \u2014 Information Security',
-      'yr4',
-      'Cryptography, network security, ethical hacking, secure software development.',
+      'CS 345 \u2014 Computability and Automata Theory',
+      'yr3',
+      'Formal languages, automata, Turing machines, and computability.',
       '16',
     ),
     _Mod(
-      'CS 444 \u2014 Artificial Intelligence',
+      'CS 712 \u2014 Advanced Algorithms',
       'yr4',
-      'Search algorithms, knowledge representation, planning, NLP, reinforcement learning.',
+      'Advanced algorithmic paradigms, complexity classes, approximation algorithms.',
       '16',
     ),
     _Mod(
-      'CS 454 \u2014 Capstone Research Project',
+      'CS 716 \u2014 Adv. Topics I - Vulnerability Discovery',
       'yr4',
-      'Semester-long individual research project with published deliverable; industry or faculty supervisor.',
+      'Computer security, vulnerability analysis, and exploitation techniques.',
+      '16',
+    ),
+    _Mod(
+      'CS 742 \u2014 Machine Learning A',
+      'yr4',
+      'Advanced machine learning topics, deep learning, and statistical models.',
+      '16',
+    ),
+    _Mod(
+      'CS 745 \u2014 Software Construction - Compilers',
+      'yr4',
+      'Compiler design, lexical analysis, parsing, and code generation.',
+      '16',
+    ),
+    _Mod(
+      'CS 771 \u2014 Honours Project in CS',
+      'yr4',
+      'Compulsory independent software or research project under faculty supervision.',
       '32',
     ),
   ];
@@ -163,9 +191,10 @@ class _ProgrammesPageState extends State<ProgrammesPage>
     final w = MediaQuery.of(context).size.width;
     final cols = w > 1100
         ? 4
-        : w > 800
+        : w > 700
         ? 2
         : 1;
+
     return Container(
       color: AppTheme.background,
       child: Center(
@@ -176,35 +205,33 @@ class _ProgrammesPageState extends State<ProgrammesPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'Study',
-                  title: 'Programmes & Courses',
-                  subtitle:
-                      'Undergraduate and postgraduate qualifications designed for the next generation of computer scientists.',
+                Builder(
+                  builder: (ctx) {
+                    final s = AppSettingsProvider.of(ctx);
+                    return SectionHeading(
+                      label: s.tr('prog.label'),
+                      title: s.tr('prog.title'),
+                      subtitle: s.tr('prog.subtitle'),
+                    );
+                  },
                 ),
-                const SizedBox(height: 48),
-                _progGrid(cols),
-                const SizedBox(height: 64),
-                Row(
-                  children: [
-                    Container(width: 3, height: 24, color: AppTheme.gold),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Module Catalogue',
-                      style: GoogleFonts.openSans(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 1.0,
-                        color: AppTheme.textDark,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                _ProgTabBar(controller: _tabs, labels: _tabLabels),
+                const SizedBox(height: 40),
+                const _StatsBar(),
+                const SizedBox(height: 60),
+                _ProgGrid(programmes: _programmes, cols: cols),
+                const SizedBox(height: 72),
+                _ModuleCatalogueHeader(),
                 const SizedBox(height: 24),
+                _ProgTabBar(
+                  controller: _tabs,
+                  labels: _tabLabels,
+                  counts: _tabKeys
+                      .map((k) => _modules.where((m) => m.year == k).length)
+                      .toList(),
+                ),
+                const SizedBox(height: 16),
                 ..._buildModules(),
-                const SizedBox(height: 64),
+                const SizedBox(height: 72),
                 _buildApplyCTA(context),
               ],
             ),
@@ -217,91 +244,187 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   Widget _buildApplyCTA(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(40),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppTheme.maroon, AppTheme.maroonDark],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      child: Stack(
         children: [
-          Text(
-            'Ready to Apply?',
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 12),
-          SizedBox(
-            width: 600,
-            child: Text(
-              'Applications for 2027 open on 1 March. Prepare your documents and apply online through the Stellenbosch University portal.',
-              style: GoogleFonts.openSans(
-                fontSize: 15,
-                color: Colors.white.withValues(alpha: 0.8),
-                height: 1.7,
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppTheme.maroon, AppTheme.maroonDark],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 24),
-          Wrap(
-            spacing: 16,
-            runSpacing: 12,
-            children: [
-              SelectionContainer.disabled(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    launchUrl(
-                      Uri.parse(
-                        'https://www.sun.ac.za/english/faculty/engineering/Pages/Apply.aspx',
-                      ),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                  icon: const Icon(Icons.launch, size: 16),
-                  label: const Text('Apply Online'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.gold,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                      vertical: 16,
-                    ),
-                  ),
-                ),
+          Positioned(
+            right: -40,
+            top: -40,
+            child: Container(
+              width: 240,
+              height: 240,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.04),
               ),
-              SelectionContainer.disabled(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    launchUrl(
-                      Uri(
-                        scheme: 'mailto',
-                        path: 'stephhenning1@gmail.com',
-                        queryParameters: {'subject': 'Admissions Enquiry'},
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.email_outlined, size: 16),
-                  label: const Text('Email Admissions'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    side: BorderSide(
-                      color: Colors.white.withValues(alpha: 0.5),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 28,
-                      vertical: 16,
-                    ),
-                  ),
-                ),
+            ),
+          ),
+          Positioned(
+            right: 80,
+            bottom: -60,
+            child: Container(
+              width: 160,
+              height: 160,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppTheme.gold.withValues(alpha: 0.12),
               ),
-            ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 44),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isWide = constraints.maxWidth > 700;
+
+                final leftColumn = Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.gold.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppTheme.gold.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      child: Text(
+                        'Applications Open',
+                        style: GoogleFonts.openSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          color: AppTheme.goldLight,
+                          letterSpacing: 0.8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Ready to Apply?',
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        height: 1.2,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Applications for 2027 open on 1 March. Prepare your\ndocuments and apply online through the SU portal.',
+                      style: GoogleFonts.openSans(
+                        fontSize: 15,
+                        color: Colors.white.withValues(alpha: 0.75),
+                        height: 1.7,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    // Actions
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 10,
+                      children: [
+                        SelectionContainer.disabled(
+                          child: ElevatedButton.icon(
+                            onPressed: () => launchUrl(
+                              Uri.parse(
+                                'https://www.sun.ac.za/english/faculty/engineering/Pages/Apply.aspx',
+                              ),
+                              mode: LaunchMode.externalApplication,
+                            ),
+                            icon: const Icon(Icons.launch_rounded, size: 15),
+                            label: const Text('Apply Online'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.gold,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 14,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              textStyle: GoogleFonts.openSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SelectionContainer.disabled(
+                          child: OutlinedButton.icon(
+                            onPressed: () => launchUrl(
+                              Uri(
+                                scheme: 'mailto',
+                                path: 'cs@sun.ac.za',
+                                queryParameters: {
+                                  'subject': 'Admissions Enquiry',
+                                },
+                              ),
+                            ),
+                            icon: const Icon(Icons.email_outlined, size: 15),
+                            label: const Text('Email Admissions'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              side: BorderSide(
+                                color: Colors.white.withValues(alpha: 0.35),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 14,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              textStyle: GoogleFonts.openSans(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+
+                if (isWide) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(child: leftColumn),
+                      const SizedBox(width: 40),
+                      const _CTAChecklist(),
+                    ],
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      leftColumn,
+                      const SizedBox(height: 48),
+                      const _CTAChecklist(),
+                    ],
+                  );
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -314,7 +437,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
     return mods.asMap().entries.map((e) {
       final id = Object.hash(key, e.key);
       return Padding(
-        padding: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.only(bottom: 6),
         child: _ModuleRow(
           mod: e.value,
           index: e.key,
@@ -325,14 +448,207 @@ class _ProgrammesPageState extends State<ProgrammesPage>
       );
     }).toList();
   }
+}
 
-  Widget _progGrid(int cols) {
+// ── Stats bar ──────────────────────────────────────────────────────────────
+
+class _StatsBar extends StatelessWidget {
+  const _StatsBar();
+
+  static const _stats = [
+    ('4', 'Degree Programmes', Icons.menu_book_outlined),
+    ('17+', 'Modules Offered', Icons.grid_view_rounded),
+    ('Top 3', 'CS Dept in Africa', Icons.emoji_events_outlined),
+    ('1866', 'Year Established', Icons.account_balance_outlined),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth > 800;
+        final isMedium = constraints.maxWidth > 500;
+
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          decoration: BoxDecoration(
+            color: AppTheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppTheme.divider),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 15,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: isWide
+              ? Row(
+                  children: _stats.asMap().entries.map((e) {
+                    final isLast = e.key == _stats.length - 1;
+                    return Expanded(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _StatItem(
+                              e.value.$1,
+                              e.value.$2,
+                              e.value.$3,
+                            ),
+                          ),
+                          if (!isLast)
+                            Container(
+                              width: 1,
+                              height: 40,
+                              color: AppTheme.divider,
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                )
+              : isMedium
+              ? Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _StatItem(
+                            _stats[0].$1,
+                            _stats[0].$2,
+                            _stats[0].$3,
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 40,
+                          color: AppTheme.divider,
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                        Expanded(
+                          child: _StatItem(
+                            _stats[1].$1,
+                            _stats[1].$2,
+                            _stats[1].$3,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    const Divider(height: 1, color: AppTheme.divider),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _StatItem(
+                            _stats[2].$1,
+                            _stats[2].$2,
+                            _stats[2].$3,
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 40,
+                          color: AppTheme.divider,
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                        Expanded(
+                          child: _StatItem(
+                            _stats[3].$1,
+                            _stats[3].$2,
+                            _stats[3].$3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              : Column(
+                  children: _stats.asMap().entries.map((e) {
+                    final isLast = e.key == _stats.length - 1;
+                    return Column(
+                      children: [
+                        _StatItem(e.value.$1, e.value.$2, e.value.$3),
+                        if (!isLast)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Divider(height: 1, color: AppTheme.divider),
+                          ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+        );
+      },
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  final String value, label;
+  final IconData icon;
+  const _StatItem(this.value, this.label, this.icon);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: AppTheme.maroon.withValues(alpha: 0.07),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, size: 18, color: AppTheme.maroon),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              value,
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+                color: AppTheme.maroon,
+                height: 1.1,
+              ),
+            ),
+            Text(
+              label,
+              style: GoogleFonts.openSans(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: AppTheme.textMuted,
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+// ── Programme grid ─────────────────────────────────────────────────────────
+
+class _ProgGrid extends StatelessWidget {
+  final List<_Prog> programmes;
+  final int cols;
+  const _ProgGrid({required this.programmes, required this.cols});
+
+  @override
+  Widget build(BuildContext context) {
     final rows = <Widget>[];
-    for (int i = 0; i < _programmes.length; i += cols) {
-      final end = (i + cols < _programmes.length)
-          ? i + cols
-          : _programmes.length;
-      final row = _programmes.sublist(i, end);
+    for (int i = 0; i < programmes.length; i += cols) {
+      final end = (i + cols < programmes.length) ? i + cols : programmes.length;
+      final row = programmes.sublist(i, end);
       final fill = cols - row.length;
       rows.add(
         Padding(
@@ -365,12 +681,53 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   }
 }
 
+// ── Module catalogue header ────────────────────────────────────────────────
+
+class _ModuleCatalogueHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(width: 4, height: 32, color: AppTheme.gold),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Module Catalogue',
+              style: GoogleFonts.openSans(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.5,
+                color: AppTheme.textDark,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              'Select a year to browse modules — tap any row to expand its description.',
+              style: GoogleFonts.openSans(
+                fontSize: 14,
+                color: AppTheme.textMuted,
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+// ── Data models ────────────────────────────────────────────────────────────
+
 class _Prog {
   final String name, blurb;
   final List<String> highlights;
   final String duration;
   final String requirements;
   final Color accent;
+  final IconData icon;
+  final String level;
   const _Prog(
     this.name,
     this.blurb,
@@ -378,6 +735,8 @@ class _Prog {
     this.duration,
     this.requirements,
     this.accent,
+    this.icon,
+    this.level,
   );
 }
 
@@ -386,6 +745,8 @@ class _Mod {
   const _Mod(this.name, this.year, this.desc, this.credits);
 }
 
+// ── Programme card ─────────────────────────────────────────────────────────
+
 class _ProgCard extends StatelessWidget {
   final _Prog prog;
   const _ProgCard({required this.prog});
@@ -393,181 +754,283 @@ class _ProgCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${prog.name} details \u2014 coming soon'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 6,
-            decoration: BoxDecoration(
-              color: prog.accent,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(12),
-              ),
+      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${prog.name} details \u2014 coming soon'),
+          duration: const Duration(seconds: 2),
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.divider),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 15,
+              offset: const Offset(0, 4),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  prog.name,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                    height: 1.35,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Coloured header band
+            Container(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+              decoration: BoxDecoration(
+                color: prog.accent.withValues(alpha: 0.07),
+                border: Border(
+                  bottom: BorderSide(
+                    color: prog.accent.withValues(alpha: 0.15),
                   ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  prog.blurb,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppTheme.textMuted,
-                    height: 1.6,
-                  ),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12),
                 ),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: prog.accent.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(
-                      color: prog.accent.withValues(alpha: 0.2),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: prog.accent.withValues(alpha: 0.14),
+                      borderRadius: BorderRadius.circular(12),
                     ),
+                    child: Icon(prog.icon, size: 22, color: prog.accent),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.schedule, size: 13, color: prog.accent),
-                      const SizedBox(width: 6),
-                      Text(
-                        prog.duration,
-                        style: GoogleFonts.openSans(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: prog.accent,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Icon(
-                      Icons.checklist,
-                      size: 13,
-                      color: AppTheme.textMuted,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        prog.requirements,
-                        style: GoogleFonts.openSans(
-                          fontSize: 11,
-                          color: AppTheme.textMuted,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 6,
-                  runSpacing: 6,
-                  children: prog.highlights
-                      .map(
-                        (h) => Container(
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
                             vertical: 3,
                           ),
                           decoration: BoxDecoration(
-                            color: prog.accent.withValues(alpha: 0.08),
+                            color: prog.accent.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            h,
+                            prog.level,
                             style: GoogleFonts.openSans(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.8,
                               color: prog.accent,
                             ),
                           ),
                         ),
-                      )
-                      .toList(),
-                ),
-              ],
+                        const SizedBox(height: 6),
+                        Text(
+                          prog.name,
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.textDark,
+                            height: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            // Body
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    prog.blurb,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppTheme.textMuted,
+                      height: 1.65,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  _InfoRow(
+                    icon: Icons.schedule_rounded,
+                    label: prog.duration,
+                    color: prog.accent,
+                  ),
+                  const SizedBox(height: 8),
+                  _InfoRow(
+                    icon: Icons.checklist_rounded,
+                    label: prog.requirements,
+                    color: AppTheme.textMuted,
+                  ),
+                  const SizedBox(height: 20),
+                  Wrap(
+                    spacing: 6,
+                    runSpacing: 6,
+                    children: prog.highlights
+                        .map(
+                          (h) => Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 9,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: prog.accent.withValues(alpha: 0.07),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: prog.accent.withValues(alpha: 0.18),
+                              ),
+                            ),
+                            child: Text(
+                              h,
+                              style: GoogleFonts.openSans(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                color: prog.accent,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _ProgTabBar extends StatelessWidget {
-  final TabController controller;
-  final List<String> labels;
-  const _ProgTabBar({required this.controller, required this.labels});
+class _InfoRow extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  const _InfoRow({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      children: labels.asMap().entries.map((e) {
-        final sel = controller.index == e.key;
-        return MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () => controller.animateTo(e.key),
-            child: SelectionContainer.disabled(
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 9,
-                ),
-                decoration: BoxDecoration(
-                  color: sel ? AppTheme.maroon : Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: sel ? AppTheme.maroon : AppTheme.divider,
-                  ),
-                ),
-                child: Text(
-                  e.value,
-                  style: GoogleFonts.openSans(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: sel ? Colors.white : AppTheme.textDark,
-                  ),
-                ),
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 2),
+          child: Icon(icon, size: 14, color: color),
+        ),
+        const SizedBox(width: 7),
+        Expanded(
+          child: Text(
+            label,
+            style: GoogleFonts.openSans(
+              fontSize: 12,
+              color: color,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
             ),
           ),
-        );
-      }).toList(),
+        ),
+      ],
     );
   }
 }
 
-class _ModuleRow extends StatelessWidget {
+// ── Tab bar ────────────────────────────────────────────────────────────────
+
+class _ProgTabBar extends StatelessWidget {
+  final TabController controller;
+  final List<String> labels;
+  final List<int> counts;
+  const _ProgTabBar({
+    required this.controller,
+    required this.labels,
+    required this.counts,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: AppTheme.surface,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppTheme.divider),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: labels.asMap().entries.map((e) {
+          final sel = controller.index == e.key;
+          return MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () => controller.animateTo(e.key),
+              child: SelectionContainer.disabled(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: sel ? AppTheme.maroon : Colors.transparent,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        e.value,
+                        style: GoogleFonts.openSans(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: sel ? Colors.white : AppTheme.textMuted,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 180),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: sel
+                              ? Colors.white.withValues(alpha: 0.2)
+                              : AppTheme.maroon.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          '${counts[e.key]}',
+                          style: GoogleFonts.openSans(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
+                            color: sel ? Colors.white : AppTheme.maroon,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+// ── Module row ─────────────────────────────────────────────────────────────
+
+class _ModuleRow extends StatefulWidget {
   final _Mod mod;
   final int index;
   final bool isOpen;
@@ -580,89 +1043,245 @@ class _ModuleRow extends StatelessWidget {
   });
 
   @override
+  State<_ModuleRow> createState() => _ModuleRowState();
+}
+
+class _ModuleRowState extends State<_ModuleRow> {
+  bool _isHovered = false;
+
+  Color get _accentColor {
+    final code = widget.mod.name
+        .split(' ')
+        .first
+        .replaceAll(RegExp(r'[^0-9]'), '');
+    final level = int.tryParse(code.isEmpty ? '0' : code[0]) ?? 0;
+    return switch (level) {
+      1 => AppTheme.maroon,
+      2 => const Color(0xFF1D4ED8),
+      3 => const Color(0xFF2D6A4F),
+      _ => AppTheme.gold,
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return HoverCard(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Row(
-              children: [
-                Container(
-                  width: 28,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: AppTheme.maroon.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${index + 1}',
-                      style: GoogleFonts.openSans(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.maroon,
+    final accent = _accentColor;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTap: widget.onTap,
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+          margin: EdgeInsets.only(bottom: widget.isOpen ? 12 : 6),
+          decoration: BoxDecoration(
+            color: widget.isOpen
+                ? AppTheme.surface
+                : (_isHovered
+                      ? AppTheme.surface.withValues(alpha: 0.8)
+                      : AppTheme.surface),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: widget.isOpen
+                  ? accent.withValues(alpha: 0.3)
+                  : (_isHovered
+                        ? AppTheme.divider
+                        : AppTheme.divider.withValues(alpha: 0.5)),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: widget.isOpen
+                    ? accent.withValues(alpha: 0.08)
+                    : Colors.black.withOpacity(_isHovered ? 0.05 : 0.02),
+                blurRadius: widget.isOpen ? 20 : (_isHovered ? 12 : 8),
+                offset: Offset(0, widget.isOpen ? 8 : 2),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+                child: Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 400),
+                      width: 4,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: widget.isOpen
+                            ? accent
+                            : accent.withValues(alpha: 0.4),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Text(
-                    mod.name,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text(
+                        widget.mod.name,
+                        style: GoogleFonts.openSans(
+                          fontSize: 15,
+                          fontWeight: widget.isOpen
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                          color: widget.isOpen
+                              ? AppTheme.textDark
+                              : AppTheme.textDark.withValues(alpha: 0.9),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.gold.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '${mod.credits} credits',
-                    style: GoogleFonts.openSans(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.gold,
+                    const SizedBox(width: 12),
+                    _ModuleBadge(
+                      label: '${widget.mod.credits} cr',
+                      color: accent,
                     ),
+                    const SizedBox(width: 12),
+                    AnimatedRotation(
+                      turns: widget.isOpen ? 0.5 : 0,
+                      duration: const Duration(milliseconds: 400),
+                      curve: Curves.easeOutBack,
+                      child: Icon(
+                        Icons.expand_more_rounded,
+                        color: widget.isOpen ? accent : AppTheme.textMuted,
+                        size: 22,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (widget.isOpen)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 24, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 1,
+                        width: 40,
+                        color: accent.withValues(alpha: 0.2),
+                        margin: const EdgeInsets.only(bottom: 16),
+                      ),
+                      Text(
+                        widget.mod.desc,
+                        style: GoogleFonts.openSans(
+                          fontSize: 14,
+                          color: AppTheme.textDark.withValues(alpha: 0.75),
+                          height: 1.6,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 8),
-                AnimatedRotation(
-                  turns: isOpen ? 0.5 : 0,
-                  duration: const Duration(milliseconds: 200),
-                  child: const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: AppTheme.textMuted,
-                    size: 20,
-                  ),
-                ),
-              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ModuleBadge extends StatelessWidget {
+  final String label;
+  final Color color;
+  const _ModuleBadge({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: color.withValues(alpha: 0.15)),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.openSans(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+// ── CTA checklist panel ────────────────────────────────────────────────────
+
+class _CTAChecklist extends StatelessWidget {
+  const _CTAChecklist();
+
+  static const _items = [
+    'Certified academic transcripts',
+    'National Senior Certificate',
+    'South African ID or passport copy',
+    'Proof of English proficiency',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 280),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Documents Required',
+            style: GoogleFonts.openSans(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withValues(alpha: 0.9),
+              letterSpacing: 0.4,
             ),
           ),
-          AnimatedSize(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut,
-            child: isOpen
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(62, 0, 20, 16),
+          const SizedBox(height: 14),
+          ..._items.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 3),
+                    width: 16,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: AppTheme.gold.withValues(alpha: 0.25),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.check,
+                      size: 10,
+                      color: AppTheme.goldLight,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
                     child: Text(
-                      mod.desc,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.textMuted,
-                        height: 1.6,
+                      item,
+                      style: GoogleFonts.openSans(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.75),
+                        height: 1.45,
                       ),
                     ),
-                  )
-                : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

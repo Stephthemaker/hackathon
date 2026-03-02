@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 
@@ -87,11 +88,10 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'Latest',
-                  title: 'News & Events',
-                  subtitle:
-                      'Stay up to date with research breakthroughs, student milestones, and upcoming department events.',
+                SectionHeading(
+                  label: AppSettingsProvider.of(context).tr('news.label'),
+                  title: AppSettingsProvider.of(context).tr('news.title'),
+                  subtitle: AppSettingsProvider.of(context).tr('news.subtitle'),
                 ),
                 const SizedBox(height: 40),
                 Wrap(
@@ -237,14 +237,7 @@ class _NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = _catColors[item.cat] ?? AppTheme.maroon;
     return HoverCard(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('"${item.title}" — full article coming soon'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
-      },
+      onTap: null,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Row(
@@ -314,12 +307,6 @@ class _NewsCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 16),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 12,
-              color: AppTheme.textMuted,
-            ),
           ],
         ),
       ),
@@ -356,14 +343,7 @@ class _EventsSidebar extends StatelessWidget {
           (e) => Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: HoverCard(
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('${e.name} event details — coming soon'),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              },
+              onTap: null,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,

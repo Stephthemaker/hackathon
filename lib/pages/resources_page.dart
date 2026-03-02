@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 
@@ -133,11 +134,15 @@ class _ResourcesPageState extends State<ResourcesPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'Resources',
-                  title: 'Student Resources',
-                  subtitle:
-                      'Everything you need \u2014 course portals, lab access, developer tools, and answers to common questions.',
+                Builder(
+                  builder: (ctx) {
+                    final s = AppSettingsProvider.of(ctx);
+                    return SectionHeading(
+                      label: s.tr('res.label'),
+                      title: s.tr('res.title'),
+                      subtitle: s.tr('res.subtitle'),
+                    );
+                  },
                 ),
                 const SizedBox(height: 48),
 

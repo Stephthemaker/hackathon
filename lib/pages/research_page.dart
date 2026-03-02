@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 
@@ -200,12 +201,15 @@ class _GroupsSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'Research Groups',
-                  title: 'Our Four Active Groups',
-                  subtitle:
-                      'Each group conducts internationally recognised research with active '
-                      'postgraduate supervision opportunities.',
+                Builder(
+                  builder: (ctx) {
+                    final s = AppSettingsProvider.of(ctx);
+                    return SectionHeading(
+                      label: s.tr('research.label'),
+                      title: s.tr('research.title'),
+                      subtitle: s.tr('research.subtitle'),
+                    );
+                  },
                 ),
                 const SizedBox(height: 48),
                 ..._groups.asMap().entries.map(
@@ -232,9 +236,6 @@ class _GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width > 960;
-    final infoPane = _GroupInfo(group: group);
-    final memberPaneLeft = _MembersPane(group: group, isLeft: true);
-    final memberPaneRight = _MembersPane(group: group, isLeft: false);
 
     return HoverCard(
       depth: 0.15,
@@ -244,25 +245,39 @@ class _GroupCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: isDesktop
-            ? IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: flip
-                      ? [
-                          SizedBox(width: 360, child: memberPaneLeft),
-                          Expanded(child: infoPane),
-                        ]
-                      : [
-                          Expanded(child: infoPane),
-                          SizedBox(width: 360, child: memberPaneRight),
-                        ],
-                ),
+            ? Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                      left: flip ? 360 : 0,
+                      right: flip ? 0 : 360,
+                    ),
+                    child: _GroupInfo(group: group),
+                  ),
+                  Positioned(
+                    left: flip ? 0 : null,
+                    right: flip ? null : 0,
+                    top: 0,
+                    bottom: 0,
+                    width: 360,
+                    child: _MembersPane(
+                      group: group,
+                      isLeft: flip,
+                      isDesktop: true,
+                    ),
+                  ),
+                ],
               )
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  infoPane,
-                  _MembersPane(group: group, isLeft: false, isBottom: true),
+                  _GroupInfo(group: group),
+                  _MembersPane(
+                    group: group,
+                    isLeft: false,
+                    isBottom: true,
+                    isDesktop: false,
+                  ),
                 ],
               ),
       ),
@@ -406,14 +421,75 @@ class _MembersPane extends StatelessWidget {
   final _RG group;
   final bool isLeft;
   final bool isBottom;
+  final bool isDesktop;
   const _MembersPane({
     required this.group,
     required this.isLeft,
     this.isBottom = false,
+    this.isDesktop = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final scrollChild = Theme(
+      data: Theme.of(context).copyWith(
+        scrollbarTheme: ScrollbarThemeData(
+          thumbVisibility: WidgetStateProperty.all(true),
+          thickness: WidgetStateProperty.all(4),
+        ),
+      ),
+      child: Scrollbar(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(right: 12),
+          child: Column(
+            children: group.members
+                .map(
+                  (m) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppTheme.maroon.withValues(alpha: 0.1),
+                              width: 1.5,
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: m.photoPath != null
+                                ? Image.asset(
+                                    m.photoPath!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) =>
+                                        _InitialsAvatar(name: m.name),
+                                  )
+                                : _InitialsAvatar(name: m.name),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            m.name,
+                            style: GoogleFonts.openSans(
+                              fontSize: 13.5,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textDark,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+    );
+
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.background,
@@ -446,69 +522,12 @@ class _MembersPane extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 280),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                scrollbarTheme: ScrollbarThemeData(
-                  thumbVisibility: WidgetStateProperty.all(true),
-                  thickness: WidgetStateProperty.all(4),
+          isDesktop
+              ? Expanded(child: scrollChild)
+              : ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 280),
+                  child: scrollChild,
                 ),
-              ),
-              child: Scrollbar(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: Column(
-                    children: group.members
-                        .map(
-                          (m) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 36,
-                                  height: 36,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppTheme.maroon.withValues(
-                                        alpha: 0.1,
-                                      ),
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  child: ClipOval(
-                                    child: m.photoPath != null
-                                        ? Image.asset(
-                                            m.photoPath!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (_, __, ___) =>
-                                                _InitialsAvatar(name: m.name),
-                                          )
-                                        : _InitialsAvatar(name: m.name),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    m.name,
-                                    style: GoogleFonts.openSans(
-                                      fontSize: 13.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppTheme.textDark,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            ),
-          ),
           const SizedBox(height: 8),
           MouseRegion(
             cursor: SystemMouseCursors.click,

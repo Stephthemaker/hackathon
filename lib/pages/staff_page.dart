@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 
@@ -258,11 +259,12 @@ class _StaffPageState extends State<StaffPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'People',
-                  title: 'Academic & Administrative Staff',
-                  subtitle:
-                      'Meet our academic faculty and administrative staff who keep the department thriving.',
+                SectionHeading(
+                  label: AppSettingsProvider.of(context).tr('staff.label'),
+                  title: AppSettingsProvider.of(context).tr('staff.title'),
+                  subtitle: AppSettingsProvider.of(
+                    context,
+                  ).tr('staff.subtitle'),
                 ),
                 const SizedBox(height: 40),
                 Text(

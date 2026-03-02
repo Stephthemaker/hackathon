@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/app_theme.dart';
+import '../../settings/app_settings.dart';
+import '../../settings/ui/settings_panel.dart';
 import '../widgets/footer.dart';
 import '../widgets/app_background_3d.dart';
 
@@ -66,28 +68,36 @@ class _AppShellState extends State<AppShell> {
     }
   }
 
-  static const _navItems = [
-    _NavItem('Overview', '/'),
-    _NavItem('Staff', '/staff'),
-    _NavItem('Research', '/research'),
-    _NavItem('Programmes', '/programmes'),
-    _NavItem('News & Events', '/news'),
-    _NavItem('Resources', '/resources'),
-    _NavItem('Contact', '/contact'),
+  static const _navKeys = [
+    ('nav.overview', '/'),
+    ('nav.staff', '/staff'),
+    ('nav.research', '/research'),
+    ('nav.programmes', '/programmes'),
+    ('nav.news', '/news'),
+    ('nav.resources', '/resources'),
+    ('nav.contact', '/contact'),
   ];
+
+  List<_NavItem> _buildNavItems(AppSettings s) {
+    return _navKeys.map((e) => _NavItem(s.tr(e.$1), e.$2)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= 900;
     final currentPath = GoRouterState.of(context).uri.path;
+    final settings = AppSettingsProvider.of(context);
+    final navItems = _buildNavItems(settings);
+    final bgColor = settings.darkMode ? AppTheme.darkBg : AppTheme.background;
 
     return SelectionArea(
       child: Scaffold(
-        backgroundColor: AppTheme.background,
+        backgroundColor: bgColor,
+        endDrawer: const Drawer(width: 340, child: SettingsPanel()),
         drawer: isDesktop
             ? null
-            : _MobileDrawer(navItems: _navItems, currentPath: currentPath),
+            : _MobileDrawer(navItems: navItems, currentPath: currentPath),
         body: ScrollProvider(
           controller: _scrollController,
           child: Stack(
@@ -108,7 +118,7 @@ class _AppShellState extends State<AppShell> {
                   scrollController: _scrollController,
                   isDesktop: isDesktop,
                   scrolled: _scrolled,
-                  navItems: _navItems,
+                  navItems: navItems,
                   currentPath: currentPath,
                 ),
               ),
@@ -197,20 +207,44 @@ class _NavBar extends StatelessWidget {
                 // Logo
                 _NavLogo(),
                 const Spacer(),
-                if (isDesktop)
+                if (isDesktop) ...[
                   ...navItems.map(
                     (item) => _NavButtonDesktop(
                       item: item,
                       isActive: currentPath == item.route,
                     ),
-                  )
-                else
+                  ),
+                  const SizedBox(width: 8),
+                  Builder(
+                    builder: (ctx) => IconButton(
+                      icon: const Icon(
+                        Icons.tune_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      tooltip: 'Settings',
+                      onPressed: () => Scaffold.of(ctx).openEndDrawer(),
+                    ),
+                  ),
+                ] else ...[
+                  Builder(
+                    builder: (ctx) => IconButton(
+                      icon: const Icon(
+                        Icons.tune_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      tooltip: 'Settings',
+                      onPressed: () => Scaffold.of(ctx).openEndDrawer(),
+                    ),
+                  ),
                   Builder(
                     builder: (ctx) => IconButton(
                       icon: const Icon(Icons.menu, color: Colors.white),
                       onPressed: () => Scaffold.of(ctx).openDrawer(),
                     ),
                   ),
+                ],
               ],
             ),
           ),
@@ -250,29 +284,34 @@ class _NavLogoState extends State<_NavLogo> {
                 ),
               ),
               const SizedBox(width: 12),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Computer Science',
-                    style: AppTheme.uiControlText.copyWith(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.3,
-                    ),
-                  ),
-                  Text(
-                    'Stellenbosch University',
-                    style: AppTheme.uiControlText.copyWith(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ],
+              Builder(
+                builder: (ctx) {
+                  final s = AppSettingsProvider.of(ctx);
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        s.tr('brand.cs'),
+                        style: AppTheme.uiControlText.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.3,
+                        ),
+                      ),
+                      Text(
+                        s.tr('brand.su'),
+                        style: AppTheme.uiControlText.copyWith(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ],
           ),
@@ -377,21 +416,31 @@ class _MobileDrawer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  'Computer Science',
-                  style: AppTheme.uiControlText.copyWith(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  'Stellenbosch University',
-                  style: AppTheme.uiControlText.copyWith(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                Builder(
+                  builder: (ctx) {
+                    final s = AppSettingsProvider.of(ctx);
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          s.tr('brand.cs'),
+                          style: AppTheme.uiControlText.copyWith(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          s.tr('brand.su'),
+                          style: AppTheme.uiControlText.copyWith(
+                            color: Colors.white.withValues(alpha: 0.6),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),

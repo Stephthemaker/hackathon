@@ -187,4 +187,196 @@ class AppTheme {
       ),
     );
   }
+
+  // ── Dark theme ──────────────────────────────────────────────────────
+  static const Color darkSurface = Color(0xFF1E1E2E);
+  static const Color darkCard = Color(0xFF2A2A3C);
+  static const Color darkText = Color(0xFFE4E4E4);
+  static const Color darkMuted = Color(0xFF9E9E9E);
+
+  static ThemeData get darkTheme {
+    final base = GoogleFonts.openSansTextTheme(ThemeData.dark().textTheme);
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: maroon,
+        brightness: Brightness.dark,
+        primary: maroonLight,
+        secondary: gold,
+        surface: darkSurface,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: darkText,
+      ),
+      scaffoldBackgroundColor: darkBg,
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: gold,
+        selectionColor: gold.withValues(alpha: 0.4),
+        selectionHandleColor: gold,
+      ),
+      textTheme: base.copyWith(
+        displayLarge: GoogleFonts.playfairDisplay(
+          fontSize: 64,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+          height: 1.1,
+          letterSpacing: -1,
+        ),
+        displayMedium: GoogleFonts.playfairDisplay(
+          fontSize: 48,
+          fontWeight: FontWeight.w700,
+          color: darkText,
+          height: 1.15,
+          letterSpacing: -0.5,
+        ),
+        displaySmall: GoogleFonts.openSans(
+          fontSize: 36,
+          fontWeight: FontWeight.w600,
+          color: darkText,
+          height: 1.2,
+        ),
+        headlineLarge: GoogleFonts.playfairDisplay(
+          fontSize: 32,
+          fontWeight: FontWeight.w600,
+          color: darkText,
+          height: 1.25,
+        ),
+        headlineMedium: GoogleFonts.playfairDisplay(
+          fontSize: 26,
+          fontWeight: FontWeight.w600,
+          color: darkText,
+          height: 1.3,
+        ),
+        headlineSmall: GoogleFonts.openSans(
+          fontSize: 22,
+          fontWeight: FontWeight.w600,
+          color: darkText,
+        ),
+        titleLarge: GoogleFonts.playfairDisplay(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: darkText,
+        ),
+        titleMedium: GoogleFonts.playfairDisplay(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: darkText,
+        ),
+        bodyLarge: GoogleFonts.openSans(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: darkText,
+          height: 1.7,
+        ),
+        bodyMedium: GoogleFonts.openSans(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: darkMuted,
+          height: 1.6,
+        ),
+        labelLarge: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.2,
+          fontFamily: 'sans-serif',
+          color: darkText,
+        ),
+      ),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: maroon,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: darkCard,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(
+            color: Colors.white.withValues(alpha: 0.08),
+            width: 1,
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: maroon,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+          textStyle: uiControlText,
+          elevation: 0,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: goldLight,
+          side: const BorderSide(color: goldLight, width: 1.5),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+          textStyle: uiControlText,
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: darkCard,
+        labelStyle: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'sans-serif',
+          color: darkMuted,
+        ),
+        hintStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'sans-serif',
+          color: darkMuted,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: gold, width: 2),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: darkCard,
+        selectedColor: maroon,
+        labelStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          fontFamily: 'sans-serif',
+        ),
+        side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      ),
+    );
+  }
+
+  // ── High-contrast light theme ───────────────────────────────────────
+  static ThemeData get highContrastLightTheme {
+    return lightTheme.copyWith(
+      colorScheme: lightTheme.colorScheme.copyWith(onSurface: Colors.black),
+    );
+  }
+
+  // ── High-contrast dark theme ────────────────────────────────────────
+  static ThemeData get highContrastDarkTheme {
+    return darkTheme.copyWith(
+      colorScheme: darkTheme.colorScheme.copyWith(onSurface: Colors.white),
+    );
+  }
 }

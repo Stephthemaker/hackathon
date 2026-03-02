@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_theme.dart';
+import '../../settings/app_settings.dart';
 
 class SiteFooter extends StatelessWidget {
   const SiteFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Container(
       color: AppTheme.maroonDark,
       child: Center(
@@ -27,25 +29,25 @@ class SiteFooter extends StatelessWidget {
                   children: [
                     _FooterBrand(),
                     _FooterLinks(
-                      title: 'Department',
-                      links: const [
-                        _Link('Overview', '/'),
-                        _Link('Academic Staff', '/staff'),
-                        _Link('Research Groups', '/research'),
-                        _Link('Programmes', '/programmes'),
+                      title: s.tr('footer.department'),
+                      links: [
+                        _Link(s.tr('footer.overview'), '/'),
+                        _Link(s.tr('footer.academic'), '/staff'),
+                        _Link(s.tr('footer.researchgroups'), '/research'),
+                        _Link(s.tr('footer.programmes'), '/programmes'),
                       ],
                     ),
                     _FooterLinks(
-                      title: 'Resources',
-                      links: const [
-                        _Link('News & Events', '/news'),
-                        _Link('Student Resources', '/resources'),
-                        _Link('Contact Us', '/contact'),
+                      title: s.tr('footer.resources'),
+                      links: [
+                        _Link(s.tr('footer.newsevents'), '/news'),
+                        _Link(s.tr('footer.studentres'), '/resources'),
+                        _Link(s.tr('footer.contactus'), '/contact'),
                         _Link('SunLearn', 'https://learn.sun.ac.za'),
                       ],
                     ),
                     _FooterLinks(
-                      title: 'Useful Links',
+                      title: s.tr('footer.links'),
                       links: const [
                         _Link('my.SUN Portal', 'https://my.sun.ac.za'),
                         _Link('SU Library', 'https://library.sun.ac.za'),
@@ -115,34 +117,49 @@ class _FooterBrand extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Computer Science',
-                    style: AppTheme.uiControlText.copyWith(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    'Stellenbosch University',
-                    style: AppTheme.uiControlText.copyWith(
-                      color: Colors.white.withValues(alpha: 0.5),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  Builder(
+                    builder: (ctx) {
+                      final s = AppSettingsProvider.of(ctx);
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s.tr('brand.cs'),
+                            style: AppTheme.uiControlText.copyWith(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            s.tr('brand.su'),
+                            style: AppTheme.uiControlText.copyWith(
+                              color: Colors.white.withValues(alpha: 0.5),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            'Advancing computer science through world-class research, innovative teaching, and community impact in Africa.',
-            style: GoogleFonts.openSans(
-              color: Colors.white.withValues(alpha: 0.5),
-              fontSize: 13,
-              height: 1.7,
-            ),
+          Builder(
+            builder: (context) {
+              final s = AppSettingsProvider.of(context);
+              return Text(
+                s.tr('footer.brand'),
+                style: GoogleFonts.openSans(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  fontSize: 13,
+                  height: 1.7,
+                ),
+              );
+            },
           ),
           const SizedBox(height: 20),
           Row(

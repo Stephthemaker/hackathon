@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/google_map_web.dart';
@@ -58,11 +59,12 @@ class _ContactPageState extends State<ContactPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SectionHeading(
-                  label: 'Contact',
-                  title: 'Get in Touch',
-                  subtitle:
-                      'Reach out to the department for admissions enquiries, research collaboration, or general information.',
+                SectionHeading(
+                  label: AppSettingsProvider.of(context).tr('contact.label'),
+                  title: AppSettingsProvider.of(context).tr('contact.title'),
+                  subtitle: AppSettingsProvider.of(
+                    context,
+                  ).tr('contact.subtitle'),
                 ),
                 const SizedBox(height: 48),
                 if (wide)
