@@ -19,11 +19,7 @@ class ResearchPage extends StatelessWidget {
         color: AppTheme.background,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [
-            _GroupsSection(),
-            _ResourcesSection(),
-            _PostgradBanner(),
-          ],
+          children: const [_GroupsSection(), _ResourcesSection()],
         ),
       ),
     );
@@ -237,7 +233,8 @@ class _GroupCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width > 960;
     final infoPane = _GroupInfo(group: group);
-    final memberPane = _MembersPane(group: group);
+    final memberPaneLeft = _MembersPane(group: group, isLeft: true);
+    final memberPaneRight = _MembersPane(group: group, isLeft: false);
 
     return HoverCard(
       depth: 0.15,
@@ -247,21 +244,26 @@ class _GroupCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: isDesktop
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: flip
-                    ? [
-                        SizedBox(width: 360, child: memberPane),
-                        Expanded(child: infoPane),
-                      ]
-                    : [
-                        Expanded(child: infoPane),
-                        SizedBox(width: 360, child: memberPane),
-                      ],
+            ? IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: flip
+                      ? [
+                          SizedBox(width: 360, child: memberPaneLeft),
+                          Expanded(child: infoPane),
+                        ]
+                      : [
+                          Expanded(child: infoPane),
+                          SizedBox(width: 360, child: memberPaneRight),
+                        ],
+                ),
               )
             : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [infoPane, memberPane],
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  infoPane,
+                  _MembersPane(group: group, isLeft: false, isBottom: true),
+                ],
               ),
       ),
     );
@@ -402,12 +404,34 @@ class _GroupInfo extends StatelessWidget {
 
 class _MembersPane extends StatelessWidget {
   final _RG group;
-  const _MembersPane({required this.group});
+  final bool isLeft;
+  final bool isBottom;
+  const _MembersPane({
+    required this.group,
+    required this.isLeft,
+    this.isBottom = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(color: AppTheme.background),
+      decoration: BoxDecoration(
+        color: AppTheme.background,
+        borderRadius: isBottom
+            ? const BorderRadius.only(
+                bottomLeft: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              )
+            : isLeft
+            ? const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              )
+            : const BorderRadius.only(
+                topRight: Radius.circular(12),
+                bottomRight: Radius.circular(12),
+              ),
+      ),
       padding: const EdgeInsets.fromLTRB(28, 36, 28, 36),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,44 +446,66 @@ class _MembersPane extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          ...group.members.map(
-            (m) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppTheme.maroon.withValues(alpha: 0.1),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: m.photoPath != null
-                          ? Image.asset(
-                              m.photoPath!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) =>
-                                  _InitialsAvatar(name: m.name),
-                            )
-                          : _InitialsAvatar(name: m.name),
-                    ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 280),
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                scrollbarTheme: ScrollbarThemeData(
+                  thumbVisibility: WidgetStateProperty.all(true),
+                  thickness: WidgetStateProperty.all(4),
+                ),
+              ),
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: Column(
+                    children: group.members
+                        .map(
+                          (m) => Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 36,
+                                  height: 36,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppTheme.maroon.withValues(
+                                        alpha: 0.1,
+                                      ),
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  child: ClipOval(
+                                    child: m.photoPath != null
+                                        ? Image.asset(
+                                            m.photoPath!,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (_, __, ___) =>
+                                                _InitialsAvatar(name: m.name),
+                                          )
+                                        : _InitialsAvatar(name: m.name),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    m.name,
+                                    style: GoogleFonts.openSans(
+                                      fontSize: 13.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppTheme.textDark,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      m.name,
-                      style: GoogleFonts.openSans(
-                        fontSize: 13.5,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.textDark,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
