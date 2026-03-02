@@ -191,6 +191,7 @@ class _ContactPageState extends State<ContactPage> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 initialValue: _subject,
+                style: Theme.of(context).textTheme.bodyMedium,
                 decoration: const InputDecoration(labelText: 'Subject'),
                 items: _subjects
                     .map((s) => DropdownMenuItem(value: s, child: Text(s)))
