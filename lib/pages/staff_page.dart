@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../ui/widgets/hover_card.dart';
 import '../ui/widgets/section_heading.dart';
@@ -13,76 +14,214 @@ class StaffPage extends StatefulWidget {
 class _StaffPageState extends State<StaffPage> {
   String _group = 'All';
   String _query = '';
+  String _sort = 'Name (A–Z)';
 
   static const _groups = [
     'All',
-    'Artificial Intelligence',
-    'Software Engineering',
     'Theory & Algorithms',
-    'Computer Networks',
+    'Software Engineering',
+    'Artificial Intelligence',
+    'Computer Vision',
+    'Science & Engineering',
     'Information Security',
-    'Bioinformatics',
+    'Networks & Systems',
   ];
 
-  static const _staff = [
+  static const _sortOptions = ['Name (A–Z)', 'Name (Z–A)', 'Title', 'Group'];
+
+  static const _academicStaff = [
     _SM(
       'Prof. Brink van der Merwe',
-      'Head of Department',
+      'Professor & Head of Division',
       'Theory & Algorithms',
-      'Formal languages, automata theory, and quantum computing.',
+      'Tree automata and applications, Learning of grammars and languages from data.',
+      'web/assets/staff/academic/abvdm.jpg',
+      'http://www.cs.sun.ac.za/~abvdm/',
     ),
     _SM(
-      'Prof. Johan Fourie',
+      'Prof. Bernd Fischer',
+      'Professor',
+      'Software Engineering',
+      'Program analysis, program generation, program verification, and formal methods.',
+      'web/assets/staff/academic/bfischer.jpg',
+      'http://www.cs.sun.ac.za/~bfischer/',
+    ),
+    _SM(
+      'Prof. Lynette van Zijl',
+      'Professor',
+      'Theory & Algorithms',
+      'Implementation and applications of automata; assistive technologies.',
+      'web/assets/staff/academic/lvzijl.jpg',
+      'http://www.cs.sun.ac.za/~lvzijl/',
+    ),
+    _SM(
+      'Prof. Andries Engelbrecht',
       'Professor',
       'Artificial Intelligence',
-      'Machine learning, NLP for African languages, and LLMs.',
+      'Swarm intelligence, evolutionary computation, and machine learning.',
+      'web/assets/staff/academic/engel.jpg',
+      'https://engel.pages.cs.sun.ac.za/',
     ),
     _SM(
-      'Dr. Anita Kleinschmidt',
+      'Prof. William (Bill) Tucker',
+      'Professor',
+      'Networks & Systems',
+      'Computer networks, human-computer interaction, and ethical computing.',
+      'web/assets/staff/academic/btucker.jpg',
+      'https://researcherprofiles.sun.ac.za/37639-bill-tucker',
+    ),
+    _SM(
+      'Prof. Willem Visser',
+      'Part-time Professor',
+      'Software Engineering',
+      'Software testing, symbolic execution, and model checking.',
+      'web/assets/staff/academic/visserw.jpg',
+      'http://www.cs.sun.ac.za/~wvisser/',
+    ),
+    _SM(
+      'Assoc Prof. Steve Kroon',
       'Associate Professor',
-      'Software Engineering',
-      'Software quality, distributed systems, and DevOps.',
-    ),
-    _SM(
-      'Dr. Ruan de Wet',
-      'Senior Lecturer',
-      'Computer Networks',
-      'Internet architectures, IoT, and network security.',
-    ),
-    _SM(
-      'Dr. Nombuso Khumalo',
-      'Lecturer',
-      'Information Security',
-      'Cryptography, threat modelling, and digital forensics.',
-    ),
-    _SM(
-      'Prof. Herman Kamfer',
-      'Professor',
-      'Bioinformatics',
-      'Genomics algorithms, protein folding, and computational biology.',
-    ),
-    _SM(
-      'Ms. Ane Steenkamp',
-      'Lecturer',
-      'Software Engineering',
-      'Human-computer interaction, accessibility, and UX design.',
-    ),
-    _SM(
-      'Dr. Thabo Mokoena',
-      'Senior Researcher',
       'Artificial Intelligence',
-      'Computer vision, robotics, and reinforcement learning.',
+      'Statistical learning theory, probability and computing, and machine learning.',
+      'web/assets/staff/academic/kroon.jpg',
+      'http://www.cs.sun.ac.za/~kroon/',
+    ),
+    _SM(
+      'Dr. Marcel Dunaiski',
+      'Senior Lecturer',
+      'Science & Engineering',
+      'Data Science, Informetrics, and Scientometrics.',
+      'web/assets/staff/academic/mdunaiski.jpg',
+      'https://marceldunaiski.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Dr. Cornelia Inggs',
+      'Senior Lecturer',
+      'Software Engineering',
+      'Formal methods, model checking, and concurrency.',
+      'web/assets/staff/academic/cinggs.jpg',
+      'http://www.cs.sun.ac.za/~cinggs/',
+    ),
+    _SM(
+      'Dr. Trienko Grobler',
+      'Lecturer',
+      'Science & Engineering',
+      'Machine learning, remote sensing, and coding theory.',
+      'web/assets/staff/academic/tlgrobler.jpg',
+      'http://www.cs.sun.ac.za/~tlgrobler/',
+    ),
+    _SM(
+      'Mr. Willem Bester',
+      'Junior Lecturer',
+      'Software Engineering',
+      'Formal methods, software engineering, and automata theory.',
+      'web/assets/staff/academic/whkbester.jpg',
+      'http://www.cs.sun.ac.za/~whkbester/',
+    ),
+    _SM(
+      'Mr. Mkhuseli Ngxande',
+      'Lecturer',
+      'Computer Vision',
+      'Machine learning, computer vision, and bioinformatics.',
+      'web/assets/staff/academic/ngxandem.jpg',
+      'http://www.cs.sun.ac.za/~ngxandem',
+    ),
+    _SM(
+      'Dr. Gavin Rens',
+      'Lecturer',
+      'Artificial Intelligence',
+      'Cognitive robotics, knowledge representation, and reinforcement learning.',
+      'web/assets/staff/academic/grens.jpg',
+      'https://kognitiv.systems/',
+    ),
+    _SM(
+      'Prof. Fabian Yamaguchi',
+      'Professor Extraordinary',
+      'Information Security',
+      'Computer security, program analysis, and machine learning.',
+      'web/assets/staff/academic/fabian3.jpg',
+      'https://fabs.codeminers.org/',
+    ),
+    _SM(
+      'Assoc Prof. George Azzopardi',
+      'Assoc Prof Extraordinary',
+      'Computer Vision',
+      'Brain-inspired computing, computer vision, and pattern recognition.',
+      'web/assets/staff/academic/gazzopardi.jpg',
+      'https://www.rug.nl/staff/g.azzopardi/?lang=en',
+    ),
+    _SM(
+      'Dr. McElory Hoffmann',
+      'Senior Lect. Extraordinary',
+      'Computer Vision',
+      'Computer vision, machine learning, and smart cameras.',
+      'web/assets/staff/academic/mcelory.jpg',
+      'https://www.linkedin.com/in/mcelory/',
     ),
   ];
 
-  List<_SM> get _filtered => _staff.where((s) {
-    final mg = _group == 'All' || s.group == _group;
-    final mq =
-        _query.isEmpty ||
-        s.name.toLowerCase().contains(_query.toLowerCase()) ||
-        s.research.toLowerCase().contains(_query.toLowerCase());
-    return mg && mq;
-  }).toList();
+  static const _adminStaff = [
+    _SM(
+      'Mr. Emile Dreyer',
+      'Administrative Support',
+      'Administrative Staff',
+      'Office administration and departmental operations support.',
+      'web/assets/staff/admin/placeholder.jpg',
+      'https://cs.sun.ac.za/people/staff/#administrative-staff',
+    ),
+    _SM(
+      'Ms. Gaynor Fortuin',
+      'Administrative Officer',
+      'Administrative Staff',
+      'General administration and departmental coordination.',
+      'web/assets/staff/admin/gfortuin.jpg',
+      'https://cs.sun.ac.za/people/staff/#administrative-staff',
+    ),
+    _SM(
+      'Mr. Derrick Stephanus',
+      'Assistant',
+      'Administrative Staff',
+      'Administrative assistance and office support.',
+      'web/assets/staff/admin/djstep.jpg',
+      'https://cs.sun.ac.za/people/staff/#administrative-staff',
+    ),
+  ];
+
+  List<_SM> _applyFilters(List<_SM> input, {required bool filterByGroup}) {
+    final query = _query.trim().toLowerCase();
+    final filtered = input.where((s) {
+      final mg = !filterByGroup || _group == 'All' || s.group == _group;
+      final mq =
+          query.isEmpty ||
+          s.name.toLowerCase().contains(query) ||
+          s.title.toLowerCase().contains(query) ||
+          s.group.toLowerCase().contains(query) ||
+          s.research.toLowerCase().contains(query);
+      return mg && mq;
+    }).toList();
+
+    filtered.sort((a, b) {
+      switch (_sort) {
+        case 'Name (Z–A)':
+          return b.name.toLowerCase().compareTo(a.name.toLowerCase());
+        case 'Title':
+          return a.title.toLowerCase().compareTo(b.title.toLowerCase());
+        case 'Group':
+          return a.group.toLowerCase().compareTo(b.group.toLowerCase());
+        case 'Name (A–Z)':
+        default:
+          return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      }
+    });
+
+    return filtered;
+  }
+
+  List<_SM> get _filteredAcademic =>
+      _applyFilters(_academicStaff, filterByGroup: true);
+
+  List<_SM> get _filteredAdmin =>
+      _applyFilters(_adminStaff, filterByGroup: false);
 
   @override
   Widget build(BuildContext context) {
@@ -104,48 +243,104 @@ class _StaffPageState extends State<StaffPage> {
               children: [
                 const SectionHeading(
                   label: 'People',
-                  title: 'Academic Staff & Faculty',
+                  title: 'Academic & Administrative Staff',
                   subtitle:
-                      'Meet the researchers, lecturers, and professors who drive excellence in our department.',
+                      'Meet our academic faculty and administrative staff who keep the department thriving.',
                 ),
                 const SizedBox(height: 40),
+                Text(
+                  'Academic Staff',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 20),
                 // Search
-                SizedBox(
-                  width: 440,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search by name or research area…',
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: AppTheme.textMuted,
-                        size: 20,
-                      ),
-                      hintStyle: GoogleFonts.openSans(
-                        color: AppTheme.textMuted,
-                        fontSize: 14,
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 12,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 440,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText:
+                              'Search by name, title, group, or focus area…',
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: AppTheme.textMuted,
+                            size: 20,
+                          ),
+                        ),
+                        onChanged: (v) => setState(() => _query = v),
                       ),
                     ),
-                    onChanged: (v) => setState(() => _query = v),
-                  ),
+                    SizedBox(
+                      width: 230,
+                      child: DropdownButtonFormField<String>(
+                        initialValue: _sort,
+                        style: AppTheme.uiControlText.copyWith(
+                          fontSize: 13.5,
+                          color: AppTheme.textDark,
+                        ),
+                        decoration: const InputDecoration(labelText: 'Sort by'),
+                        items: _sortOptions
+                            .map(
+                              (s) => DropdownMenuItem(
+                                value: s,
+                                child: Text(
+                                  s,
+                                  style: AppTheme.uiControlText.copyWith(
+                                    fontSize: 13.5,
+                                    color: AppTheme.textDark,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (v) {
+                          if (v != null) {
+                            setState(() => _sort = v);
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
-                // Filter chips
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: _groups
-                      .map(
-                        (g) => _FilterChip(
-                          label: g,
-                          selected: _group == g,
-                          onTap: () => setState(() => _group = g),
-                        ),
-                      )
-                      .toList(),
+                // Filter buttons
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppTheme.divider),
+                  ),
+                  child: Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: _groups
+                        .map(
+                          (g) => _GroupFilterButton(
+                            label: g,
+                            selected: _group == g,
+                            onTap: () => setState(() => _group = g),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
                 const SizedBox(height: 48),
-                // Grid
-                _buildGrid(_filtered, cols),
+                // Academic Grid
+                _buildGrid(_filteredAcademic, cols),
+                const SizedBox(height: 56),
+                Text(
+                  'Administrative Staff',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 20),
+                _buildGrid(_filteredAdmin, cols),
               ],
             ),
           ),
@@ -206,42 +401,76 @@ class _StaffPageState extends State<StaffPage> {
 }
 
 class _SM {
-  final String name, title, group, research;
-  const _SM(this.name, this.title, this.group, this.research);
+  final String name, title, group, research, photoUrl, websiteUrl;
+  const _SM(
+    this.name,
+    this.title,
+    this.group,
+    this.research,
+    this.photoUrl,
+    this.websiteUrl,
+  );
 }
 
-class _FilterChip extends StatelessWidget {
+class _GroupFilterButton extends StatefulWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-  const _FilterChip({
+
+  const _GroupFilterButton({
     required this.label,
     required this.selected,
     required this.onTap,
   });
+
+  @override
+  State<_GroupFilterButton> createState() => _GroupFilterButtonState();
+}
+
+class _GroupFilterButtonState extends State<_GroupFilterButton> {
+  bool _hovered = false;
+
   @override
   Widget build(BuildContext context) {
+    final selected = widget.selected;
+
     return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: onTap,
+        onTap: widget.onTap,
         child: SelectionContainer.disabled(
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            duration: const Duration(milliseconds: 160),
+            curve: Curves.easeOut,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
             decoration: BoxDecoration(
-              color: selected ? AppTheme.maroon : Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              color: selected
+                  ? AppTheme.maroon
+                  : (_hovered ? AppTheme.background : Colors.white),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: selected ? AppTheme.maroon : AppTheme.divider,
+                color: selected
+                    ? AppTheme.maroon
+                    : (_hovered ? AppTheme.maroonLight : AppTheme.divider),
               ),
+              boxShadow: selected
+                  ? [
+                      BoxShadow(
+                        color: AppTheme.maroon.withValues(alpha: 0.18),
+                        blurRadius: 14,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : const [],
             ),
             child: Text(
-              label,
-              style: GoogleFonts.openSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
+              widget.label,
+              style: AppTheme.uiControlText.copyWith(
+                fontSize: 12.5,
                 color: selected ? Colors.white : AppTheme.textDark,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
               ),
             ),
           ),
@@ -257,13 +486,29 @@ class _StaffCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
-      onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Profile for ${member.name} — coming soon'),
-            duration: const Duration(seconds: 2),
-          ),
-        );
+      onTap: () async {
+        if (member.websiteUrl.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'No public profile link available for ${member.name} yet.',
+              ),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+          return;
+        }
+
+        final uri = Uri.parse(member.websiteUrl);
+        final opened = await launchUrl(uri, mode: LaunchMode.platformDefault);
+        if (!opened && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Could not open profile for ${member.name}.'),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,10 +524,9 @@ class _StaffCard extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
             ),
             child: Center(
-              child: CircleAvatar(
-                radius: 28,
-                backgroundColor: Colors.white12,
-                child: const Icon(Icons.person, color: Colors.white, size: 32),
+              child: _ProfileAvatar(
+                imagePath: member.photoUrl,
+                semanticLabel: member.name,
               ),
             ),
           ),
@@ -352,6 +596,84 @@ class _StaffCard extends StatelessWidget {
   }
 }
 
+class _ProfileAvatar extends StatefulWidget {
+  final String imagePath;
+  final String semanticLabel;
+
+  const _ProfileAvatar({required this.imagePath, required this.semanticLabel});
+
+  @override
+  State<_ProfileAvatar> createState() => _ProfileAvatarState();
+}
+
+class _ProfileAvatarState extends State<_ProfileAvatar>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 56,
+      height: 56,
+      child: ClipOval(
+        child: Image.asset(
+          widget.imagePath,
+          width: 56,
+          height: 56,
+          fit: BoxFit.cover,
+          semanticLabel: widget.semanticLabel,
+          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+            if (wasSynchronouslyLoaded || frame != null) {
+              return child;
+            }
+
+            return AnimatedBuilder(
+              animation: _controller,
+              builder: (context, _) {
+                final t = _controller.value;
+                return DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(-1.0 + (2.0 * t), -0.3),
+                      end: Alignment(-0.2 + (2.0 * t), 0.3),
+                      colors: const [
+                        Color(0x33FFFFFF),
+                        Color(0x66FFFFFF),
+                        Color(0x33FFFFFF),
+                      ],
+                    ),
+                  ),
+                  child: Container(color: Colors.white12),
+                );
+              },
+            );
+          },
+          errorBuilder: (context, error, stackTrace) => Container(
+            color: Colors.white12,
+            alignment: Alignment.center,
+            child: const Icon(Icons.person, color: Colors.white, size: 32),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _Chip extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -371,7 +693,7 @@ class _Chip extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             label,
-            style: GoogleFonts.openSans(
+            style: AppTheme.uiControlText.copyWith(
               fontSize: 11,
               fontWeight: FontWeight.w500,
               color: AppTheme.textMuted,

@@ -2,11 +2,17 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
 import '../ui/widgets/animated_section.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
+import '../ui/widgets/hero_background.dart';
+import '../ui/layout/app_shell.dart';
+
+// key used for scrolling to section below hero/stats
+final GlobalKey _aboutKey = GlobalKey();
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,8 +23,8 @@ class HomePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _HeroSection(),
-        const _StatsSection(),
-        const _AboutSection(),
+        _StatsSection(),
+        _AboutSection(key: _aboutKey),
         const _QuickLinksSection(),
         const _NewsPreviewSection(),
       ],
@@ -45,6 +51,34 @@ class _HeroSection extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: ScrollProvider.of(context),
+              builder: (context, child) {
+                final controller = ScrollProvider.of(context);
+                final offset = controller.hasClients ? controller.offset : 0.0;
+                return Transform.translate(
+                  offset: Offset(0, -offset * 0.08),
+                  child: child,
+                );
+              },
+              child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white.withValues(alpha: 0.88),
+                    Colors.white.withValues(alpha: 0.94),
+                  ],
+                ),
+              ),
+            ),
+          ),
           // Text content and 3D Model
           Center(
             child: ConstrainedBox(
@@ -178,20 +212,48 @@ class _HeroSection extends StatelessWidget {
             right: 0,
             child: Column(
               children: [
-                Text(
-                  'scroll to explore',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.openSans(
-                    color: AppTheme.textMuted,
-                    fontSize: 11,
-                    letterSpacing: 1.5,
+                GestureDetector(
+                  onTap: () {
+                    // scroll passed stats to the about section
+                    final contextToScroll = _aboutKey.currentContext;
+                    if (contextToScroll != null) {
+                      Scrollable.ensureVisible(
+                        contextToScroll,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                        alignment: 0.0,
+                      );
+                    } else {
+                      // fallback to original hero offset
+                      final controller = ScrollProvider.of(context);
+                      final double offset = isDesktop ? (680 + 72) : (520 + 72);
+                      controller.animateTo(
+                        offset,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Text(
+                        'scroll to explore',
+                        textAlign: TextAlign.center,
+                        style: AppTheme.uiControlText.copyWith(
+                          color: AppTheme.textMuted,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Icon(
+                        Icons.keyboard_arrow_down,
+                        color: AppTheme.textMuted,
+                        size: 24,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 8),
-                const Icon(
-                  Icons.keyboard_arrow_down,
-                  color: AppTheme.textMuted,
-                  size: 24,
                 ),
               ],
             ),
@@ -291,7 +353,7 @@ class _StatItem extends StatelessWidget {
 // About / Overview
 // ---------------------------------------------------------------------------
 class _AboutSection extends StatelessWidget {
-  const _AboutSection();
+  const _AboutSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -363,8 +425,10 @@ class _AboutText extends StatelessWidget {
         const SizedBox(height: 32),
         SelectionContainer.disabled(
           child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Read our Annual Report'),
+            onPressed: () => launchUrl(
+              Uri.parse('https://www.sun.ac.za/english/maties/apply'),
+            ),
+            child: const Text('Admissions Information'),
           ),
         ),
       ],

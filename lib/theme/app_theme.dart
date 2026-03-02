@@ -14,6 +14,12 @@ class AppTheme {
   static const Color textMuted = Color(0xFF6B6B6B);
   static const Color divider = Color(0xFFE5E0D8);
   static const Color darkBg = Color(0xFF0E0608);
+  static const TextStyle uiControlText = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    fontFamily: 'sans-serif',
+    letterSpacing: 0.2,
+  );
 
   static ThemeData get lightTheme {
     final base = GoogleFonts.playfairDisplayTextTheme();
@@ -94,10 +100,12 @@ class AppTheme {
           color: textMuted,
           height: 1.6,
         ),
-        labelLarge: GoogleFonts.openSans(
+        labelLarge: const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
+          letterSpacing: 0.2,
+          fontFamily: 'sans-serif',
+          color: textDark,
         ),
       ),
       appBarTheme: const AppBarTheme(
@@ -120,10 +128,7 @@ class AppTheme {
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: GoogleFonts.openSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: uiControlText,
           elevation: 0,
         ),
       ),
@@ -133,15 +138,24 @@ class AppTheme {
           side: const BorderSide(color: maroon, width: 1.5),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: GoogleFonts.openSans(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          textStyle: uiControlText,
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
+        labelStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'sans-serif',
+          color: textMuted,
+        ),
+        hintStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'sans-serif',
+          color: textMuted,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: divider),
@@ -162,9 +176,10 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: background,
         selectedColor: maroon,
-        labelStyle: GoogleFonts.openSans(
+        labelStyle: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w500,
+          fontFamily: 'sans-serif',
         ),
         side: const BorderSide(color: divider),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

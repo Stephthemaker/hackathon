@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme/app_theme.dart';
@@ -171,66 +170,65 @@ class _NavBar extends StatelessWidget {
         left: currentMargin,
         right: currentMargin,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
-        child: TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 450),
-          curve: Curves.fastLinearToSlowEaseIn,
-          tween: Tween<double>(begin: 0.001, end: scrolled ? 24.0 : 0.001),
-          builder: (context, sigma, child) {
-            return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-              child: child,
-            );
-          },
-          child: AnimatedBuilder(
-            animation: scrollController,
-            builder: (context, child) {
-              // Smart transparency mapping depending on the active page:
-              // If on the home page ('/'), we once used a hero-visible resting state,
-              // but now we match the stationary style of all other pages (white-tinted/maroon).
-              double factor = 1.0;
-
-              final double baseAlpha = 0.15 + (factor * 0.8);
-              final double dynamicAlpha = baseAlpha;
-              return Container(
-                decoration: BoxDecoration(
-                  color: AppTheme.maroon.withValues(alpha: dynamicAlpha),
-                  border: scrolled
-                      ? Border.all(
-                          color: Colors.white.withValues(alpha: 0.15),
-                          width: 1,
-                        )
-                      : Border.all(color: Colors.transparent, width: 0),
-                ),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 450),
-                  curve: Curves.fastLinearToSlowEaseIn,
-                  padding: EdgeInsets.symmetric(horizontal: currentPadding),
-                  child: child,
-                ),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.fastLinearToSlowEaseIn,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
+          border: Border.all(
+            color: scrolled
+                ? Colors.white.withValues(alpha: 0.16)
+                : Colors.transparent,
+            width: 1,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 450),
+            curve: Curves.fastLinearToSlowEaseIn,
+            tween: Tween<double>(begin: 0.001, end: scrolled ? 24.0 : 0.001),
+            builder: (context, sigma, child) {
+              return BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+                child: child,
               );
             },
-            child: Row(
-              children: [
-                // Logo
-                _NavLogo(),
-                const Spacer(),
-                if (isDesktop)
-                  ...navItems.map(
-                    (item) => _NavButtonDesktop(
-                      item: item,
-                      isActive: currentPath == item.route,
-                    ),
-                  )
-                else
-                  Builder(
-                    builder: (ctx) => IconButton(
-                      icon: const Icon(Icons.menu, color: Colors.white),
-                      onPressed: () => Scaffold.of(ctx).openDrawer(),
-                    ),
+            child: AnimatedBuilder(
+              animation: scrollController,
+              builder: (context, child) {
+                final double dynamicAlpha = 0.95;
+                return Container(
+                  color: AppTheme.maroon.withValues(alpha: dynamicAlpha),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 450),
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    padding: EdgeInsets.symmetric(horizontal: currentPadding),
+                    child: child,
                   ),
-              ],
+                );
+              },
+              child: Row(
+                children: [
+                  // Logo
+                  _NavLogo(),
+                  const Spacer(),
+                  if (isDesktop)
+                    ...navItems.map(
+                      (item) => _NavButtonDesktop(
+                        item: item,
+                        isActive: currentPath == item.route,
+                      ),
+                    )
+                  else
+                    Builder(
+                      builder: (ctx) => IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.white),
+                        onPressed: () => Scaffold.of(ctx).openDrawer(),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
         ),
@@ -264,7 +262,7 @@ class _NavLogoState extends State<_NavLogo> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: SvgPicture.asset(
-                  'web/assets/favicon.svg',
+                  'assets/general/logo.svg',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -275,7 +273,7 @@ class _NavLogoState extends State<_NavLogo> {
                 children: [
                   Text(
                     'Computer Science',
-                    style: GoogleFonts.openSans(
+                    style: AppTheme.uiControlText.copyWith(
                       color: Colors.white,
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -284,9 +282,10 @@ class _NavLogoState extends State<_NavLogo> {
                   ),
                   Text(
                     'Stellenbosch University',
-                    style: GoogleFonts.openSans(
+                    style: AppTheme.uiControlText.copyWith(
                       color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 11,
+                      fontWeight: FontWeight.w500,
                       letterSpacing: 0.2,
                     ),
                   ),
@@ -328,7 +327,7 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
               children: [
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 150),
-                  style: GoogleFonts.openSans(
+                  style: AppTheme.uiControlText.copyWith(
                     fontSize: 13.5,
                     fontWeight: widget.isActive
                         ? FontWeight.w700
@@ -397,7 +396,7 @@ class _MobileDrawer extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   'Computer Science',
-                  style: GoogleFonts.openSans(
+                  style: AppTheme.uiControlText.copyWith(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -405,9 +404,10 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 Text(
                   'Stellenbosch University',
-                  style: GoogleFonts.openSans(
+                  style: AppTheme.uiControlText.copyWith(
                     color: Colors.white.withValues(alpha: 0.6),
                     fontSize: 13,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -436,7 +436,7 @@ class _MobileDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   item.title,
-                  style: GoogleFonts.openSans(
+                  style: AppTheme.uiControlText.copyWith(
                     color: isActive
                         ? Colors.white
                         : Colors.white.withValues(alpha: 0.7),
@@ -456,9 +456,10 @@ class _MobileDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Text(
               '+27 21 808 4232\ncs@sun.ac.za',
-              style: GoogleFonts.openSans(
+              style: AppTheme.uiControlText.copyWith(
                 color: Colors.white.withValues(alpha: 0.35),
                 fontSize: 13,
+                fontWeight: FontWeight.w500,
                 height: 1.7,
               ),
             ),

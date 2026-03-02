@@ -27,3 +27,5 @@ flutter:
   uses-material-design: true
   assets:
     - web/assets/
+    - web/assets/staff/academic/
+    - web/assets/staff/admin/

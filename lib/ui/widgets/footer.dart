@@ -107,7 +107,7 @@ class _FooterBrand extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: SvgPicture.asset(
-                  'web/assets/favicon.svg',
+                  'assets/general/logo.svg',
                   fit: BoxFit.contain,
                 ),
               ),
@@ -117,7 +117,7 @@ class _FooterBrand extends StatelessWidget {
                 children: [
                   Text(
                     'Computer Science',
-                    style: GoogleFonts.openSans(
+                    style: AppTheme.uiControlText.copyWith(
                       color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
@@ -125,9 +125,10 @@ class _FooterBrand extends StatelessWidget {
                   ),
                   Text(
                     'Stellenbosch University',
-                    style: GoogleFonts.openSans(
+                    style: AppTheme.uiControlText.copyWith(
                       color: Colors.white.withValues(alpha: 0.5),
                       fontSize: 12,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
@@ -146,9 +147,17 @@ class _FooterBrand extends StatelessWidget {
           const SizedBox(height: 20),
           Row(
             children: [
-              _SocialIcon(Icons.language, 'cs.sun.ac.za'),
+              _SocialIcon(
+                Icons.language,
+                'cs.sun.ac.za',
+                'https://www.su.ac.za/en',
+              ),
               const SizedBox(width: 8),
-              _SocialIcon(Icons.alternate_email, '@SUCompSci'),
+              _SocialIcon(
+                Icons.alternate_email,
+                '@stellenboschuni',
+                'https://www.instagram.com/stellenboschuni?igsh=MW5ianRzcXBpNTNlcg==',
+              ),
             ],
           ),
         ],
@@ -160,7 +169,8 @@ class _FooterBrand extends StatelessWidget {
 class _SocialIcon extends StatefulWidget {
   final IconData icon;
   final String tooltip;
-  const _SocialIcon(this.icon, this.tooltip);
+  final String url;
+  const _SocialIcon(this.icon, this.tooltip, this.url);
 
   @override
   State<_SocialIcon> createState() => _SocialIconState();
@@ -176,21 +186,29 @@ class _SocialIconState extends State<_SocialIcon> {
       onExit: (_) => setState(() => _hovered = false),
       child: Tooltip(
         message: widget.tooltip,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: _hovered
-                ? AppTheme.gold.withValues(alpha: 0.2)
-                : Colors.white.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Icon(
-            widget.icon,
-            color: _hovered
-                ? AppTheme.gold
-                : Colors.white.withValues(alpha: 0.5),
-            size: 18,
+        child: GestureDetector(
+          onTap: () {
+            launchUrl(
+              Uri.parse(widget.url),
+              mode: LaunchMode.externalApplication,
+            );
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: _hovered
+                  ? AppTheme.gold.withValues(alpha: 0.2)
+                  : Colors.white.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Icon(
+              widget.icon,
+              color: _hovered
+                  ? AppTheme.gold
+                  : Colors.white.withValues(alpha: 0.5),
+              size: 18,
+            ),
           ),
         ),
       ),
@@ -211,7 +229,7 @@ class _FooterLinks extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.openSans(
+          style: AppTheme.uiControlText.copyWith(
             color: Colors.white,
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -274,11 +292,12 @@ class _FooterLinkItemState extends State<_FooterLinkItem> {
             padding: const EdgeInsets.only(bottom: 10),
             child: AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 150),
-              style: GoogleFonts.openSans(
+              style: AppTheme.uiControlText.copyWith(
                 fontSize: 13,
                 color: _hovered
                     ? AppTheme.gold
                     : Colors.white.withValues(alpha: 0.5),
+                fontWeight: FontWeight.w500,
                 height: 1.5,
               ),
               child: Text(widget.label),
