@@ -184,52 +184,39 @@ class _NavBar extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
-          child: TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 450),
-            curve: Curves.fastLinearToSlowEaseIn,
-            tween: Tween<double>(begin: 0.001, end: scrolled ? 24.0 : 0.001),
-            builder: (context, sigma, child) {
-              return BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-                child: child,
+          child: AnimatedBuilder(
+            animation: scrollController,
+            builder: (context, child) {
+              return Container(
+                color: AppTheme.maroon,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 450),
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  padding: EdgeInsets.symmetric(horizontal: currentPadding),
+                  child: child,
+                ),
               );
             },
-            child: AnimatedBuilder(
-              animation: scrollController,
-              builder: (context, child) {
-                return Container(
-                  color: scrolled
-                      ? AppTheme.maroon.withValues(alpha: 0.65)
-                      : AppTheme.maroon,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 450),
-                    curve: Curves.fastLinearToSlowEaseIn,
-                    padding: EdgeInsets.symmetric(horizontal: currentPadding),
-                    child: child,
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  // Logo
-                  _NavLogo(),
-                  const Spacer(),
-                  if (isDesktop)
-                    ...navItems.map(
-                      (item) => _NavButtonDesktop(
-                        item: item,
-                        isActive: currentPath == item.route,
-                      ),
-                    )
-                  else
-                    Builder(
-                      builder: (ctx) => IconButton(
-                        icon: const Icon(Icons.menu, color: Colors.white),
-                        onPressed: () => Scaffold.of(ctx).openDrawer(),
-                      ),
+            child: Row(
+              children: [
+                // Logo
+                _NavLogo(),
+                const Spacer(),
+                if (isDesktop)
+                  ...navItems.map(
+                    (item) => _NavButtonDesktop(
+                      item: item,
+                      isActive: currentPath == item.route,
                     ),
-                ],
-              ),
+                  )
+                else
+                  Builder(
+                    builder: (ctx) => IconButton(
+                      icon: const Icon(Icons.menu, color: Colors.white),
+                      onPressed: () => Scaffold.of(ctx).openDrawer(),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

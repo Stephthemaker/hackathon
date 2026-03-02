@@ -43,7 +43,7 @@ class _ResearchPageState extends State<ResearchPage>
                   label: 'Research',
                   title: 'Advancing the Field',
                   subtitle:
-                      'Our researchers publish, collaborate, and innovate across six active research groups.',
+                      'Our researchers publish, collaborate, and innovate across four primary research groups and centres.',
                 ),
                 const SizedBox(height: 40),
                 _ResearchTabBar(
@@ -121,40 +121,48 @@ class _ResearchTabBar extends StatelessWidget {
 class _GroupsTab extends StatelessWidget {
   static const _groups = [
     _RG(
-      'Artificial Intelligence',
-      Icons.psychology,
-      ['Machine Learning', 'NLP', 'Computer Vision', 'LLMs'],
-      'Research into intelligent systems, neural architectures, and autonomous reasoning for real-world applications.',
-    ),
-    _RG(
-      'Software Engineering',
-      Icons.developer_mode,
-      ['DevOps', 'Testing', 'Distributed Systems', 'HCI'],
-      'Improving how software is designed, built, deployed, and maintained at scale.',
-    ),
-    _RG(
-      'Theory & Algorithms',
+      'Theory and Applications of Automata',
       Icons.functions,
-      ['Automata', 'Quantum', 'Complexity', 'Graph Theory'],
-      'Foundational mathematical research underpinning all of computer science.',
+      [
+        'Descriptional Complexity',
+        'Cellular Automata',
+        'Probabilistic Automata',
+        'Grammar Theory',
+      ],
+      'Focusing on the theory of nondeterministic finite automata and extending automata and grammar theories for novel practical applications.',
     ),
     _RG(
-      'Computer Networks',
+      'Software Engineering & Verification',
+      Icons.developer_mode,
+      [
+        'System Verification',
+        'Kernel Development',
+        'Defensive Programming',
+        'COASTAL Tool',
+      ],
+      'Investigating the development of highly reliable system software by combining computer-aided verification of designs and systematic testing.',
+    ),
+    _RG(
+      'Machine Learning & Artificial Intelligence',
+      Icons.psychology,
+      [
+        'Uncertainty Management',
+        'Game Theory',
+        'Big Data Analysis',
+        'Search Algorithms',
+      ],
+      'Studying general decision-making problems, handling sequential decisions under uncertainty, and the intersection of machine learning with big data.',
+    ),
+    _RG(
+      'Broadband Networks & Telecommunications',
       Icons.lan,
-      ['IoT', 'Protocols', 'SDN', 'Network Security'],
-      'IP architectures, wireless systems, and the future of connected infrastructure.',
-    ),
-    _RG(
-      'Information Security',
-      Icons.security,
-      ['Cryptography', 'Forensics', 'Privacy', 'Threat Modelling'],
-      'Protecting data, systems, and people from evolving cyber threats.',
-    ),
-    _RG(
-      'Bioinformatics',
-      Icons.biotech,
-      ['Genomics', 'Protein Folding', 'Drug Discovery', 'Phylogenetics'],
-      'Computational approaches to solve complex biological and medical challenges.',
+      [
+        'ATM Networks',
+        'Broadband Tech',
+        'Protocol Applications',
+        'Professional Training',
+      ],
+      'The Telkom-Siemens Centre of Excellence promoting research, development, and advanced academic training in broadband technologies.',
     ),
   ];
 
