@@ -36,7 +36,8 @@ class _StaffPageState extends State<StaffPage> {
       'Theory & Algorithms',
       'Tree automata and applications, Learning of grammars and languages from data.',
       'web/assets/staff/academic/abvdm.jpg',
-      'http://www.cs.sun.ac.za/~abvdm/',
+      'https://abvdm.pages.cs.sun.ac.za/',
+      email: 'abvdm@cs.sun.ac.za',
     ),
     _SM(
       'Prof. Bernd Fischer',
@@ -44,7 +45,8 @@ class _StaffPageState extends State<StaffPage> {
       'Software Engineering',
       'Program analysis, program generation, program verification, and formal methods.',
       'web/assets/staff/academic/bfischer.jpg',
-      'http://www.cs.sun.ac.za/~bfischer/',
+      'https://bfischer.pages.cs.sun.ac.za/',
+      email: 'bfischer@cs.sun.ac.za',
     ),
     _SM(
       'Prof. Lynette van Zijl',
@@ -52,7 +54,8 @@ class _StaffPageState extends State<StaffPage> {
       'Theory & Algorithms',
       'Implementation and applications of automata; assistive technologies.',
       'web/assets/staff/academic/lvzijl.jpg',
-      'http://www.cs.sun.ac.za/~lvzijl/',
+      'https://lvzijl.cs.sun.ac.za/',
+      email: 'lvzijl@cs.sun.ac.za',
     ),
     _SM(
       'Prof. Andries Engelbrecht',
@@ -61,6 +64,7 @@ class _StaffPageState extends State<StaffPage> {
       'Swarm intelligence, evolutionary computation, and machine learning.',
       'web/assets/staff/academic/engel.jpg',
       'https://engel.pages.cs.sun.ac.za/',
+      email: 'engel@sun.ac.za',
     ),
     _SM(
       'Prof. William (Bill) Tucker',
@@ -69,6 +73,7 @@ class _StaffPageState extends State<StaffPage> {
       'Computer networks, human-computer interaction, and ethical computing.',
       'web/assets/staff/academic/btucker.jpg',
       'https://researcherprofiles.sun.ac.za/37639-bill-tucker',
+      email: 'btucker@sun.ac.za',
     ),
     _SM(
       'Prof. Willem Visser',
@@ -77,6 +82,7 @@ class _StaffPageState extends State<StaffPage> {
       'Software testing, symbolic execution, and model checking.',
       'web/assets/staff/academic/visserw.jpg',
       'http://www.cs.sun.ac.za/~wvisser/',
+      email: 'visserw@sun.ac.za',
     ),
     _SM(
       'Assoc Prof. Steve Kroon',
@@ -84,7 +90,8 @@ class _StaffPageState extends State<StaffPage> {
       'Artificial Intelligence',
       'Statistical learning theory, probability and computing, and machine learning.',
       'web/assets/staff/academic/kroon.jpg',
-      'http://www.cs.sun.ac.za/~kroon/',
+      'https://kroon.cs.sun.ac.za/',
+      email: 'kroon@sun.ac.za',
     ),
     _SM(
       'Dr. Marcel Dunaiski',
@@ -93,6 +100,7 @@ class _StaffPageState extends State<StaffPage> {
       'Data Science, Informetrics, and Scientometrics.',
       'web/assets/staff/academic/mdunaiski.jpg',
       'https://marceldunaiski.pages.cs.sun.ac.za/',
+      email: 'marceldunaiski@sun.ac.za',
     ),
     _SM(
       'Dr. Cornelia Inggs',
@@ -100,7 +108,8 @@ class _StaffPageState extends State<StaffPage> {
       'Software Engineering',
       'Formal methods, model checking, and concurrency.',
       'web/assets/staff/academic/cinggs.jpg',
-      'http://www.cs.sun.ac.za/~cinggs/',
+      'https://cinggs.pages.cs.sun.ac.za/',
+      email: 'cinggs@cs.sun.ac.za',
     ),
     _SM(
       'Dr. Trienko Grobler',
@@ -108,7 +117,8 @@ class _StaffPageState extends State<StaffPage> {
       'Science & Engineering',
       'Machine learning, remote sensing, and coding theory.',
       'web/assets/staff/academic/tlgrobler.jpg',
-      'http://www.cs.sun.ac.za/~tlgrobler/',
+      'https://tlgrobler.pages.cs.sun.ac.za/',
+      email: 'tlgrobler@sun.ac.za',
     ),
     _SM(
       'Mr. Willem Bester',
@@ -117,6 +127,7 @@ class _StaffPageState extends State<StaffPage> {
       'Formal methods, software engineering, and automata theory.',
       'web/assets/staff/academic/whkbester.jpg',
       'http://www.cs.sun.ac.za/~whkbester/',
+      email: 'whkbester@cs.sun.ac.za',
     ),
     _SM(
       'Mr. Mkhuseli Ngxande',
@@ -125,6 +136,7 @@ class _StaffPageState extends State<StaffPage> {
       'Machine learning, computer vision, and bioinformatics.',
       'web/assets/staff/academic/ngxandem.jpg',
       'http://www.cs.sun.ac.za/~ngxandem',
+      email: 'ngxandem@sun.ac.za',
     ),
     _SM(
       'Dr. Gavin Rens',
@@ -133,6 +145,7 @@ class _StaffPageState extends State<StaffPage> {
       'Cognitive robotics, knowledge representation, and reinforcement learning.',
       'web/assets/staff/academic/grens.jpg',
       'https://kognitiv.systems/',
+      email: 'gavinrens@sun.ac.za',
     ),
     _SM(
       'Prof. Fabian Yamaguchi',
@@ -141,6 +154,7 @@ class _StaffPageState extends State<StaffPage> {
       'Computer security, program analysis, and machine learning.',
       'web/assets/staff/academic/fabian3.jpg',
       'https://fabs.codeminers.org/',
+      email: 'fabs@shiftleft.io',
     ),
     _SM(
       'Assoc Prof. George Azzopardi',
@@ -157,6 +171,7 @@ class _StaffPageState extends State<StaffPage> {
       'Computer vision, machine learning, and smart cameras.',
       'web/assets/staff/academic/mcelory.jpg',
       'https://www.linkedin.com/in/mcelory/',
+      email: 'mcelory@praelexis.co.za',
     ),
   ];
 
@@ -168,6 +183,7 @@ class _StaffPageState extends State<StaffPage> {
       'Office administration and departmental operations support.',
       'web/assets/staff/admin/placeholder.jpg',
       'https://cs.sun.ac.za/people/staff/#administrative-staff',
+      email: 'edreyer@sun.ac.za',
     ),
     _SM(
       'Ms. Gaynor Fortuin',
@@ -176,6 +192,7 @@ class _StaffPageState extends State<StaffPage> {
       'General administration and departmental coordination.',
       'web/assets/staff/admin/gfortuin.jpg',
       'https://cs.sun.ac.za/people/staff/#administrative-staff',
+      email: 'gfortuin@sun.ac.za',
     ),
     _SM(
       'Mr. Derrick Stephanus',
@@ -184,6 +201,7 @@ class _StaffPageState extends State<StaffPage> {
       'Administrative assistance and office support.',
       'web/assets/staff/admin/djstep.jpg',
       'https://cs.sun.ac.za/people/staff/#administrative-staff',
+      email: 'djstep@sun.ac.za',
     ),
   ];
 
@@ -432,15 +450,16 @@ class _StaffPageState extends State<StaffPage> {
 }
 
 class _SM {
-  final String name, title, group, research, photoUrl, websiteUrl;
+  final String name, title, group, research, photoUrl, websiteUrl, email;
   const _SM(
     this.name,
     this.title,
     this.group,
     this.research,
     this.photoUrl,
-    this.websiteUrl,
-  );
+    this.websiteUrl, {
+    this.email = '',
+  });
 }
 
 class _GroupFilterButton extends StatefulWidget {
@@ -613,8 +632,19 @@ class _StaffCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 Row(
                   children: [
-                    _Chip(Icons.email, 'Email'),
-                    const SizedBox(width: 8),
+                    if (member.email.isNotEmpty) ...[
+                      _Chip(
+                        Icons.email,
+                        'Email',
+                        onTap: () async {
+                          final uri = Uri.parse('mailto:${member.email}');
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri);
+                          }
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                    ],
                     _Chip(Icons.article, 'Publications'),
                   ],
                 ),
@@ -708,29 +738,41 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
 class _Chip extends StatelessWidget {
   final IconData icon;
   final String label;
-  const _Chip(this.icon, this.label);
+  final VoidCallback? onTap;
+  const _Chip(this.icon, this.label, {this.onTap});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppTheme.divider),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 11, color: AppTheme.textMuted),
-          const SizedBox(width: 5),
-          Text(
-            label,
-            style: AppTheme.uiControlText.copyWith(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: AppTheme.textMuted,
+    return SelectionContainer.disabled(
+      child: MouseRegion(
+        cursor: onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+            decoration: BoxDecoration(
+              color: onTap != null ? Colors.white : Colors.transparent,
+              border: Border.all(color: AppTheme.divider),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 11, color: AppTheme.textMuted),
+                const SizedBox(width: 5),
+                Text(
+                  label,
+                  style: AppTheme.uiControlText.copyWith(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textMuted,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

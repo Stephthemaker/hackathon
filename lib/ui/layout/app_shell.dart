@@ -197,9 +197,10 @@ class _NavBar extends StatelessWidget {
             child: AnimatedBuilder(
               animation: scrollController,
               builder: (context, child) {
-                final double dynamicAlpha = 0.95;
                 return Container(
-                  color: AppTheme.maroon.withValues(alpha: dynamicAlpha),
+                  color: scrolled
+                      ? AppTheme.maroon.withValues(alpha: 0.65)
+                      : AppTheme.maroon,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 450),
                     curve: Curves.fastLinearToSlowEaseIn,
