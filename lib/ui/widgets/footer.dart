@@ -11,7 +11,7 @@ class SiteFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.darkBg,
+      color: AppTheme.maroonDark,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),

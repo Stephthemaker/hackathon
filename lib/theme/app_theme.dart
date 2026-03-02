@@ -22,7 +22,7 @@ class AppTheme {
   );
 
   static ThemeData get lightTheme {
-    final base = GoogleFonts.playfairDisplayTextTheme();
+    final base = GoogleFonts.openSansTextTheme();
     return ThemeData(
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
@@ -55,7 +55,7 @@ class AppTheme {
           height: 1.15,
           letterSpacing: -0.5,
         ),
-        displaySmall: GoogleFonts.playfairDisplay(
+        displaySmall: GoogleFonts.openSans(
           fontSize: 36,
           fontWeight: FontWeight.w600,
           color: textDark,
@@ -73,7 +73,7 @@ class AppTheme {
           color: textDark,
           height: 1.3,
         ),
-        headlineSmall: GoogleFonts.playfairDisplay(
+        headlineSmall: GoogleFonts.openSans(
           fontSize: 22,
           fontWeight: FontWeight.w600,
           color: textDark,
