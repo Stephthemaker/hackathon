@@ -175,12 +175,7 @@ class _NavBar extends StatelessWidget {
         curve: Curves.fastLinearToSlowEaseIn,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
-          border: Border.all(
-            color: scrolled
-                ? Colors.white.withValues(alpha: 0.16)
-                : Colors.transparent,
-            width: 1,
-          ),
+          // no border to avoid bezel effect
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(scrolled ? 16 : 0),
