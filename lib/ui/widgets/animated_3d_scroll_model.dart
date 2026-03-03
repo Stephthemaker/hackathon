@@ -333,8 +333,8 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
               ..rotateY(offset * 0.002)
               ..rotateX(-0.1 + math.sin(offset * 0.003) * 0.1),
             child: Container(
-              width: widget.size * 0.6,
-              height: widget.size * 0.6,
+              width: widget.size * 0.35,
+              height: widget.size * 0.35,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white, // Tech light mode aesthetic
@@ -367,12 +367,14 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
                       ),
                     ),
                   ),
-                  // Render the actual Stellenbosch Favicon
+                  // Render the SU logo
                   Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: SvgPicture.asset(
-                      'assets/general/favicon.svg',
-                      fit: BoxFit.contain,
+                    padding: const EdgeInsets.all(12.0),
+                    child: Center(
+                      child: SvgPicture.asset(
+                        'web/assets/general/logo.svg',
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ],

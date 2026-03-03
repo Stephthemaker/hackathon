@@ -147,11 +147,12 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.toUpperCase(),
-      style: GoogleFonts.openSans(
+      style: const TextStyle(
         fontSize: 11,
         fontWeight: FontWeight.w700,
         letterSpacing: 1.8,
         color: AppTheme.gold,
+        fontFamily: 'sans-serif',
       ),
     );
   }
@@ -223,12 +224,13 @@ class _LanguageTileState extends State<_LanguageTile> {
                     children: [
                       Text(
                         widget.locale.label,
-                        style: GoogleFonts.openSans(
+                        style: TextStyle(
                           fontSize: 14,
                           fontWeight: widget.isSelected
                               ? FontWeight.w700
                               : FontWeight.w500,
                           color: widget.fg,
+                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ],
@@ -272,10 +274,11 @@ class _ToggleTile extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.openSans(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: fg,
+              fontFamily: 'sans-serif',
             ),
           ),
         ),
@@ -398,21 +401,23 @@ class _FontSizeButtonState extends State<_FontSizeButton> {
             children: [
               Text(
                 widget.letter,
-                style: GoogleFonts.openSans(
+                style: TextStyle(
                   fontSize: widget.fontSize,
                   fontWeight: widget.selected
                       ? FontWeight.w700
                       : FontWeight.w500,
                   color: widget.selected ? AppTheme.maroon : widget.fg,
+                  fontFamily: 'sans-serif',
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 widget.label,
-                style: GoogleFonts.openSans(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: widget.selected ? AppTheme.maroon : AppTheme.textMuted,
+                  fontFamily: 'sans-serif',
                 ),
               ),
             ],

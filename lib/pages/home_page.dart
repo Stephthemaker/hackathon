@@ -36,8 +36,31 @@ class HomePage extends StatelessWidget {
 // ---------------------------------------------------------------------------
 // Hero
 // ---------------------------------------------------------------------------
-class _HeroSection extends StatelessWidget {
+class _HeroSection extends StatefulWidget {
   const _HeroSection();
+
+  @override
+  State<_HeroSection> createState() => _HeroSectionState();
+}
+
+class _HeroSectionState extends State<_HeroSection>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _fadeCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +75,35 @@ class _HeroSection extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
+          // Background image with parallax
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: ScrollProvider.of(context),
+              builder: (context, child) {
+                final controller = ScrollProvider.of(context);
+                final offset = controller.hasClients ? controller.offset : 0.0;
+                final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
+                return Transform.translate(
+                  offset: Offset(0, -offset * 0.15),
+                  child: Transform.scale(scale: scale, child: child),
+                );
+              },
+              child: FadeTransition(
+                opacity: CurvedAnimation(
+                  parent: _fadeCtrl,
+                  curve: Curves.easeOut,
+                ),
+                child: Image.asset(
+                  'web/assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  alignment: Alignment.center,
+                ),
+              ),
+            ),
+          ),
+          // Animated hero background (particles overlay)
           Positioned.fill(
             child: AnimatedBuilder(
               animation: ScrollProvider.of(context),
@@ -63,18 +115,40 @@ class _HeroSection extends StatelessWidget {
                   child: child,
                 );
               },
-              child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
+              child: Opacity(
+                opacity: 0.6,
+                child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
+              ),
             ),
           ),
+          // Gradient overlays for text readability
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  stops: const [0.0, 0.4, 0.8, 1.0],
                   colors: [
-                    Colors.white.withValues(alpha: 0.88),
-                    Colors.white.withValues(alpha: 0.94),
+                    AppTheme.maroonDark.withValues(alpha: 0.95),
+                    AppTheme.maroonDark.withValues(alpha: 0.80),
+                    AppTheme.maroonDark.withValues(alpha: 0.40),
+                    AppTheme.maroonDark.withValues(alpha: 0.10),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Subtle vignette for depth
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment.center,
+                  radius: 1.2,
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.3),
                   ],
                 ),
               ),
@@ -105,19 +179,20 @@ class _HeroSection extends StatelessWidget {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: AppTheme.gold.withValues(alpha: 0.1),
+                              color: AppTheme.gold.withValues(alpha: 0.15),
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
-                                color: AppTheme.gold.withValues(alpha: 0.3),
+                                color: AppTheme.gold.withValues(alpha: 0.5),
                               ),
                             ),
                             child: Text(
                               AppSettingsProvider.of(context).tr('home.badge'),
-                              style: GoogleFonts.openSans(
-                                color: AppTheme.maroon,
+                              style: const TextStyle(
+                                color: AppTheme.gold,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 2.5,
+                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -131,7 +206,7 @@ class _HeroSection extends StatelessWidget {
                                       .textTheme
                                       .displayLarge
                                       ?.copyWith(
-                                        color: AppTheme.textDark,
+                                        color: Colors.white,
                                         height: 1.05,
                                       ),
                                 )
@@ -143,7 +218,7 @@ class _HeroSection extends StatelessWidget {
                                       .textTheme
                                       .displayMedium
                                       ?.copyWith(
-                                        color: AppTheme.textDark,
+                                        color: Colors.white,
                                         height: 1.1,
                                       ),
                                 ),
@@ -156,7 +231,7 @@ class _HeroSection extends StatelessWidget {
                               ).tr('home.subtitle'),
                               style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
-                                    color: AppTheme.textMuted,
+                                    color: Colors.white.withValues(alpha: 0.85),
                                     fontSize: isDesktop ? 18 : 15,
                                   ),
                             ),
@@ -181,16 +256,22 @@ class _HeroSection extends StatelessWidget {
                                       alpha: 0.5,
                                     ),
                                   ),
-                                  child: const Text('Explore Programmes'),
+                                  child: Builder(
+                                    builder: (ctx) => Text(
+                                      AppSettingsProvider.of(
+                                        ctx,
+                                      ).tr('home.btn.programmes'),
+                                    ),
+                                  ),
                                 ),
                               ),
                               SelectionContainer.disabled(
                                 child: OutlinedButton(
                                   onPressed: () => context.go('/research'),
                                   style: OutlinedButton.styleFrom(
-                                    foregroundColor: AppTheme.textDark,
+                                    foregroundColor: Colors.white,
                                     side: const BorderSide(
-                                      color: AppTheme.textDark,
+                                      color: Colors.white,
                                       width: 1.5,
                                     ),
                                     padding: const EdgeInsets.symmetric(
@@ -351,10 +432,11 @@ class _StatItem extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           stat.label,
-          style: GoogleFonts.openSans(
+          style: TextStyle(
             fontSize: 14,
             color: Colors.white.withValues(alpha: 0.65),
             letterSpacing: 0.3,
+            fontFamily: 'sans-serif',
           ),
         ),
       ],
@@ -709,10 +791,11 @@ class _QuickLinkCard extends StatelessWidget {
             children: [
               Text(
                 'Learn more',
-                style: GoogleFonts.openSans(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.maroon,
+                  fontFamily: 'sans-serif',
                 ),
               ),
               const SizedBox(width: 4),
@@ -852,11 +935,12 @@ class _NewsCard extends StatelessWidget {
               children: [
                 Text(
                   item.date,
-                  style: GoogleFonts.openSans(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.gold,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1,
+                    fontFamily: 'sans-serif',
                   ),
                 ),
                 const SizedBox(height: 8),

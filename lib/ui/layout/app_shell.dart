@@ -52,11 +52,17 @@ class _AppShellState extends State<AppShell> {
   @override
   void didUpdateWidget(covariant AppShell oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Scroll to top when the page (child) changes
+    // Smooth scroll to top when the page (child) changes
     if (oldWidget.child != widget.child) {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(0);
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients && _scrollController.offset > 0) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOutCubic,
+          );
+        }
+      });
     }
   }
 
@@ -107,7 +113,17 @@ class _AppShellState extends State<AppShell> {
               // Scrollable content
               SingleChildScrollView(
                 controller: _scrollController,
-                child: Column(children: [widget.child, const SiteFooter()]),
+                child: Column(
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height,
+                      ),
+                      child: widget.child,
+                    ),
+                    const SiteFooter(),
+                  ],
+                ),
               ),
               // Sticky nav bar on top
               Positioned(

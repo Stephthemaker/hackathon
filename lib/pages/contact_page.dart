@@ -88,7 +88,7 @@ class _ContactPageState extends State<ContactPage> {
                 const SizedBox(height: 60),
                 const GoogleMapWeb(
                   location:
-                      'Stellenbosch University Engineering Building, Banghoek Rd, Stellenbosch',
+                      'Computer Science Division, Mathematical Sciences, Stellenbosch University, Stellenbosch',
                   height: 400,
                 ),
               ],

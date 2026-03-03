@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
@@ -197,11 +196,12 @@ class _ResourcesPageState extends State<ResourcesPage> {
         const SizedBox(width: 12),
         Text(
           text,
-          style: GoogleFonts.openSans(
+          style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
             color: AppTheme.textDark,
             letterSpacing: 0.5,
+            fontFamily: 'sans-serif',
           ),
         ),
       ],
@@ -217,66 +217,15 @@ class _ResourcesPageState extends State<ResourcesPage> {
       _Date('14 Nov', 'Graduation ceremony'),
       _Date('6 Dec', 'Exam results released'),
     ];
+
+    final isWide = MediaQuery.of(context).size.width > 700;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _sectionLabel('Important Dates \u2014 2026'),
-        const SizedBox(height: 20),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(28),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.divider),
-          ),
-          child: Wrap(
-            spacing: 20,
-            runSpacing: 16,
-            children: dates
-                .map(
-                  (d) => SizedBox(
-                    width: 200,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 48,
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppTheme.maroon,
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Center(
-                            child: Text(
-                              d.date,
-                              style: GoogleFonts.openSans(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                                height: 1.3,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            d.label,
-                            style: GoogleFonts.openSans(
-                              fontSize: 13,
-                              color: AppTheme.textDark,
-                              height: 1.4,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
+        const SizedBox(height: 28),
+        _AnimatedTimeline(dates: dates, isWide: isWide),
       ],
     );
   }
@@ -425,10 +374,11 @@ class _LinkCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     link.url,
-                    style: GoogleFonts.openSans(
+                    style: TextStyle(
                       fontSize: 11,
                       color: AppTheme.maroon,
                       fontWeight: FontWeight.w500,
+                      fontFamily: 'sans-serif',
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -492,6 +442,272 @@ class _ToolCard extends StatelessWidget {
             const SizedBox(width: 8),
             const Icon(Icons.open_in_new, size: 14, color: AppTheme.gold),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Animated Timeline for Important Dates
+// ---------------------------------------------------------------------------
+class _AnimatedTimeline extends StatelessWidget {
+  final List<_Date> dates;
+  final bool isWide;
+  const _AnimatedTimeline({required this.dates, required this.isWide});
+
+  @override
+  Widget build(BuildContext context) {
+    // Icon mapping for each date to make it visually distinct
+    const icons = [
+      Icons.edit_calendar_outlined,
+      Icons.app_registration_outlined,
+      Icons.science_outlined,
+      Icons.emoji_events_outlined,
+      Icons.school_outlined,
+      Icons.grading_outlined,
+    ];
+    // Accent colours cycle
+    const accents = [
+      AppTheme.maroon,
+      Color(0xFF1D4ED8),
+      Color(0xFF2D6A4F),
+      AppTheme.gold,
+      AppTheme.maroon,
+      Color(0xFF1D4ED8),
+    ];
+
+    return Column(
+      children: dates.asMap().entries.map((e) {
+        final i = e.key;
+        final d = e.value;
+        final isLast = i == dates.length - 1;
+        final accent = accents[i % accents.length];
+        final icon = icons[i % icons.length];
+        final isLeft = isWide && i.isEven;
+
+        return _TimelineEntry(
+          date: d,
+          index: i,
+          isLast: isLast,
+          accent: accent,
+          icon: icon,
+          isLeft: isLeft,
+          isWide: isWide,
+        );
+      }).toList(),
+    );
+  }
+}
+
+class _TimelineEntry extends StatefulWidget {
+  final _Date date;
+  final int index;
+  final bool isLast;
+  final Color accent;
+  final IconData icon;
+  final bool isLeft;
+  final bool isWide;
+
+  const _TimelineEntry({
+    required this.date,
+    required this.index,
+    required this.isLast,
+    required this.accent,
+    required this.icon,
+    required this.isLeft,
+    required this.isWide,
+  });
+
+  @override
+  State<_TimelineEntry> createState() => _TimelineEntryState();
+}
+
+class _TimelineEntryState extends State<_TimelineEntry>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<double> _fadeAnim;
+  late Animation<Offset> _slideAnim;
+  bool _hovered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 600 + widget.index * 100),
+    );
+    _fadeAnim = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _slideAnim = Tween<Offset>(
+      begin: Offset(widget.isLeft ? -0.15 : 0.15, 0),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic));
+
+    // Stagger the animation entry
+    Future.delayed(Duration(milliseconds: 120 * widget.index), () {
+      if (mounted) _ctrl.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final card = _buildCard(context);
+
+    return FadeTransition(
+      opacity: _fadeAnim,
+      child: SlideTransition(
+        position: _slideAnim,
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (widget.isWide && widget.isLeft) ...[
+                Expanded(child: card),
+                const SizedBox(width: 20),
+              ],
+              // Central timeline spine
+              SizedBox(
+                width: 48,
+                child: Column(
+                  children: [
+                    // Dot
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      width: _hovered ? 20 : 16,
+                      height: _hovered ? 20 : 16,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: widget.accent,
+                        border: Border.all(color: Colors.white, width: 3),
+                        boxShadow: [
+                          BoxShadow(
+                            color: widget.accent.withValues(alpha: 0.35),
+                            blurRadius: _hovered ? 12 : 6,
+                            spreadRadius: _hovered ? 2 : 0,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Connecting line
+                    if (!widget.isLast)
+                      Expanded(
+                        child: Container(
+                          width: 2,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                widget.accent.withValues(alpha: 0.5),
+                                widget.accent.withValues(alpha: 0.1),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    else
+                      const Expanded(child: SizedBox()),
+                  ],
+                ),
+              ),
+              if (widget.isWide && !widget.isLeft) ...[
+                const SizedBox(width: 20),
+                Expanded(child: card),
+              ],
+              if (!widget.isWide) ...[
+                const SizedBox(width: 16),
+                Expanded(child: card),
+              ],
+              // Spacer for alternating layout
+              if (widget.isWide && widget.isLeft)
+                const Expanded(child: SizedBox()),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: _hovered
+                ? Colors.white
+                : Colors.white.withValues(alpha: 0.85),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: _hovered
+                  ? widget.accent.withValues(alpha: 0.3)
+                  : AppTheme.divider,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: _hovered
+                    ? widget.accent.withValues(alpha: 0.1)
+                    : Colors.black.withValues(alpha: 0.03),
+                blurRadius: _hovered ? 16 : 8,
+                offset: Offset(0, _hovered ? 6 : 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: widget.accent.withValues(
+                    alpha: _hovered ? 0.12 : 0.07,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(widget.icon, color: widget.accent, size: 20),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.date.date,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: widget.accent,
+                        letterSpacing: 0.5,
+                        fontFamily: 'sans-serif',
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.date.label,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.textDark,
+                        height: 1.4,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

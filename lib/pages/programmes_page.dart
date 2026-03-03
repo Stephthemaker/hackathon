@@ -306,11 +306,12 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                       ),
                       child: Text(
                         'Applications Open',
-                        style: GoogleFonts.openSans(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: AppTheme.goldLight,
                           letterSpacing: 0.8,
+                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ),
@@ -360,9 +361,10 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              textStyle: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
+                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -392,9 +394,10 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              textStyle: GoogleFonts.openSans(
+                              textStyle: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
+                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -622,11 +625,12 @@ class _StatItem extends StatelessWidget {
             ),
             Text(
               label,
-              style: GoogleFonts.openSans(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
                 color: AppTheme.textMuted,
                 height: 1.4,
+                fontFamily: 'sans-serif',
               ),
             ),
           ],
@@ -818,11 +822,12 @@ class _ProgCard extends StatelessWidget {
                           ),
                           child: Text(
                             prog.level,
-                            style: GoogleFonts.openSans(
+                            style: TextStyle(
                               fontSize: 9,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.8,
                               color: prog.accent,
+                              fontFamily: 'sans-serif',
                             ),
                           ),
                         ),
@@ -887,10 +892,11 @@ class _ProgCard extends StatelessWidget {
                             ),
                             child: Text(
                               h,
-                              style: GoogleFonts.openSans(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: prog.accent,
+                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -930,11 +936,12 @@ class _InfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: GoogleFonts.openSans(
+            style: TextStyle(
               fontSize: 12,
               color: color,
               fontWeight: FontWeight.w500,
               height: 1.5,
+              fontFamily: 'sans-serif',
             ),
           ),
         ),
@@ -988,10 +995,11 @@ class _ProgTabBar extends StatelessWidget {
                     children: [
                       Text(
                         e.value,
-                        style: GoogleFonts.openSans(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: sel ? Colors.white : AppTheme.textMuted,
+                          fontFamily: 'sans-serif',
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -1009,10 +1017,11 @@ class _ProgTabBar extends StatelessWidget {
                         ),
                         child: Text(
                           '${counts[e.key]}',
-                          style: GoogleFonts.openSans(
+                          style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             color: sel ? Colors.white : AppTheme.maroon,
+                            fontFamily: 'sans-serif',
                           ),
                         ),
                       ),
@@ -1125,7 +1134,7 @@ class _ModuleRowState extends State<_ModuleRow> {
                     Expanded(
                       child: Text(
                         widget.mod.name,
-                        style: GoogleFonts.openSans(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: widget.isOpen
                               ? FontWeight.w600
@@ -1133,12 +1142,13 @@ class _ModuleRowState extends State<_ModuleRow> {
                           color: widget.isOpen
                               ? AppTheme.textDark
                               : AppTheme.textDark.withValues(alpha: 0.9),
+                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     _ModuleBadge(
-                      label: '${widget.mod.credits} cr',
+                      label: '${widget.mod.credits} credits',
                       color: accent,
                     ),
                     const SizedBox(width: 12),
@@ -1202,10 +1212,11 @@ class _ModuleBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.openSans(
+        style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: color,
+          fontFamily: 'sans-serif',
         ),
       ),
     );
@@ -1240,11 +1251,12 @@ class _CTAChecklist extends StatelessWidget {
         children: [
           Text(
             'Documents Required',
-            style: GoogleFonts.openSans(
+            style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
               color: Colors.white.withValues(alpha: 0.9),
               letterSpacing: 0.4,
+              fontFamily: 'sans-serif',
             ),
           ),
           const SizedBox(height: 14),

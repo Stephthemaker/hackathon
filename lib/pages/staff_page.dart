@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
@@ -597,11 +596,12 @@ class _StaffCard extends StatelessWidget {
                   ),
                   child: Text(
                     member.group,
-                    style: GoogleFonts.openSans(
+                    style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
                       letterSpacing: 0.5,
+                      fontFamily: 'sans-serif',
                     ),
                   ),
                 ),
@@ -615,10 +615,11 @@ class _StaffCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   member.title,
-                  style: GoogleFonts.openSans(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppTheme.maroon,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'sans-serif',
                   ),
                 ),
                 const SizedBox(height: 10),
