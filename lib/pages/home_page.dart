@@ -25,7 +25,9 @@ class HomePage extends StatelessWidget {
       children: [
         const _HeroSection(),
         _StatsSection(),
+        const _DeanQuoteSection(),
         _AboutSection(key: _aboutKey),
+        const _ResearchShowcaseSection(),
         const _QuickLinksSection(),
         const _NewsPreviewSection(),
       ],
@@ -216,8 +218,8 @@ class _HeroSectionState extends State<_HeroSection>
                             const SizedBox(height: 24),
                             SizedBox(
                               width: isDesktop ? 520 : double.infinity,
-                              child: Text(
-                                AppSettingsProvider.of(
+                              child: _TypewriterText(
+                                text: AppSettingsProvider.of(
                                   context,
                                 ).tr('home.subtitle'),
                                 style: Theme.of(context).textTheme.bodyLarge
@@ -226,7 +228,7 @@ class _HeroSectionState extends State<_HeroSection>
                                         alpha: 0.85,
                                       ),
                                       fontSize: isDesktop ? 18 : 15,
-                                    ),
+                                    ) ?? const TextStyle(),
                               ),
                             ),
                             const SizedBox(height: 40),
@@ -353,6 +355,362 @@ class _HeroSectionState extends State<_HeroSection>
                 ),
               ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Typewriter Text Animation
+// ---------------------------------------------------------------------------
+class _TypewriterText extends StatefulWidget {
+  final String text;
+  final TextStyle style;
+  const _TypewriterText({required this.text, required this.style});
+
+  @override
+  State<_TypewriterText> createState() => _TypewriterTextState();
+}
+
+class _TypewriterTextState extends State<_TypewriterText>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  late Animation<int> _charCount;
+  String _previousText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _previousText = widget.text;
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: widget.text.length * 18 + 500),
+    );
+    _charCount = StepTween(begin: 0, end: widget.text.length).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
+    );
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (mounted) _ctrl.forward();
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant _TypewriterText oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.text != _previousText) {
+      _previousText = widget.text;
+      _ctrl.duration = Duration(milliseconds: widget.text.length * 18 + 500);
+      _charCount = StepTween(begin: 0, end: widget.text.length).animate(
+        CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
+      );
+      _ctrl.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _charCount,
+      builder: (context, _) {
+        final displayText = widget.text.substring(0, _charCount.value);
+        final showCursor = _charCount.value < widget.text.length;
+        return Text.rich(
+          TextSpan(
+            text: displayText,
+            style: widget.style,
+            children: showCursor
+                ? [
+                    TextSpan(
+                      text: '|',
+                      style: widget.style.copyWith(
+                        color: AppTheme.gold,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ]
+                : null,
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Dean's Welcome Quote
+// ---------------------------------------------------------------------------
+class _DeanQuoteSection extends StatelessWidget {
+  const _DeanQuoteSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final isDesktop = MediaQuery.sizeOf(context).width >= 900;
+    final isDark = AppSettingsProvider.of(context).darkMode;
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? [const Color(0xFF1C1C24), const Color(0xFF252530)]
+              : [const Color(0xFFF8F6F3), const Color(0xFFF0ECE6)],
+        ),
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1280),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: isDesktop ? 80 : 56,
+            ),
+            child: AnimatedSection(
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.format_quote_rounded,
+                    size: 48,
+                    color: AppTheme.gold.withValues(alpha: 0.6),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: isDesktop ? 800 : double.infinity,
+                    child: Text(
+                      AppSettingsProvider.of(context).tr('home.dean.quote'),
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: isDesktop ? 24 : 18,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic,
+                        color: isDark ? Colors.white.withValues(alpha: 0.9) : AppTheme.textDark,
+                        height: 1.6,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 28),
+                  Container(
+                    width: 60,
+                    height: 2,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [AppTheme.gold.withValues(alpha: 0.0), AppTheme.gold, AppTheme.gold.withValues(alpha: 0.0)],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    AppSettingsProvider.of(context).tr('home.dean.name'),
+                    style: GoogleFonts.openSans(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: isDark ? AppTheme.goldLight : AppTheme.maroon,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    AppSettingsProvider.of(context).tr('home.dean.role'),
+                    style: GoogleFonts.openSans(
+                      fontSize: 13,
+                      color: isDark ? Colors.white.withValues(alpha: 0.5) : AppTheme.textMuted,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Research Showcase Section
+// ---------------------------------------------------------------------------
+class _ResearchShowcaseSection extends StatelessWidget {
+  const _ResearchShowcaseSection();
+
+  static const _areas = [
+    _ResearchArea(Icons.psychology, 'Artificial Intelligence', 'Machine learning, NLP, and computer vision research pushing the boundaries of what machines can understand.', [Color(0xFF667eea), Color(0xFF764ba2)]),
+    _ResearchArea(Icons.security, 'Information Security', 'Protecting digital infrastructure through cryptography, network security, and threat analysis.', [Color(0xFFf093fb), Color(0xFFf5576c)]),
+    _ResearchArea(Icons.code, 'Software Engineering', 'Building reliable, scalable software systems with modern methodologies and testing frameworks.', [Color(0xFF4facfe), Color(0xFF00f2fe)]),
+    _ResearchArea(Icons.precision_manufacturing, 'Robotics & Automation', 'Bridging the physical and digital worlds with autonomous systems and intelligent control.', [Color(0xFF43e97b), Color(0xFF38f9d7)]),
+    _ResearchArea(Icons.hub, 'Network Systems', 'Advancing broadband, mobile networks, and distributed computing across Africa.', [Color(0xFFfa709a), Color(0xFFfee140)]),
+    _ResearchArea(Icons.biotech, 'Computational Biology', 'Applying algorithmic thinking to solve complex problems in genomics and bioinformatics.', [Color(0xFFa18cd1), Color(0xFFfbc2eb)]),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final isDesktop = MediaQuery.sizeOf(context).width >= 900;
+    final isDark = AppSettingsProvider.of(context).darkMode;
+    return Container(
+      color: isDark ? const Color(0xFF141418) : Colors.white,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1280),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: isDesktop ? 80 : 56,
+            ),
+            child: Column(
+              children: [
+                AnimatedSection(
+                  child: SectionHeading(
+                    label: AppSettingsProvider.of(context).tr('home.research_showcase.label'),
+                    title: AppSettingsProvider.of(context).tr('home.research_showcase.title'),
+                    alignment: CrossAxisAlignment.center,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                AnimatedSection(
+                  delay: const Duration(milliseconds: 100),
+                  child: SizedBox(
+                    width: isDesktop ? 600 : double.infinity,
+                    child: Text(
+                      AppSettingsProvider.of(context).tr('home.research_showcase.subtitle'),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 48),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final cols = constraints.maxWidth > 900 ? 3 : constraints.maxWidth > 600 ? 2 : 1;
+                    return _ResponsiveGrid(
+                      columns: cols,
+                      children: _areas
+                          .asMap()
+                          .entries
+                          .map(
+                            (e) => AnimatedSection(
+                              delay: Duration(milliseconds: 100 + e.key * 80),
+                              child: _ResearchAreaCard(area: e.value),
+                            ),
+                          )
+                          .toList(),
+                    );
+                  },
+                ),
+                const SizedBox(height: 32),
+                AnimatedSection(
+                  delay: const Duration(milliseconds: 600),
+                  child: SelectionContainer.disabled(
+                    child: OutlinedButton.icon(
+                      onPressed: () => context.go('/research'),
+                      icon: const Icon(Icons.arrow_forward, size: 16),
+                      label: Text(AppSettingsProvider.of(context).tr('home.research_showcase.btn')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ResearchArea {
+  final IconData icon;
+  final String title;
+  final String description;
+  final List<Color> gradient;
+  const _ResearchArea(this.icon, this.title, this.description, this.gradient);
+}
+
+class _ResearchAreaCard extends StatefulWidget {
+  final _ResearchArea area;
+  const _ResearchAreaCard({required this.area});
+
+  @override
+  State<_ResearchAreaCard> createState() => _ResearchAreaCardState();
+}
+
+class _ResearchAreaCardState extends State<_ResearchAreaCard> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = AppSettingsProvider.of(context).darkMode;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => context.go('/research'),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+          transform: Matrix4.identity()
+            ..translate(0.0, _hovered ? -6.0 : 0.0, 0.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: isDark ? const Color(0xFF252530) : Colors.white,
+            border: Border.all(
+              color: _hovered
+                  ? widget.area.gradient[0].withValues(alpha: 0.5)
+                  : (isDark ? Colors.white.withValues(alpha: 0.08) : AppTheme.divider),
+            ),
+            boxShadow: _hovered
+                ? [
+                    BoxShadow(
+                      color: widget.area.gradient[0].withValues(alpha: 0.15),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                  ]
+                : [],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: 52,
+                  height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(14),
+                    gradient: LinearGradient(
+                      colors: _hovered
+                          ? widget.area.gradient
+                          : [widget.area.gradient[0].withValues(alpha: 0.15), widget.area.gradient[1].withValues(alpha: 0.15)],
+                    ),
+                  ),
+                  child: Icon(
+                    widget.area.icon,
+                    size: 24,
+                    color: _hovered ? Colors.white : widget.area.gradient[0],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  widget.area.title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  widget.area.description,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

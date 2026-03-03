@@ -216,6 +216,52 @@ const Map<String, Map<AppLocale, String>> _strings = {
     AppLocale.af: 'Navorsingsprojekte',
     AppLocale.xh: 'Iiprojekthi zoPhando',
   },
+
+  // ── Dean's Quote ────────────────────────────────────────────────────
+  'home.dean.quote': {
+    AppLocale.en:
+        'We believe that great Computer Science is born at the intersection of theory and practice — where deep understanding meets the ambition to build things that have never existed. That is the environment we strive to create here.',
+    AppLocale.af:
+        'Ons glo dat groot Rekenaarwetenskap gebore word by die kruispunt van teorie en praktyk — waar diep begrip die ambisie ontmoet om dinge te bou wat nog nooit bestaan het nie. Dit is die omgewing wat ons hier skep.',
+    AppLocale.xh:
+        'Sikholelwa ukuba iSayensi yeKhompyutha enkulu izalwa kwindawo apho ithiyori kunye nomsebenzi zidibana khona — apho ukuqonda okunzulu kudibana nomnqweno wokwakha izinto ezingakhange zibekho. Yiloo ndawo esiyidalayo apha.',
+  },
+  'home.dean.name': {
+    AppLocale.en: 'Prof. Bruce Watson',
+    AppLocale.af: 'Prof. Bruce Watson',
+    AppLocale.xh: 'Prof. Bruce Watson',
+  },
+  'home.dean.role': {
+    AppLocale.en: 'Head of Division, Computer Science',
+    AppLocale.af: 'Hoof van Afdeling, Rekenaarwetenskap',
+    AppLocale.xh: 'Intloko yeCandelo, ISayensi yeKhompyutha',
+  },
+
+  // ── Research Showcase ───────────────────────────────────────────────
+  'home.research_showcase.label': {
+    AppLocale.en: 'Research',
+    AppLocale.af: 'Navorsing',
+    AppLocale.xh: 'Uphando',
+  },
+  'home.research_showcase.title': {
+    AppLocale.en: 'Our Research Areas',
+    AppLocale.af: 'Ons Navorsingsgebiede',
+    AppLocale.xh: 'Iindawo Zethu zoPhando',
+  },
+  'home.research_showcase.subtitle': {
+    AppLocale.en:
+        'Our seven research groups tackle some of computing\'s most pressing challenges, from artificial intelligence to securing digital infrastructure.',
+    AppLocale.af:
+        'Ons sewe navorsingsgroepe pak van die rekenaarwese se dringendste uitdagings aan, van kunsmatige intelligensie tot die beveiliging van digitale infrastruktuur.',
+    AppLocale.xh:
+        'Amaqela ethu asixhenxe ophando ajongana neminye yemingeni engxamisekileyo yekhomputha, ukusuka kubukrelekrele bokwenziwa ukuya kukhuseleka kweziseko zediijithali.',
+  },
+  'home.research_showcase.btn': {
+    AppLocale.en: 'Explore All Research',
+    AppLocale.af: 'Verken Alle Navorsing',
+    AppLocale.xh: 'Hlola Lonke Uphando',
+  },
+
   'footer.copyright': {
     AppLocale.en:
         '© 2026 Department of Computer Science, Stellenbosch University.',
