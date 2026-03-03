@@ -1,0 +1,126 @@
+/* Print stylesheet for CS Department — Stellenbosch University */
+@media print {
+
+    /* Reset backgrounds and shadows for clean printing */
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Page setup */
+    @page {
+        margin: 2cm;
+        size: A4;
+    }
+
+    body {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
+
+    /* Hide navigation, footer, interactive elements */
+    nav,
+    footer,
+    flt-glass-pane>div:first-child,
+    /* Flutter nav overlay */
+    [aria-label="navigation"],
+    [role="navigation"] {
+        display: none !important;
+    }
+
+    /* Hide back-to-top button, 3D canvas, animations */
+    canvas,
+    video,
+    iframe {
+        display: none !important;
+    }
+
+    /* Ensure readable links — show the URL */
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+        color: #555 !important;
+    }
+
+    a[href^="#"]::after,
+    a[href^="javascript"]::after {
+        content: "";
+    }
+
+    /* Prevent page breaks inside key content */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    p,
+    li,
+    tr,
+    blockquote {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        orphans: 3;
+        widows: 3;
+    }
+
+    table,
+    figure,
+    img {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Keep headings with their content */
+    h1,
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+
+    /* Images — ensure they fit on page */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Add URL to external links for reference */
+    a[href^="http"]::after {
+        content: " [" attr(href) "]";
+        font-size: 0.75em;
+        word-break: break-all;
+    }
+
+    /* Department header branding for printed pages */
+    body::before {
+        content: "Department of Computer Science — Stellenbosch University";
+        display: block;
+        font-size: 14pt;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1cm;
+        padding-bottom: 0.5cm;
+        border-bottom: 2px solid #61223B;
+        color: #61223B !important;
+    }
+
+    /* Footer attribution */
+    body::after {
+        content: "cs.sun.ac.za — Printed from the Department of Computer Science website";
+        display: block;
+        text-align: center;
+        font-size: 9pt;
+        margin-top: 1cm;
+        padding-top: 0.5cm;
+        border-top: 1px solid #ccc;
+        color: #999 !important;
+    }
+}

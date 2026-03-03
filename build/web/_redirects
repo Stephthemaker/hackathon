@@ -1,0 +1,4 @@
+# Cloudflare Pages SPA fallback
+# Static files (assets/, canvaskit/, etc.) are served first automatically.
+# This catch-all only applies to paths that don't match a physical file.
+/* /index.html 200

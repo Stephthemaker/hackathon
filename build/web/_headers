@@ -1,0 +1,23 @@
+# Cache immutable build assets aggressively
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/canvaskit/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Cache JS/WASM build artifacts
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.wasm
+  Content-Type: application/wasm
+  Cache-Control: public, max-age=31536000, immutable
+
+# Don't cache the entry points (they change per build)
+/index.html
+  Cache-Control: no-cache
+
+/flutter_bootstrap.js
+  Cache-Control: no-cache
