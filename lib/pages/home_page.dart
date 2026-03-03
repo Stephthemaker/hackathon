@@ -745,14 +745,9 @@ class _ResearchAreaCardState extends State<_ResearchAreaCard> {
                   height: 52,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
-                    gradient: LinearGradient(
-                      colors: _hovered
-                          ? widget.area.gradient
-                          : [
-                              widget.area.gradient[0].withValues(alpha: 0.15),
-                              widget.area.gradient[1].withValues(alpha: 0.15),
-                            ],
-                    ),
+                    color: _hovered
+                        ? widget.area.gradient[0]
+                        : widget.area.gradient[0].withValues(alpha: 0.15),
                   ),
                   child: Icon(
                     widget.area.icon,
