@@ -606,6 +606,11 @@ const Map<String, Map<AppLocale, String>> _strings = {
     AppLocale.af: 'Kontak Ons',
     AppLocale.xh: 'Qhagamshelana Nathi',
   },
+  'footer.back_to_top': {
+    AppLocale.en: 'Back to top',
+    AppLocale.af: 'Terug na bo',
+    AppLocale.xh: 'Buyela phezulu',
+  },
 
   // ── Settings Panel ──────────────────────────────────────────────────
   'settings.title': {
@@ -1534,9 +1539,9 @@ const Map<String, Map<AppLocale, String>> _strings = {
 
   // ── News Detail Page ────────────────────────────────────────────────
   'news.back': {
-    AppLocale.en: '← Back to News & Events',
-    AppLocale.af: '← Terug na Nuus & Geleenthede',
-    AppLocale.xh: '← Buyela kwiNdaba & Imisitho',
+    AppLocale.en: 'Back to News & Events',
+    AppLocale.af: 'Terug na Nuus & Geleenthede',
+    AppLocale.xh: 'Buyela kwiNdaba & Imisitho',
   },
   'news.share': {
     AppLocale.en: 'Share this article',
@@ -1611,9 +1616,9 @@ const Map<String, Map<AppLocale, String>> _strings = {
     AppLocale.xh: 'Qhagamshelana Nathi',
   },
   'prog.detail.back': {
-    AppLocale.en: '← Back to Programmes',
-    AppLocale.af: '← Terug na Programme',
-    AppLocale.xh: '← Buyela kwiinkqubo',
+    AppLocale.en: 'Back to Programmes',
+    AppLocale.af: 'Terug na Programme',
+    AppLocale.xh: 'Buyela kwiinkqubo',
   },
 
   // ── Alumni Page ─────────────────────────────────────────────────────

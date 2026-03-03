@@ -121,23 +121,46 @@ class AppTheme {
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: maroon,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: uiControlText,
-          elevation: 0,
-        ),
+        style:
+            ElevatedButton.styleFrom(
+              backgroundColor: maroon,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+              textStyle: uiControlText,
+              elevation: 0,
+            ).copyWith(
+              overlayColor: WidgetStatePropertyAll(
+                gold.withValues(alpha: 0.18),
+              ),
+              side: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused)) {
+                  return BorderSide(color: gold, width: 2.5);
+                }
+                return BorderSide.none;
+              }),
+            ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: maroon,
-          side: const BorderSide(color: maroon, width: 1.5),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: uiControlText,
-        ),
+        style:
+            OutlinedButton.styleFrom(
+              foregroundColor: maroon,
+              side: const BorderSide(color: maroon, width: 1.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+              textStyle: uiControlText,
+            ).copyWith(
+              side: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused)) {
+                  return BorderSide(color: gold, width: 2.5);
+                }
+                return const BorderSide(color: maroon, width: 1.5);
+              }),
+            ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -169,6 +192,7 @@ class AppTheme {
           vertical: 14,
         ),
       ),
+      focusColor: maroon.withValues(alpha: 0.2),
       chipTheme: ChipThemeData(
         backgroundColor: background,
         selectedColor: maroon,
@@ -295,23 +319,46 @@ class AppTheme {
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: maroon,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: uiControlText,
-          elevation: 0,
-        ),
+        style:
+            ElevatedButton.styleFrom(
+              backgroundColor: maroon,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+              textStyle: uiControlText,
+              elevation: 0,
+            ).copyWith(
+              overlayColor: WidgetStatePropertyAll(
+                gold.withValues(alpha: 0.22),
+              ),
+              side: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused)) {
+                  return BorderSide(color: gold, width: 2.5);
+                }
+                return BorderSide.none;
+              }),
+            ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: goldLight,
-          side: const BorderSide(color: goldLight, width: 1.5),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-          textStyle: uiControlText,
-        ),
+        style:
+            OutlinedButton.styleFrom(
+              foregroundColor: goldLight,
+              side: const BorderSide(color: goldLight, width: 1.5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+              textStyle: uiControlText,
+            ).copyWith(
+              side: WidgetStateProperty.resolveWith((states) {
+                if (states.contains(WidgetState.focused)) {
+                  return BorderSide(color: gold, width: 2.5);
+                }
+                return const BorderSide(color: goldLight, width: 1.5);
+              }),
+            ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -343,6 +390,7 @@ class AppTheme {
           vertical: 14,
         ),
       ),
+      focusColor: gold.withValues(alpha: 0.25),
       chipTheme: ChipThemeData(
         backgroundColor: darkCard,
         selectedColor: maroon,

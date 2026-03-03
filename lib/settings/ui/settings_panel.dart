@@ -93,6 +93,7 @@ class SettingsPanel extends StatelessWidget {
                       value: s.darkMode,
                       fg: fg,
                       onChanged: (v) => s.darkMode = v,
+                      showModeIcon: true,
                     ),
                     const SizedBox(height: 8),
                     _ToggleTile(
@@ -262,6 +263,7 @@ class _ToggleTile extends StatelessWidget {
   final bool value;
   final Color fg;
   final ValueChanged<bool> onChanged;
+  final bool showModeIcon;
 
   const _ToggleTile({
     required this.icon,
@@ -269,6 +271,7 @@ class _ToggleTile extends StatelessWidget {
     required this.value,
     required this.fg,
     required this.onChanged,
+    this.showModeIcon = false,
   });
 
   @override
@@ -291,7 +294,11 @@ class _ToggleTile extends StatelessWidget {
             ),
           ),
         ),
-        _WebToggle(value: value, onChanged: onChanged),
+        _WebToggle(
+          value: value,
+          onChanged: onChanged,
+          showModeIcon: showModeIcon,
+        ),
       ],
     );
   }
@@ -301,7 +308,12 @@ class _ToggleTile extends StatelessWidget {
 class _WebToggle extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
-  const _WebToggle({required this.value, required this.onChanged});
+  final bool showModeIcon;
+  const _WebToggle({
+    required this.value,
+    required this.onChanged,
+    this.showModeIcon = false,
+  });
 
   @override
   State<_WebToggle> createState() => _WebToggleState();
@@ -363,6 +375,21 @@ class _WebToggleState extends State<_WebToggle> {
                     ),
                   ],
                 ),
+                child: widget.showModeIcon
+                    ? AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 250),
+                        child: Icon(
+                          widget.value
+                              ? Icons.dark_mode_rounded
+                              : Icons.light_mode_rounded,
+                          key: ValueKey(widget.value),
+                          size: 12,
+                          color: widget.value
+                              ? const Color(0xFF4C1A2E)
+                              : const Color(0xFFB79962),
+                        ),
+                      )
+                    : null,
               ),
             ),
           ),

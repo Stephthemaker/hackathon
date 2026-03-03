@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
 import '../ui/widgets/animated_section.dart';
 import '../ui/widgets/section_heading.dart';
 import '../ui/widgets/hover_card.dart';
-import '../ui/widgets/hero_background.dart';
 import '../ui/layout/app_shell.dart';
 
 // key used for scrolling to section below hero/stats
@@ -111,25 +111,7 @@ class _HeroSectionState extends State<_HeroSection>
                 ),
               ),
             ),
-            // Animated hero background (particles overlay)
-            Positioned.fill(
-              child: AnimatedBuilder(
-                animation: ScrollProvider.of(context),
-                builder: (context, child) {
-                  final controller = ScrollProvider.of(context);
-                  final offset = controller.hasClients
-                      ? controller.offset
-                      : 0.0;
-                  // Avoid translating to prevent border exposure; gently scale instead
-                  final scale = 1.0 + (offset * 0.0001).clamp(0.0, 0.05);
-                  return Transform.scale(scale: scale, child: child);
-                },
-                child: Opacity(
-                  opacity: 0.6,
-                  child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
-                ),
-              ),
-            ),
+
             // Gradient overlays for text readability
             Positioned.fill(
               child: Container(
@@ -208,29 +190,53 @@ class _HeroSectionState extends State<_HeroSection>
                             ),
                             const SizedBox(height: 24),
                             isDesktop
-                                ? Text(
-                                    AppSettingsProvider.of(
-                                      context,
-                                    ).tr('home.title'),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayLarge
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                          height: 1.05,
-                                        ),
+                                ? ShaderMask(
+                                    shaderCallback: (bounds) =>
+                                        const LinearGradient(
+                                          colors: [
+                                            Colors.white,
+                                            AppTheme.goldLight,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ).createShader(bounds),
+                                    blendMode: BlendMode.srcIn,
+                                    child: Text(
+                                      AppSettingsProvider.of(
+                                        context,
+                                      ).tr('home.title'),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayLarge
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                            height: 1.05,
+                                          ),
+                                    ),
                                   )
-                                : Text(
-                                    AppSettingsProvider.of(
-                                      context,
-                                    ).tr('home.title'),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium
-                                        ?.copyWith(
-                                          color: Colors.white,
-                                          height: 1.1,
-                                        ),
+                                : ShaderMask(
+                                    shaderCallback: (bounds) =>
+                                        const LinearGradient(
+                                          colors: [
+                                            Colors.white,
+                                            AppTheme.goldLight,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ).createShader(bounds),
+                                    blendMode: BlendMode.srcIn,
+                                    child: Text(
+                                      AppSettingsProvider.of(
+                                        context,
+                                      ).tr('home.title'),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                            height: 1.1,
+                                          ),
+                                    ),
                                   ),
                             const SizedBox(height: 24),
                             SizedBox(
@@ -311,70 +317,66 @@ class _HeroSectionState extends State<_HeroSection>
               ),
             ),
 
-            // Scroll hint
-            Positioned(
-              bottom: 32,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        // scroll passed stats to the about section
-                        final contextToScroll = _aboutKey.currentContext;
-                        if (contextToScroll != null) {
-                          Scrollable.ensureVisible(
-                            contextToScroll,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut,
-                            alignment: 0.0,
-                          );
-                        } else {
-                          // fallback to original hero offset
-                          final controller = ScrollProvider.of(context);
-                          final double offset = isDesktop
-                              ? (680 + 72)
-                              : (520 + 72);
-                          controller.animateTo(
-                            offset,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          Builder(
-                            builder: (context) {
-                              return Text(
-                                AppSettingsProvider.of(
-                                  context,
-                                ).tr('home.scroll_explore'),
-                                textAlign: TextAlign.center,
-                                style: AppTheme.uiControlText.copyWith(
-                                  color: Colors.white.withValues(alpha: 0.7),
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 1.5,
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 8),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.white.withValues(alpha: 0.7),
-                            size: 24,
-                          ),
-                        ],
+            // Scroll hint (desktop only)
+            if (isDesktop)
+              Positioned(
+                bottom: 32,
+                left: 0,
+                right: 0,
+                child: Column(
+                  children: [
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          final contextToScroll = _aboutKey.currentContext;
+                          if (contextToScroll != null) {
+                            Scrollable.ensureVisible(
+                              contextToScroll,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                              alignment: 0.0,
+                            );
+                          } else {
+                            final controller = ScrollProvider.of(context);
+                            controller.animateTo(
+                              680 + 72,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            Builder(
+                              builder: (context) {
+                                return Text(
+                                  AppSettingsProvider.of(
+                                    context,
+                                  ).tr('home.scroll_explore'),
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.uiControlText.copyWith(
+                                    color: Colors.white.withValues(alpha: 0.7),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 1.5,
+                                  ),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 8),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Colors.white.withValues(alpha: 0.7),
+                              size: 24,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -436,34 +438,85 @@ class _Stat {
   const _Stat(this.value, this.label);
 }
 
-class _StatItem extends StatelessWidget {
+class _StatItem extends StatefulWidget {
   final _Stat stat;
   const _StatItem({required this.stat});
 
   @override
+  State<_StatItem> createState() => _StatItemState();
+}
+
+class _StatItemState extends State<_StatItem>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _ctrl;
+  bool _hasAnimated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1600),
+    );
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  void _onVisibilityChanged(VisibilityInfo info) {
+    if (!_hasAnimated && info.visibleFraction > 0.5) {
+      _hasAnimated = true;
+      _ctrl.forward();
+    }
+  }
+
+  String _interpolateValue(double t) {
+    final raw = widget.stat.value;
+    // Parse numeric prefix e.g. "40+" -> 40, "800+" -> 800, "Top 5" -> null
+    final match = RegExp(r'^(\d+)(.*)$').firstMatch(raw);
+    if (match == null) return raw; // non-numeric like "Top 5"
+    final num = int.parse(match.group(1)!);
+    final suffix = match.group(2)!;
+    final current = (num * Curves.easeOutCubic.transform(t)).round();
+    return '$current$suffix';
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          stat.value,
-          style: GoogleFonts.playfairDisplay(
-            fontSize: MediaQuery.of(context).size.width >= 900 ? 44 : 32,
-            fontWeight: FontWeight.w700,
-            color: AppTheme.goldLight,
-            height: 1,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          stat.label,
-          style: GoogleFonts.openSans(
-            fontSize: 14,
-            color: Colors.white.withValues(alpha: 0.65),
-            letterSpacing: 0.3,
-          ),
-        ),
-      ],
+    return VisibilityDetector(
+      key: Key('stat-${widget.stat.value}'),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: AnimatedBuilder(
+        animation: _ctrl,
+        builder: (context, _) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _interpolateValue(_ctrl.value),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: MediaQuery.of(context).size.width >= 900 ? 44 : 32,
+                  fontWeight: FontWeight.w700,
+                  color: AppTheme.goldLight,
+                  height: 1,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                widget.stat.label,
+                style: GoogleFonts.openSans(
+                  fontSize: 14,
+                  color: Colors.white.withValues(alpha: 0.65),
+                  letterSpacing: 0.3,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

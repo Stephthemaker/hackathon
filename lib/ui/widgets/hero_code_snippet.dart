@@ -1,10 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/app_theme.dart';
 
-class CodeSnippetCard extends StatelessWidget {
+class CodeSnippetCard extends StatefulWidget {
   const CodeSnippetCard({super.key});
+
+  @override
+  State<CodeSnippetCard> createState() => _CodeSnippetCardState();
+}
+
+class _CodeSnippetCardState extends State<CodeSnippetCard> {
+  bool _copied = false;
+
+  static const _codeText =
+      'def optimize_future(students):\n'
+      '    """\n'
+      '    Algorithms for a better tomorrow.\n'
+      '    """\n'
+      '    research_output = []\n\n'
+      '    for student in students:\n'
+      '        innovation = student.innovate()\n'
+      '        research_output.append(innovation)\n\n'
+      '    return research_output\n\n'
+      '# Initialize the next generation\n'
+      'impact = optimize_future(SU_Computing)\n';
+
+  void _copyToClipboard() {
+    Clipboard.setData(const ClipboardData(text: _codeText));
+    setState(() => _copied = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _copied = false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +90,55 @@ class CodeSnippetCard extends StatelessWidget {
                   style: GoogleFonts.firaCode(
                     color: Colors.white.withValues(alpha: 0.5),
                     fontSize: 12,
+                  ),
+                ),
+                const Spacer(),
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: _copyToClipboard,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: _copied
+                          ? Row(
+                              key: const ValueKey('copied'),
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check,
+                                  size: 14,
+                                  color: const Color(0xFF27C93F),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Copied!',
+                                  style: GoogleFonts.firaCode(
+                                    fontSize: 11,
+                                    color: const Color(0xFF27C93F),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              key: const ValueKey('copy'),
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.copy,
+                                  size: 14,
+                                  color: Colors.white.withValues(alpha: 0.4),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Copy',
+                                  style: GoogleFonts.firaCode(
+                                    fontSize: 11,
+                                    color: Colors.white.withValues(alpha: 0.4),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
                   ),
                 ),
               ],

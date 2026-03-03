@@ -808,6 +808,7 @@ class _ProfileAvatar extends StatefulWidget {
 class _ProfileAvatarState extends State<_ProfileAvatar>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
+  bool _loaded = false;
 
   @override
   void initState() {
@@ -840,29 +841,16 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
           filterQuality: FilterQuality.medium,
           semanticLabel: widget.semanticLabel,
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (wasSynchronouslyLoaded || frame != null) {
-              return child;
+            if (wasSynchronouslyLoaded) return child;
+            if (frame != null && !_loaded) {
+              _loaded = true;
+              _controller.stop();
             }
-
-            return AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) {
-                final t = _controller.value;
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment(-1.0 + (2.0 * t), -0.3),
-                      end: Alignment(-0.2 + (2.0 * t), 0.3),
-                      colors: const [
-                        Color(0x33FFFFFF),
-                        Color(0x66FFFFFF),
-                        Color(0x33FFFFFF),
-                      ],
-                    ),
-                  ),
-                  child: Container(color: Colors.white12),
-                );
-              },
+            return AnimatedOpacity(
+              opacity: frame != null ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeOut,
+              child: child,
             );
           },
           errorBuilder: (context, error, stackTrace) => Container(

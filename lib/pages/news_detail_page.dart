@@ -408,6 +408,20 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     ),
                   ),
                 ],
+
+                const SizedBox(height: 32),
+
+                // Back
+                Center(
+                  child: TextButton.icon(
+                    onPressed: () => context.go('/news'),
+                    icon: const Icon(Icons.arrow_back, size: 16),
+                    label: Text(s.tr('news.back')),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

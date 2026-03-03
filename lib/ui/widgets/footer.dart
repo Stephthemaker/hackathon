@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_theme.dart';
 import '../../settings/app_settings.dart';
+import '../layout/app_shell.dart';
 
 class SiteFooter extends StatelessWidget {
   const SiteFooter({super.key});
@@ -12,79 +13,235 @@ class SiteFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
+    final isDesktop = MediaQuery.of(context).size.width >= 900;
     return Container(
-      color: AppTheme.maroonDark,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 64),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top row
-                Wrap(
-                  spacing: 48,
-                  runSpacing: 48,
-                  children: [
-                    _FooterBrand(),
-                    _FooterLinks(
-                      title: s.tr('footer.department'),
-                      links: [
-                        _Link(s.tr('footer.overview'), '/'),
-                        _Link(s.tr('footer.academic'), '/staff'),
-                        _Link(s.tr('footer.researchgroups'), '/research'),
-                        _Link(s.tr('footer.programmes'), '/programmes'),
-                      ],
-                    ),
-                    _FooterLinks(
-                      title: s.tr('footer.resources'),
-                      links: [
-                        _Link(s.tr('footer.newsevents'), '/news'),
-                        _Link(s.tr('footer.studentres'), '/resources'),
-                        _Link(s.tr('footer.contactus'), '/contact'),
-                        _Link('SunLearn', 'https://learn.sun.ac.za'),
-                      ],
-                    ),
-                    _FooterLinks(
-                      title: s.tr('footer.links'),
-                      links: const [
-                        _Link('my.SUN Portal', 'https://my.sun.ac.za'),
-                        _Link('SU Library', 'https://library.sun.ac.za'),
-                        _Link('SU Main Website', 'https://www.sun.ac.za'),
-                        _Link('DevSoc', 'https://hackathon.devsoc.co.za'),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 48),
-                Divider(color: Colors.white.withValues(alpha: 0.1)),
-                const SizedBox(height: 24),
-                Wrap(
-                  alignment: WrapAlignment.spaceBetween,
-                  spacing: 16,
-                  runSpacing: 8,
-                  children: [
-                    Text(
-                      s.tr('footer.copyright'),
-                      style: GoogleFonts.openSans(
-                        fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.4),
-                      ),
-                    ),
-                    Text(
-                      s.tr('footer.address'),
-                      style: GoogleFonts.openSans(
-                        fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.4),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppTheme.maroonDark, Color(0xFF3A1424)],
+        ),
+      ),
+      child: Column(
+        children: [
+          // Gold accent line at the top
+          Container(
+            height: 3,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.transparent,
+                  AppTheme.gold,
+                  AppTheme.goldLight,
+                  AppTheme.gold,
+                  Colors.transparent,
+                ],
+                stops: [0.0, 0.2, 0.5, 0.8, 1.0],
+              ),
             ),
           ),
-        ),
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 64,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Main footer content
+                    isDesktop
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(flex: 3, child: _FooterBrand()),
+                              const SizedBox(width: 48),
+                              Expanded(
+                                flex: 2,
+                                child: _FooterLinks(
+                                  title: s.tr('footer.department'),
+                                  links: [
+                                    _Link(s.tr('footer.overview'), '/'),
+                                    _Link(s.tr('footer.academic'), '/staff'),
+                                    _Link(
+                                      s.tr('footer.researchgroups'),
+                                      '/research',
+                                    ),
+                                    _Link(
+                                      s.tr('footer.programmes'),
+                                      '/programmes',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 32),
+                              Expanded(
+                                flex: 2,
+                                child: _FooterLinks(
+                                  title: s.tr('footer.resources'),
+                                  links: [
+                                    _Link(s.tr('footer.newsevents'), '/news'),
+                                    _Link(
+                                      s.tr('footer.studentres'),
+                                      '/resources',
+                                    ),
+                                    _Link(s.tr('footer.contactus'), '/contact'),
+                                    _Link(
+                                      'SunLearn',
+                                      'https://learn.sun.ac.za',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 32),
+                              Expanded(
+                                flex: 2,
+                                child: _FooterLinks(
+                                  title: s.tr('footer.links'),
+                                  links: const [
+                                    _Link(
+                                      'my.SUN Portal',
+                                      'https://my.sun.ac.za',
+                                    ),
+                                    _Link(
+                                      'SU Library',
+                                      'https://library.sun.ac.za',
+                                    ),
+                                    _Link(
+                                      'SU Main Website',
+                                      'https://www.sun.ac.za',
+                                    ),
+                                    _Link(
+                                      'DevSoc',
+                                      'https://hackathon.devsoc.co.za',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                        : Wrap(
+                            spacing: 48,
+                            runSpacing: 48,
+                            children: [
+                              _FooterBrand(),
+                              _FooterLinks(
+                                title: s.tr('footer.department'),
+                                links: [
+                                  _Link(s.tr('footer.overview'), '/'),
+                                  _Link(s.tr('footer.academic'), '/staff'),
+                                  _Link(
+                                    s.tr('footer.researchgroups'),
+                                    '/research',
+                                  ),
+                                  _Link(
+                                    s.tr('footer.programmes'),
+                                    '/programmes',
+                                  ),
+                                ],
+                              ),
+                              _FooterLinks(
+                                title: s.tr('footer.resources'),
+                                links: [
+                                  _Link(s.tr('footer.newsevents'), '/news'),
+                                  _Link(
+                                    s.tr('footer.studentres'),
+                                    '/resources',
+                                  ),
+                                  _Link(s.tr('footer.contactus'), '/contact'),
+                                  _Link('SunLearn', 'https://learn.sun.ac.za'),
+                                ],
+                              ),
+                              _FooterLinks(
+                                title: s.tr('footer.links'),
+                                links: const [
+                                  _Link(
+                                    'my.SUN Portal',
+                                    'https://my.sun.ac.za',
+                                  ),
+                                  _Link(
+                                    'SU Library',
+                                    'https://library.sun.ac.za',
+                                  ),
+                                  _Link(
+                                    'SU Main Website',
+                                    'https://www.sun.ac.za',
+                                  ),
+                                  _Link(
+                                    'DevSoc',
+                                    'https://hackathon.devsoc.co.za',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                    const SizedBox(height: 48),
+                    Divider(color: Colors.white.withValues(alpha: 0.08)),
+                    const SizedBox(height: 24),
+                    // Bottom bar
+                    Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      spacing: 16,
+                      runSpacing: 12,
+                      children: [
+                        Text(
+                          s.tr('footer.copyright'),
+                          style: GoogleFonts.openSans(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.35),
+                          ),
+                        ),
+                        Text(
+                          s.tr('footer.address'),
+                          style: GoogleFonts.openSans(
+                            fontSize: 12,
+                            color: Colors.white.withValues(alpha: 0.35),
+                          ),
+                        ),
+                        // Back to top link
+                        MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: GestureDetector(
+                            onTap: () {
+                              final ctrl = ScrollProvider.of(context);
+                              ctrl.animateTo(
+                                0,
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeOutCubic,
+                              );
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.keyboard_arrow_up,
+                                  size: 16,
+                                  color: AppTheme.gold.withValues(alpha: 0.6),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  s.tr('footer.back_to_top'),
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 12,
+                                    color: AppTheme.gold.withValues(alpha: 0.6),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
