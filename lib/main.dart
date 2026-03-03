@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'theme/app_theme.dart';
 import 'router/app_router.dart';
@@ -8,10 +7,6 @@ import 'settings/app_settings.dart';
 
 void main() {
   usePathUrlStrategy();
-
-  // Disable runtime font fetching — fonts are bundled in the build
-  // This avoids external requests to Google CDN (GDPR compliance)
-  GoogleFonts.config.allowRuntimeFetching = false;
 
   // Graceful error fallback instead of red error screen in production
   ErrorWidget.builder = (FlutterErrorDetails details) {
