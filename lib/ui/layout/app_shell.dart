@@ -202,8 +202,11 @@ class _AppShellState extends State<AppShell>
                   ),
                 ),
                 // 3D background that animates natively on scroll
-                const Positioned.fill(
-                  child: RepaintBoundary(child: Global3DBackground()),
+                Positioned.fill(
+                  child: Global3DBackground(
+                    key: const GlobalObjectKey('global_3d_bg'),
+                    showModel: currentPath != '/',
+                  ),
                 ),
                 // Scrollable content
                 SingleChildScrollView(
@@ -270,19 +273,6 @@ class _AppShellState extends State<AppShell>
                     ],
                   ),
                 ),
-                // Back-to-top button
-                if (_scrolled)
-                  Positioned(
-                    bottom: 24,
-                    right: 24,
-                    child: _BackToTopButton(
-                      onTap: () => _scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeOutCubic,
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),

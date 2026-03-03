@@ -190,53 +190,29 @@ class _HeroSectionState extends State<_HeroSection>
                             ),
                             const SizedBox(height: 24),
                             isDesktop
-                                ? ShaderMask(
-                                    shaderCallback: (bounds) =>
-                                        const LinearGradient(
-                                          colors: [
-                                            Colors.white,
-                                            AppTheme.goldLight,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ).createShader(bounds),
-                                    blendMode: BlendMode.srcIn,
-                                    child: Text(
-                                      AppSettingsProvider.of(
-                                        context,
-                                      ).tr('home.title'),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                            height: 1.05,
-                                          ),
-                                    ),
+                                ? Text(
+                                    AppSettingsProvider.of(
+                                      context,
+                                    ).tr('home.title'),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          height: 1.05,
+                                        ),
                                   )
-                                : ShaderMask(
-                                    shaderCallback: (bounds) =>
-                                        const LinearGradient(
-                                          colors: [
-                                            Colors.white,
-                                            AppTheme.goldLight,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ).createShader(bounds),
-                                    blendMode: BlendMode.srcIn,
-                                    child: Text(
-                                      AppSettingsProvider.of(
-                                        context,
-                                      ).tr('home.title'),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                            height: 1.1,
-                                          ),
-                                    ),
+                                : Text(
+                                    AppSettingsProvider.of(
+                                      context,
+                                    ).tr('home.title'),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          height: 1.1,
+                                        ),
                                   ),
                             const SizedBox(height: 24),
                             SizedBox(

@@ -24,22 +24,6 @@ class SiteFooter extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Gold accent line at the top
-          Container(
-            height: 3,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  AppTheme.gold,
-                  AppTheme.goldLight,
-                  AppTheme.gold,
-                  Colors.transparent,
-                ],
-                stops: [0.0, 0.2, 0.5, 0.8, 1.0],
-              ),
-            ),
-          ),
           Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 1200),
@@ -199,39 +183,6 @@ class SiteFooter extends StatelessWidget {
                           style: GoogleFonts.openSans(
                             fontSize: 12,
                             color: Colors.white.withValues(alpha: 0.35),
-                          ),
-                        ),
-                        // Back to top link
-                        MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: GestureDetector(
-                            onTap: () {
-                              final ctrl = ScrollProvider.of(context);
-                              ctrl.animateTo(
-                                0,
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeOutCubic,
-                              );
-                            },
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.keyboard_arrow_up,
-                                  size: 16,
-                                  color: AppTheme.gold.withValues(alpha: 0.6),
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  s.tr('footer.back_to_top'),
-                                  style: GoogleFonts.openSans(
-                                    fontSize: 12,
-                                    color: AppTheme.gold.withValues(alpha: 0.6),
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ],
