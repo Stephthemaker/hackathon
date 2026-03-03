@@ -83,10 +83,7 @@ class _HeroSectionState extends State<_HeroSection>
                 final controller = ScrollProvider.of(context);
                 final offset = controller.hasClients ? controller.offset : 0.0;
                 final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
-                return Transform.translate(
-                  offset: Offset(0, -offset * 0.15),
-                  child: Transform.scale(scale: scale, child: child),
-                );
+                return Transform.scale(scale: scale, child: child);
               },
               child: FadeTransition(
                 opacity: CurvedAnimation(
@@ -110,10 +107,9 @@ class _HeroSectionState extends State<_HeroSection>
               builder: (context, child) {
                 final controller = ScrollProvider.of(context);
                 final offset = controller.hasClients ? controller.offset : 0.0;
-                return Transform.translate(
-                  offset: Offset(0, -offset * 0.08),
-                  child: child,
-                );
+                // Avoid translating to prevent border exposure; gently scale instead
+                final scale = 1.0 + (offset * 0.0001).clamp(0.0, 0.05);
+                return Transform.scale(scale: scale, child: child);
               },
               child: Opacity(
                 opacity: 0.6,
@@ -187,12 +183,11 @@ class _HeroSectionState extends State<_HeroSection>
                             ),
                             child: Text(
                               AppSettingsProvider.of(context).tr('home.badge'),
-                              style: const TextStyle(
+                              style: GoogleFonts.openSans(
                                 color: AppTheme.gold,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 2.5,
-                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -330,20 +325,26 @@ class _HeroSectionState extends State<_HeroSection>
                   },
                   child: Column(
                     children: [
-                      Text(
-                        'scroll to explore',
-                        textAlign: TextAlign.center,
-                        style: AppTheme.uiControlText.copyWith(
-                          color: AppTheme.textMuted,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1.5,
-                        ),
+                      Builder(
+                        builder: (context) {
+                          return Text(
+                            AppSettingsProvider.of(
+                              context,
+                            ).tr('home.scroll_explore'),
+                            textAlign: TextAlign.center,
+                            style: AppTheme.uiControlText.copyWith(
+                              color: Colors.white.withValues(alpha: 0.7),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 1.5,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(height: 8),
-                      const Icon(
+                      Icon(
                         Icons.keyboard_arrow_down,
-                        color: AppTheme.textMuted,
+                        color: Colors.white.withValues(alpha: 0.7),
                         size: 24,
                       ),
                     ],
@@ -364,15 +365,16 @@ class _HeroSectionState extends State<_HeroSection>
 class _StatsSection extends StatelessWidget {
   const _StatsSection();
 
-  static const _stats = [
-    _Stat('40+', 'Academic Staff'),
-    _Stat('800+', 'Students'),
-    _Stat('30+', 'Research Projects'),
-    _Stat('Top 5', 'In Africa*'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final stats = [
+      _Stat('40+', s.tr('home.stats.academic')),
+      _Stat('800+', s.tr('home.stats.students')),
+      _Stat('30+', s.tr('home.stats.research')),
+      _Stat('Top 5', s.tr('home.stats.inafrica')),
+    ];
+
     return Container(
       color: AppTheme.maroon,
       child: Center(
@@ -384,7 +386,7 @@ class _StatsSection extends StatelessWidget {
               spacing: 0,
               runSpacing: 24,
               alignment: WrapAlignment.spaceBetween,
-              children: _stats
+              children: stats
                   .asMap()
                   .entries
                   .map(
@@ -432,11 +434,10 @@ class _StatItem extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           stat.label,
-          style: TextStyle(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             color: Colors.white.withValues(alpha: 0.65),
             letterSpacing: 0.3,
-            fontFamily: 'sans-serif',
           ),
         ),
       ],
@@ -498,26 +499,27 @@ class _AboutSection extends StatelessWidget {
 class _AboutText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionHeading(
-          label: 'About Us',
-          title: 'A World-Class Department at Africa\'s Best University*',
+        SectionHeading(
+          label: s.tr('home.about.label2'),
+          title: s.tr('home.about.title2'),
         ),
         const SizedBox(height: 32),
         Text(
-          'We are home to some of Africa\'s leading computer scientists, working at the intersection of theory, systems, AI, and societal impact.',
+          s.tr('home.about.p1'),
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 32),
         Text(
-          'The Department of Computer Science at Stellenbosch University has a proud tradition of rigorous academic training and pioneering research. Founded with a mission to advance the science and engineering of computing, the department today offers comprehensive undergraduate and postgraduate programmes that prepare graduates for careers in academia, industry, and public service across Africa and globally.',
+          s.tr('home.about.p2'),
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 20),
         Text(
-          'Our researchers contribute to a broad range of fields — from machine learning and theoretical computer science to bioinformatics, information security, and human-computer interaction. Collaboration with international universities, research councils, and industry partners keeps our work at the cutting edge.',
+          s.tr('home.about.p3'),
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const SizedBox(height: 32),
@@ -526,7 +528,7 @@ class _AboutText extends StatelessWidget {
             onPressed: () => launchUrl(
               Uri.parse('https://www.sun.ac.za/english/maties/apply'),
             ),
-            child: const Text('Admissions Information'),
+            child: Text(s.tr('home.about.btn_admissions')),
           ),
         ),
       ],
@@ -535,28 +537,29 @@ class _AboutText extends StatelessWidget {
 }
 
 class _AboutHighlights extends StatelessWidget {
-  static const _items = [
-    _Highlight(
-      Icons.emoji_events,
-      'NRF-Rated Researchers',
-      'Multiple internationally recognized scientists with National Research Foundation ratings.',
-    ),
-    _Highlight(
-      Icons.hub,
-      'Industry Partnerships',
-      'Collaborations with Google, Microsoft, local banks, and government agencies.',
-    ),
-    _Highlight(
-      Icons.public,
-      'African Impact',
-      'Research directly addressing African challenges in agriculture, health, and finance through technology.',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final items = [
+      _Highlight(
+        Icons.emoji_events,
+        s.tr('home.about.h1.title'),
+        s.tr('home.about.h1.body'),
+      ),
+      _Highlight(
+        Icons.hub,
+        s.tr('home.about.h2.title'),
+        s.tr('home.about.h2.body'),
+      ),
+      _Highlight(
+        Icons.public,
+        s.tr('home.about.h3.title'),
+        s.tr('home.about.h3.body'),
+      ),
+    ];
+
     return Column(
-      children: _items
+      children: items
           .asMap()
           .entries
           .map(
@@ -626,42 +629,48 @@ class _Highlight {
 class _QuickLinksSection extends StatelessWidget {
   const _QuickLinksSection();
 
-  static const _links = [
-    _QLink(
-      Icons.school,
-      'Programmes',
-      'BSc, Honours, Masters & PhD offerings.',
-      '/programmes',
-    ),
-    _QLink(
-      Icons.people_alt,
-      'Faculty & Staff',
-      'Meet our researchers and lecturers.',
-      '/staff',
-    ),
-    _QLink(
-      Icons.science,
-      'Research',
-      'Groups, labs, and publications.',
-      '/research',
-    ),
-    _QLink(
-      Icons.event,
-      'News & Events',
-      'Seminars, deadlines, and announcements.',
-      '/news',
-    ),
-    _QLink(
-      Icons.folder_open,
-      'Resources',
-      'Forms, FAQs, and student links.',
-      '/resources',
-    ),
-    _QLink(Icons.location_on, 'Contact', 'Find us on campus.', '/contact'),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final links = [
+      _QLink(
+        Icons.school,
+        s.tr('home.quick.prog.title'),
+        s.tr('home.quick.prog.body'),
+        '/programmes',
+      ),
+      _QLink(
+        Icons.people_alt,
+        s.tr('home.quick.staff.title'),
+        s.tr('home.quick.staff.body'),
+        '/staff',
+      ),
+      _QLink(
+        Icons.science,
+        s.tr('home.quick.research.title'),
+        s.tr('home.quick.research.body'),
+        '/research',
+      ),
+      _QLink(
+        Icons.event,
+        s.tr('home.quick.news.title'),
+        s.tr('home.quick.news.body'),
+        '/news',
+      ),
+      _QLink(
+        Icons.folder_open,
+        s.tr('home.quick.resources.title'),
+        s.tr('home.quick.resources.body'),
+        '/resources',
+      ),
+      _QLink(
+        Icons.location_on,
+        s.tr('home.quick.contact.title'),
+        s.tr('home.quick.contact.body'),
+        '/contact',
+      ),
+    ];
+
     return Container(
       color: AppTheme.maroon.withValues(alpha: 0.03),
       child: Center(
@@ -672,9 +681,9 @@ class _QuickLinksSection extends StatelessWidget {
             child: Column(
               children: [
                 AnimatedSection(
-                  child: const SectionHeading(
-                    label: 'Navigate',
-                    title: 'What are you looking for?',
+                  child: SectionHeading(
+                    label: s.tr('home.quick.label'),
+                    title: s.tr('home.quick.heading'),
                     alignment: CrossAxisAlignment.center,
                   ),
                 ),
@@ -688,7 +697,7 @@ class _QuickLinksSection extends StatelessWidget {
                         : 1;
                     return _ResponsiveGrid(
                       columns: cols,
-                      children: _links
+                      children: links
                           .asMap()
                           .entries
                           .map(
@@ -790,12 +799,11 @@ class _QuickLinkCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Learn more',
-                style: TextStyle(
+                AppSettingsProvider.of(context).tr('home.quick.learn_more'),
+                style: GoogleFonts.openSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.maroon,
-                  fontFamily: 'sans-serif',
                 ),
               ),
               const SizedBox(width: 4),
@@ -814,29 +822,30 @@ class _QuickLinkCard extends StatelessWidget {
 class _NewsPreviewSection extends StatelessWidget {
   const _NewsPreviewSection();
 
-  static const _previews = [
-    _NewsItem(
-      'Prof. Smith\'s AI Lab receives R10M NRF Grant',
-      'March 2026',
-      'Research funding secured for a multi-year project on large language models for African languages.',
-      Icons.science,
-    ),
-    _NewsItem(
-      'CS Olympiad Finals — SU Students shine',
-      'February 2026',
-      'Three Stellenbosch teams place in the top ten at the national ACM ICPC Southern Africa regionals.',
-      Icons.emoji_events,
-    ),
-    _NewsItem(
-      'Upcoming: Research Colloquium 2026',
-      '15 April 2026',
-      'Annual internal research colloquium. All postgrad students are invited to submit abstracts by 30 March.',
-      Icons.event,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final previews = [
+      _NewsItem(
+        s.tr('home.news.item1.title'),
+        s.tr('home.news.item1.date'),
+        s.tr('home.news.item1.body'),
+        Icons.science,
+      ),
+      _NewsItem(
+        s.tr('home.news.item2.title'),
+        s.tr('home.news.item2.date'),
+        s.tr('home.news.item2.body'),
+        Icons.emoji_events,
+      ),
+      _NewsItem(
+        s.tr('home.news.item3.title'),
+        s.tr('home.news.item3.date'),
+        s.tr('home.news.item3.body'),
+        Icons.event,
+      ),
+    ];
+
     return Container(
       color: Colors.transparent,
       child: Center(
@@ -851,15 +860,15 @@ class _NewsPreviewSection extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SectionHeading(
-                        label: 'Latest',
-                        title: 'News & Events',
+                      SectionHeading(
+                        label: s.tr('home.news.label'),
+                        title: s.tr('home.news.title'),
                       ),
                       SelectionContainer.disabled(
                         child: TextButton.icon(
                           onPressed: () => context.go('/news'),
                           icon: const Icon(Icons.arrow_forward, size: 16),
-                          label: const Text('All news'),
+                          label: Text(s.tr('home.news.all_news')),
                           style: TextButton.styleFrom(
                             foregroundColor: AppTheme.maroon,
                           ),
@@ -874,7 +883,7 @@ class _NewsPreviewSection extends StatelessWidget {
                     final cols = constraints.maxWidth > 900 ? 3 : 1;
                     return _ResponsiveGrid(
                       columns: cols,
-                      children: _previews
+                      children: previews
                           .asMap()
                           .entries
                           .map(
@@ -935,12 +944,11 @@ class _NewsCard extends StatelessWidget {
               children: [
                 Text(
                   item.date,
-                  style: TextStyle(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     color: AppTheme.gold,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1,
-                    fontFamily: 'sans-serif',
                   ),
                 ),
                 const SizedBox(height: 8),

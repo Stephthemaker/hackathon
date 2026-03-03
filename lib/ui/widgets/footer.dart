@@ -66,14 +66,14 @@ class SiteFooter extends StatelessWidget {
                   runSpacing: 8,
                   children: [
                     Text(
-                      '© 2026 Department of Computer Science, Stellenbosch University.',
+                      s.tr('footer.copyright'),
                       style: GoogleFonts.openSans(
                         fontSize: 13,
                         color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
                     Text(
-                      'Private Bag X1, Matieland 7602',
+                      s.tr('footer.address'),
                       style: GoogleFonts.openSans(
                         fontSize: 13,
                         color: Colors.white.withValues(alpha: 0.4),

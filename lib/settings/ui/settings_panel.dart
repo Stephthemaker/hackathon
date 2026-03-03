@@ -42,7 +42,7 @@ class SettingsPanel extends StatelessWidget {
                     const SizedBox(width: 10),
                     Text(
                       s.tr('settings.title'),
-                      style: GoogleFonts.playfairDisplay(
+                      style: GoogleFonts.openSans(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: fg,
@@ -147,12 +147,11 @@ class _SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.toUpperCase(),
-      style: const TextStyle(
+      style: GoogleFonts.openSans(
         fontSize: 11,
         fontWeight: FontWeight.w700,
         letterSpacing: 1.8,
         color: AppTheme.gold,
-        fontFamily: 'sans-serif',
       ),
     );
   }
@@ -224,13 +223,12 @@ class _LanguageTileState extends State<_LanguageTile> {
                     children: [
                       Text(
                         widget.locale.label,
-                        style: TextStyle(
+                        style: GoogleFonts.openSans(
                           fontSize: 14,
                           fontWeight: widget.isSelected
                               ? FontWeight.w700
                               : FontWeight.w500,
                           color: widget.fg,
-                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ],
@@ -274,11 +272,10 @@ class _ToggleTile extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.openSans(
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: fg,
-              fontFamily: 'sans-serif',
             ),
           ),
         ),
@@ -401,23 +398,21 @@ class _FontSizeButtonState extends State<_FontSizeButton> {
             children: [
               Text(
                 widget.letter,
-                style: TextStyle(
+                style: GoogleFonts.openSans(
                   fontSize: widget.fontSize,
                   fontWeight: widget.selected
                       ? FontWeight.w700
                       : FontWeight.w500,
                   color: widget.selected ? AppTheme.maroon : widget.fg,
-                  fontFamily: 'sans-serif',
                 ),
               ),
               const SizedBox(height: 4),
               Text(
                 widget.label,
-                style: TextStyle(
+                style: GoogleFonts.openSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: widget.selected ? AppTheme.maroon : AppTheme.textMuted,
-                  fontFamily: 'sans-serif',
                 ),
               ),
             ],

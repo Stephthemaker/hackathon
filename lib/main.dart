@@ -51,16 +51,19 @@ class _MyAppState extends State<MyApp> {
 
     return AppSettingsProvider(
       settings: _settings,
-      child: MediaQuery(
-        data: MediaQuery.of(
-          context,
-        ).copyWith(textScaler: TextScaler.linear(_settings.fontScale)),
-        child: MaterialApp.router(
-          title: 'CS Department - Stellenbosch University',
-          theme: theme,
-          routerConfig: goRouter,
-          debugShowCheckedModeBanner: false,
-        ),
+      child: MaterialApp.router(
+        title: 'CS Department - Stellenbosch University',
+        theme: theme,
+        routerConfig: goRouter,
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          return MediaQuery(
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: TextScaler.linear(_settings.fontScale)),
+            child: child!,
+          );
+        },
       ),
     );
   }

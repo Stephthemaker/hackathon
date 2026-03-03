@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
+import '../settings/app_settings.dart';
 
 class NotFoundPage extends StatelessWidget {
   const NotFoundPage({super.key});
@@ -9,7 +10,7 @@ class NotFoundPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 120),
@@ -40,7 +41,7 @@ class NotFoundPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'Page Not Found',
+                AppSettingsProvider.of(context).tr('notfound.title'),
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
@@ -49,7 +50,7 @@ class NotFoundPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'The page you\'re looking for doesn\'t exist or has been moved.',
+                AppSettingsProvider.of(context).tr('notfound.body'),
                 style: GoogleFonts.openSans(
                   fontSize: 15,
                   color: AppTheme.textMuted,
@@ -63,7 +64,7 @@ class NotFoundPage extends StatelessWidget {
                   onPressed: () => context.go('/'),
                   icon: const Icon(Icons.home_outlined, size: 18),
                   label: Text(
-                    'Back to Home',
+                    AppSettingsProvider.of(context).tr('notfound.btn.home'),
                     style: GoogleFonts.openSans(fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
@@ -26,6 +27,24 @@ class _StaffPageState extends State<StaffPage> {
     'Information Security',
     'Networks & Systems',
   ];
+
+  static const _groupTranslationKeys = {
+    'All': 'staff.filter.all',
+    'Theory & Algorithms': 'staff.filter.theory',
+    'Software Engineering': 'staff.filter.se',
+    'Artificial Intelligence': 'staff.filter.ai',
+    'Computer Vision': 'staff.filter.cv',
+    'Science & Engineering': 'staff.filter.sci',
+    'Information Security': 'staff.filter.sec',
+    'Networks & Systems': 'staff.filter.networks',
+  };
+
+  static const _sortTranslationKeys = {
+    'Name (A–Z)': 'staff.sort.name_asc',
+    'Name (Z–A)': 'staff.sort.name_desc',
+    'Title': 'staff.sort.title',
+    'Group': 'staff.sort.group',
+  };
 
   static const _sortOptions = ['Name (A–Z)', 'Name (Z–A)', 'Title', 'Group'];
 
@@ -267,7 +286,7 @@ class _StaffPageState extends State<StaffPage> {
                 ),
                 const SizedBox(height: 40),
                 Text(
-                  'Academic Staff',
+                  AppSettingsProvider.of(context).tr('staff.section.academic'),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 20),
@@ -281,8 +300,9 @@ class _StaffPageState extends State<StaffPage> {
                       constraints: const BoxConstraints(maxWidth: 440),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText:
-                              'Search by name, title, group, or focus area…',
+                          hintText: AppSettingsProvider.of(
+                            context,
+                          ).tr('staff.search.hint'),
                           prefixIcon: const Icon(
                             Icons.search,
                             color: AppTheme.textMuted,
@@ -300,22 +320,25 @@ class _StaffPageState extends State<StaffPage> {
                           fontSize: 13.5,
                           color: AppTheme.textDark,
                         ),
-                        decoration: const InputDecoration(labelText: 'Sort by'),
-                        items: _sortOptions
-                            .map(
-                              (s) => DropdownMenuItem(
-                                value: s,
-                                child: Text(
-                                  s,
-                                  style: AppTheme.uiControlText.copyWith(
-                                    fontSize: 13.5,
-                                    color: AppTheme.textDark,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
+                        decoration: InputDecoration(
+                          labelText: AppSettingsProvider.of(
+                            context,
+                          ).tr('staff.sort.label'),
+                        ),
+                        items: _sortOptions.map((s) {
+                          final trKey = _sortTranslationKeys[s] ?? s;
+                          return DropdownMenuItem(
+                            value: s,
+                            child: Text(
+                              AppSettingsProvider.of(context).tr(trKey),
+                              style: AppTheme.uiControlText.copyWith(
+                                fontSize: 13.5,
+                                color: AppTheme.textDark,
+                                fontWeight: FontWeight.w500,
                               ),
-                            )
-                            .toList(),
+                            ),
+                          );
+                        }).toList(),
                         onChanged: (v) {
                           if (v != null) {
                             setState(() => _sort = v);
@@ -330,13 +353,14 @@ class _StaffPageState extends State<StaffPage> {
                 LayoutBuilder(
                   builder: (context, constraints) {
                     final useHorizontalScroll = constraints.maxWidth < 800;
+                    final s = AppSettingsProvider.of(context);
                     final filterContent = Wrap(
                       spacing: 10,
                       runSpacing: 10,
                       children: _groups
                           .map(
                             (g) => _GroupFilterButton(
-                              label: g,
+                              label: s.tr(_groupTranslationKeys[g] ?? g),
                               selected: _group == g,
                               onTap: () => setState(() => _group = g),
                             ),
@@ -356,7 +380,9 @@ class _StaffPageState extends State<StaffPage> {
                                   (g) => Padding(
                                     padding: const EdgeInsets.only(right: 10),
                                     child: _GroupFilterButton(
-                                      label: g,
+                                      label: s.tr(
+                                        _groupTranslationKeys[g] ?? g,
+                                      ),
                                       selected: _group == g,
                                       onTap: () => setState(() => _group = g),
                                     ),
@@ -372,7 +398,7 @@ class _StaffPageState extends State<StaffPage> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(color: AppTheme.divider),
                       ),
@@ -385,7 +411,7 @@ class _StaffPageState extends State<StaffPage> {
                 _buildGrid(_filteredAcademic, cols),
                 const SizedBox(height: 56),
                 Text(
-                  'Administrative Staff',
+                  AppSettingsProvider.of(context).tr('staff.section.admin'),
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 20),
@@ -404,7 +430,7 @@ class _StaffPageState extends State<StaffPage> {
         padding: const EdgeInsets.symmetric(vertical: 60),
         child: Center(
           child: Text(
-            'No staff found.',
+            AppSettingsProvider.of(context).tr('staff.empty'),
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
@@ -498,7 +524,9 @@ class _GroupFilterButtonState extends State<_GroupFilterButton> {
             decoration: BoxDecoration(
               color: selected
                   ? AppTheme.maroon
-                  : (_hovered ? AppTheme.background : Colors.white),
+                  : (_hovered
+                        ? Theme.of(context).scaffoldBackgroundColor
+                        : Theme.of(context).colorScheme.surface),
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: selected
@@ -596,12 +624,11 @@ class _StaffCard extends StatelessWidget {
                   ),
                   child: Text(
                     member.group,
-                    style: TextStyle(
+                    style: GoogleFonts.openSans(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: AppTheme.gold,
                       letterSpacing: 0.5,
-                      fontFamily: 'sans-serif',
                     ),
                   ),
                 ),
@@ -615,11 +642,10 @@ class _StaffCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   member.title,
-                  style: TextStyle(
+                  style: GoogleFonts.openSans(
                     fontSize: 12,
                     color: AppTheme.maroon,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'sans-serif',
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -753,7 +779,9 @@ class _Chip extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
           decoration: BoxDecoration(
-            color: onTap != null ? Colors.white : Colors.transparent,
+            color: onTap != null
+                ? Theme.of(context).colorScheme.surface
+                : Colors.transparent,
             border: Border.all(color: AppTheme.divider),
             borderRadius: BorderRadius.circular(4),
           ),

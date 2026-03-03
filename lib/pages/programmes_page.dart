@@ -30,51 +30,51 @@ class _ProgrammesPageState extends State<ProgrammesPage>
     super.dispose();
   }
 
-  static const _programmes = [
+  static List<_Prog> _getProgrammes(AppSettings s) => [
     _Prog(
-      'BSc Computer Science',
-      'Undergraduate degrees including General CS, Computer Systems, Data Science, CS with Genetics, and CS with GIT.',
+      s.tr('prog.bsc.name'),
+      s.tr('prog.bsc.blurb'),
       ['Programming', 'Data Structures', 'Networks', 'Databases'],
-      '3 years full-time',
-      'NSC with required Mathematics & Physical Sciences',
+      s.tr('prog.bsc.duration'),
+      s.tr('prog.bsc.requirements'),
       AppTheme.maroon,
       Icons.school_outlined,
-      'Undergraduate',
+      s.tr('prog.level.undergrad'),
     ),
     _Prog(
-      'BScHons Computer Science',
-      'An intensive 1-year programme combining 6 elective modules and a compulsory independent software or research project.',
+      s.tr('prog.hons.name'),
+      s.tr('prog.hons.blurb'),
       [
         'Advanced Algorithms',
         'Machine Learning',
         'Research Project',
         'Electives',
       ],
-      '1 year full-time',
-      'BSc CS with \u2265 60% average in CS modules',
+      s.tr('prog.hons.duration'),
+      s.tr('prog.hons.requirements'),
       AppTheme.gold,
       Icons.workspace_premium_outlined,
-      'Honours',
+      s.tr('prog.level.honours'),
     ),
     _Prog(
-      'MSc Computer Science',
-      'Thesis-based research programme evaluated on independent research on an approved topic determined by the supervisor(s).',
+      s.tr('prog.msc.name'),
+      s.tr('prog.msc.blurb'),
       ['Independent Research', 'Thesis Defence'],
-      '1\u20132 years',
-      'BScHons CS with \u2265 60% average',
+      s.tr('prog.msc.duration'),
+      s.tr('prog.msc.requirements'),
       Color(0xFF1D4ED8),
       Icons.biotech_outlined,
-      'Postgraduate',
+      s.tr('prog.level.postgrad'),
     ),
     _Prog(
-      'PhD Computer Science',
-      'Dissertation-based programme focused on proposing, conducting, and publishing original cutting-edge research.',
+      s.tr('prog.phd.name'),
+      s.tr('prog.phd.blurb'),
       ['Original Research', 'Dissertation', 'Publication'],
-      '3\u20135 years',
-      'MSc CS or equivalent research degree',
+      s.tr('prog.phd.duration'),
+      s.tr('prog.phd.requirements'),
       Color(0xFF2D6A4F),
       Icons.emoji_events_outlined,
-      'Doctoral',
+      s.tr('prog.level.doctoral'),
     ),
   ];
 
@@ -184,10 +184,10 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   ];
 
   static const _tabKeys = ['yr1', 'yr2', 'yr3', 'yr4'];
-  static const _tabLabels = ['1st Year', '2nd Year', '3rd Year', 'Honours'];
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     final w = MediaQuery.of(context).size.width;
     final cols = w > 1100
         ? 4
@@ -196,7 +196,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
         : 1;
 
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -218,13 +218,18 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                 const SizedBox(height: 40),
                 const _StatsBar(),
                 const SizedBox(height: 60),
-                _ProgGrid(programmes: _programmes, cols: cols),
+                _ProgGrid(programmes: _getProgrammes(s), cols: cols),
                 const SizedBox(height: 72),
                 _ModuleCatalogueHeader(),
                 const SizedBox(height: 24),
                 _ProgTabBar(
                   controller: _tabs,
-                  labels: _tabLabels,
+                  labels: [
+                    s.tr('prog.tab.yr1'),
+                    s.tr('prog.tab.yr2'),
+                    s.tr('prog.tab.yr3'),
+                    s.tr('prog.tab.honours'),
+                  ],
                   counts: _tabKeys
                       .map((k) => _modules.where((m) => m.year == k).length)
                       .toList(),
@@ -242,6 +247,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   }
 
   Widget _buildApplyCTA(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Container(
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
@@ -305,19 +311,18 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                         ),
                       ),
                       child: Text(
-                        'Applications Open',
-                        style: TextStyle(
+                        s.tr('prog.cta.badge'),
+                        style: GoogleFonts.openSans(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: AppTheme.goldLight,
                           letterSpacing: 0.8,
-                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Ready to Apply?',
+                      s.tr('prog.cta.title'),
                       style: GoogleFonts.playfairDisplay(
                         fontSize: 32,
                         fontWeight: FontWeight.w500,
@@ -327,7 +332,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Applications for 2027 open on 1 March. Prepare your\ndocuments and apply online through the SU portal.',
+                      s.tr('prog.cta.body'),
                       style: GoogleFonts.openSans(
                         fontSize: 15,
                         color: Colors.white.withValues(alpha: 0.75),
@@ -349,7 +354,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               mode: LaunchMode.externalApplication,
                             ),
                             icon: const Icon(Icons.launch_rounded, size: 15),
-                            label: const Text('Apply Online'),
+                            label: Text(s.tr('prog.cta.btn.apply')),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.gold,
                               foregroundColor: Colors.white,
@@ -361,10 +366,9 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              textStyle: const TextStyle(
+                              textStyle: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -381,7 +385,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               ),
                             ),
                             icon: const Icon(Icons.email_outlined, size: 15),
-                            label: const Text('Email Admissions'),
+                            label: Text(s.tr('prog.cta.btn.email')),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: Colors.white,
                               side: BorderSide(
@@ -394,10 +398,9 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              textStyle: const TextStyle(
+                              textStyle: GoogleFonts.openSans(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
-                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -458,15 +461,15 @@ class _ProgrammesPageState extends State<ProgrammesPage>
 class _StatsBar extends StatelessWidget {
   const _StatsBar();
 
-  static const _stats = [
-    ('4', 'Degree Programmes', Icons.menu_book_outlined),
-    ('17+', 'Modules Offered', Icons.grid_view_rounded),
-    ('Top 3', 'CS Dept in Africa', Icons.emoji_events_outlined),
-    ('1866', 'Year Established', Icons.account_balance_outlined),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final _stats = [
+      ('4', s.tr('prog.stats.programmes'), Icons.menu_book_outlined),
+      ('17+', s.tr('prog.stats.modules'), Icons.grid_view_rounded),
+      ('Top 3', s.tr('prog.stats.ranking'), Icons.emoji_events_outlined),
+      ('1866', s.tr('prog.stats.established'), Icons.account_balance_outlined),
+    ];
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth > 800;
@@ -475,7 +478,7 @@ class _StatsBar extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           decoration: BoxDecoration(
-            color: AppTheme.surface,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: AppTheme.divider),
             boxShadow: [
@@ -625,12 +628,11 @@ class _StatItem extends StatelessWidget {
             ),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.openSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
                 color: AppTheme.textMuted,
                 height: 1.4,
-                fontFamily: 'sans-serif',
               ),
             ),
           ],
@@ -690,6 +692,7 @@ class _ProgGrid extends StatelessWidget {
 class _ModuleCatalogueHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Row(
       children: [
         Container(width: 4, height: 32, color: AppTheme.gold),
@@ -698,7 +701,7 @@ class _ModuleCatalogueHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Module Catalogue',
+              s.tr('prog.modules.heading'),
               style: GoogleFonts.openSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -708,7 +711,7 @@ class _ModuleCatalogueHeader extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              'Select a year to browse modules — tap any row to expand its description.',
+              s.tr('prog.modules.subtitle'),
               style: GoogleFonts.openSans(
                 fontSize: 14,
                 color: AppTheme.textMuted,
@@ -766,7 +769,7 @@ class _ProgCard extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.surface,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppTheme.divider),
           boxShadow: [
@@ -822,19 +825,18 @@ class _ProgCard extends StatelessWidget {
                           ),
                           child: Text(
                             prog.level,
-                            style: TextStyle(
+                            style: GoogleFonts.openSans(
                               fontSize: 9,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.8,
                               color: prog.accent,
-                              fontFamily: 'sans-serif',
                             ),
                           ),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           prog.name,
-                          style: GoogleFonts.playfairDisplay(
+                          style: GoogleFonts.openSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: AppTheme.textDark,
@@ -892,11 +894,10 @@ class _ProgCard extends StatelessWidget {
                             ),
                             child: Text(
                               h,
-                              style: TextStyle(
+                              style: GoogleFonts.openSans(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w500,
                                 color: prog.accent,
-                                fontFamily: 'sans-serif',
                               ),
                             ),
                           ),
@@ -936,12 +937,11 @@ class _InfoRow extends StatelessWidget {
         Expanded(
           child: Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.openSans(
               fontSize: 12,
               color: color,
               fontWeight: FontWeight.w500,
               height: 1.5,
-              fontFamily: 'sans-serif',
             ),
           ),
         ),
@@ -967,7 +967,7 @@ class _ProgTabBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppTheme.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppTheme.divider),
       ),
@@ -995,11 +995,10 @@ class _ProgTabBar extends StatelessWidget {
                     children: [
                       Text(
                         e.value,
-                        style: TextStyle(
+                        style: GoogleFonts.openSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w500,
                           color: sel ? Colors.white : AppTheme.textMuted,
-                          fontFamily: 'sans-serif',
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -1017,11 +1016,10 @@ class _ProgTabBar extends StatelessWidget {
                         ),
                         child: Text(
                           '${counts[e.key]}',
-                          style: TextStyle(
+                          style: GoogleFonts.openSans(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             color: sel ? Colors.white : AppTheme.maroon,
-                            fontFamily: 'sans-serif',
                           ),
                         ),
                       ),
@@ -1074,6 +1072,7 @@ class _ModuleRowState extends State<_ModuleRow> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     final accent = _accentColor;
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
@@ -1087,10 +1086,12 @@ class _ModuleRowState extends State<_ModuleRow> {
           margin: EdgeInsets.only(bottom: widget.isOpen ? 12 : 6),
           decoration: BoxDecoration(
             color: widget.isOpen
-                ? AppTheme.surface
+                ? Theme.of(context).colorScheme.surface
                 : (_isHovered
-                      ? AppTheme.surface.withValues(alpha: 0.8)
-                      : AppTheme.surface),
+                      ? Theme.of(
+                          context,
+                        ).colorScheme.surface.withValues(alpha: 0.8)
+                      : Theme.of(context).colorScheme.surface),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: widget.isOpen
@@ -1134,7 +1135,7 @@ class _ModuleRowState extends State<_ModuleRow> {
                     Expanded(
                       child: Text(
                         widget.mod.name,
-                        style: TextStyle(
+                        style: GoogleFonts.openSans(
                           fontSize: 15,
                           fontWeight: widget.isOpen
                               ? FontWeight.w600
@@ -1142,13 +1143,13 @@ class _ModuleRowState extends State<_ModuleRow> {
                           color: widget.isOpen
                               ? AppTheme.textDark
                               : AppTheme.textDark.withValues(alpha: 0.9),
-                          fontFamily: 'sans-serif',
                         ),
                       ),
                     ),
                     const SizedBox(width: 12),
                     _ModuleBadge(
-                      label: '${widget.mod.credits} credits',
+                      label:
+                          '${widget.mod.credits} ${s.tr('prog.module.credits')}',
                       color: accent,
                     ),
                     const SizedBox(width: 12),
@@ -1212,11 +1213,10 @@ class _ModuleBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: GoogleFonts.openSans(
           fontSize: 11,
           fontWeight: FontWeight.w600,
           color: color,
-          fontFamily: 'sans-serif',
         ),
       ),
     );
@@ -1228,15 +1228,15 @@ class _ModuleBadge extends StatelessWidget {
 class _CTAChecklist extends StatelessWidget {
   const _CTAChecklist();
 
-  static const _items = [
-    'Certified academic transcripts',
-    'National Senior Certificate',
-    'South African ID or passport copy',
-    'Proof of English proficiency',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
+    final _items = [
+      s.tr('prog.cta.docs.transcripts'),
+      s.tr('prog.cta.docs.nsc'),
+      s.tr('prog.cta.docs.id'),
+      s.tr('prog.cta.docs.english'),
+    ];
     return Container(
       constraints: const BoxConstraints(maxWidth: 280),
       padding: const EdgeInsets.all(24),
@@ -1250,13 +1250,12 @@ class _CTAChecklist extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'Documents Required',
-            style: TextStyle(
+            s.tr('prog.cta.docs.heading'),
+            style: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w500,
               color: Colors.white.withValues(alpha: 0.9),
               letterSpacing: 0.4,
-              fontFamily: 'sans-serif',
             ),
           ),
           const SizedBox(height: 14),

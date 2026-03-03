@@ -17,7 +17,7 @@ class ResearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectionArea(
       child: Container(
-        color: AppTheme.background,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: const [_GroupsSection(), _ResourcesSection()],
@@ -192,7 +192,7 @@ class _GroupsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1240),
@@ -241,7 +241,7 @@ class _GroupCard extends StatelessWidget {
       depth: 0.15,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
         ),
         child: isDesktop
@@ -338,7 +338,7 @@ class _GroupInfo extends StatelessWidget {
           if (group.officialLinks.isNotEmpty) ...[
             const SizedBox(height: 24),
             Text(
-              'OFFICIAL LINKS',
+              AppSettingsProvider.of(context).tr('research.official_links'),
               style: GoogleFonts.openSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
@@ -492,7 +492,7 @@ class _MembersPane extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppTheme.background,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: isBottom
             ? const BorderRadius.only(
                 bottomLeft: Radius.circular(12),
@@ -513,7 +513,7 @@ class _MembersPane extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'CURRENT MEMBERS',
+            AppSettingsProvider.of(context).tr('research.current_members'),
             style: GoogleFonts.openSans(
               fontSize: 11,
               fontWeight: FontWeight.w700,
@@ -534,7 +534,7 @@ class _MembersPane extends StatelessWidget {
             child: GestureDetector(
               onTap: () => context.go('/staff'),
               child: Text(
-                'Full staff directory →',
+                AppSettingsProvider.of(context).tr('research.staff_directory'),
                 style: GoogleFonts.openSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
@@ -590,7 +590,7 @@ class _FocusChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
       decoration: BoxDecoration(
-        color: AppTheme.background,
+        color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(6),
         border: Border.all(color: AppTheme.divider),
       ),
@@ -735,7 +735,7 @@ class _ResourcesSection extends StatelessWidget {
     }
 
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1240),
@@ -747,12 +747,17 @@ class _ResourcesSection extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: SectionHeading(
-                        label: 'Tools',
-                        title: 'Research Tools & Projects',
-                        subtitle:
-                            'Software and platforms produced by our research groups, available for academic use.',
+                        label: AppSettingsProvider.of(
+                          context,
+                        ).tr('research.tools.label'),
+                        title: AppSettingsProvider.of(
+                          context,
+                        ).tr('research.tools.title'),
+                        subtitle: AppSettingsProvider.of(
+                          context,
+                        ).tr('research.tools.subtitle'),
                       ),
                     ),
                     const SizedBox(width: 24),
@@ -763,7 +768,9 @@ class _ResourcesSection extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'All Resources',
+                              AppSettingsProvider.of(
+                                context,
+                              ).tr('research.tools.all_resources'),
                               style: GoogleFonts.openSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
@@ -843,7 +850,7 @@ class _BannerText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Interested in Research?',
+          AppSettingsProvider.of(context).tr('research.banner.title'),
           style: GoogleFonts.playfairDisplay(
             fontSize: 32,
             fontWeight: FontWeight.w700,
@@ -853,8 +860,7 @@ class _BannerText extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         Text(
-          'Our research groups actively supervise Honours, Masters, and PhD students. '
-          'Explore available programmes or get in touch with the department directly.',
+          AppSettingsProvider.of(context).tr('research.banner.body'),
           style: GoogleFonts.openSans(
             fontSize: 15,
             color: Colors.white.withValues(alpha: 0.78),
@@ -869,17 +875,18 @@ class _BannerText extends StatelessWidget {
 class _BannerActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Wrap(
       spacing: 16,
       runSpacing: 16,
       children: [
         _BannerButton(
-          label: 'Explore Programmes',
+          label: s.tr('research.banner.btn.programmes'),
           icon: Icons.school_outlined,
           onTap: () => context.go('/programmes'),
         ),
         _BannerButton(
-          label: 'Contact the Department',
+          label: s.tr('research.banner.btn.contact'),
           icon: Icons.mail_outline,
           onTap: () => context.go('/contact'),
         ),

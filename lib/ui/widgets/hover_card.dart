@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../settings/app_settings.dart';
 import '../../theme/app_theme.dart';
 
 /// A card that lifts slightly and gains a shadow on hover.
@@ -31,10 +32,11 @@ class _HoverCardState extends State<HoverCard> {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = AppSettingsProvider.of(context).reduceMotion;
     Matrix4 transform = Matrix4.identity();
     double activeDepth = widget.depth;
 
-    if (_hovered) {
+    if (_hovered && !reduceMotion) {
       final RenderBox? box =
           _key.currentContext?.findRenderObject() as RenderBox?;
       if (box != null) {
@@ -106,7 +108,7 @@ class _HoverCardState extends State<HoverCard> {
             curve: Curves.easeOut,
             padding: widget.padding,
             decoration: BoxDecoration(
-              color: widget.color ?? Colors.white,
+              color: widget.color ?? Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(widget.borderRadius),
               border: Border.all(
                 color: _hovered

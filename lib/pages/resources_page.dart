@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
@@ -14,68 +15,68 @@ class ResourcesPage extends StatefulWidget {
 class _ResourcesPageState extends State<ResourcesPage> {
   int? _openFaq;
 
-  static const _links = [
+  static List<_RL> _getLinks(AppSettings s) => [
     _RL(
       Icons.school,
-      'SUNLearn',
+      s.tr('res.link.sunlearn.name'),
       'learn.sun.ac.za',
-      'Course content, assignments, grades, and lecture recordings.',
+      s.tr('res.link.sunlearn.desc'),
     ),
     _RL(
       Icons.computer,
-      'CS Lab Booking',
+      s.tr('res.link.lab.name'),
       'labs.cs.sun.ac.za',
-      'Reserve a computer lab session for practicals or project work.',
+      s.tr('res.link.lab.desc'),
     ),
     _RL(
       Icons.library_books,
-      'Library E-Resources',
+      s.tr('res.link.library.name'),
       'library.sun.ac.za',
-      'IEEE Xplore, ACM DL, Springer, and more scholarly databases.',
+      s.tr('res.link.library.desc'),
     ),
     _RL(
       Icons.wifi,
-      'eduroam Setup',
+      s.tr('res.link.eduroam.name'),
       'it.sun.ac.za/eduroam',
-      'Wireless access across campus and partner institutions worldwide.',
+      s.tr('res.link.eduroam.desc'),
     ),
     _RL(
       Icons.cloud,
-      'Stellenbosch HPC',
+      s.tr('res.link.hpc.name'),
       'hpc.sun.ac.za',
-      'High-performance computing cluster for research workloads.',
+      s.tr('res.link.hpc.desc'),
     ),
     _RL(
       Icons.contact_support,
-      'IT Help Desk',
+      s.tr('res.link.helpdesk.name'),
       'servicedesk.sun.ac.za',
-      '24/7 technical support portal for students and staff.',
+      s.tr('res.link.helpdesk.desc'),
     ),
   ];
 
-  static const _tools = [
+  static List<_Tool> _getTools(AppSettings s) => [
     _Tool(
       Icons.code,
-      'GitHub Student Pack',
-      'Free developer tools, domains, and cloud credits for students.',
+      s.tr('res.tool.github.name'),
+      s.tr('res.tool.github.desc'),
       'https://education.github.com/pack',
     ),
     _Tool(
       Icons.terminal,
-      'JetBrains Toolbox',
-      'Free professional IDEs (IntelliJ, PyCharm, CLion) with university email.',
+      s.tr('res.tool.jetbrains.name'),
+      s.tr('res.tool.jetbrains.desc'),
       'https://www.jetbrains.com/community/education/',
     ),
     _Tool(
       Icons.cloud_queue,
-      'Azure for Students',
-      'Free Azure credits and services for learning cloud computing.',
+      s.tr('res.tool.azure.name'),
+      s.tr('res.tool.azure.desc'),
       'https://azure.microsoft.com/en-us/free/students/',
     ),
     _Tool(
       Icons.auto_awesome,
-      'Overleaf',
-      'Collaborative LaTeX editor for writing research papers and theses.',
+      s.tr('res.tool.overleaf.name'),
+      s.tr('res.tool.overleaf.desc'),
       'https://www.overleaf.com/',
     ),
   ];
@@ -117,14 +118,17 @@ class _ResourcesPageState extends State<ResourcesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     final w = MediaQuery.of(context).size.width;
     final cols = w > 900
         ? 3
         : w > 600
         ? 2
         : 1;
+    final links = _getLinks(s);
+    final tools = _getTools(s);
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -133,40 +137,35 @@ class _ResourcesPageState extends State<ResourcesPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Builder(
-                  builder: (ctx) {
-                    final s = AppSettingsProvider.of(ctx);
-                    return SectionHeading(
-                      label: s.tr('res.label'),
-                      title: s.tr('res.title'),
-                      subtitle: s.tr('res.subtitle'),
-                    );
-                  },
+                SectionHeading(
+                  label: s.tr('res.label'),
+                  title: s.tr('res.title'),
+                  subtitle: s.tr('res.subtitle'),
                 ),
                 const SizedBox(height: 48),
 
                 // Quick Links
-                _sectionLabel('Quick Links'),
+                _sectionLabel(s.tr('res.section.quick_links')),
                 const SizedBox(height: 20),
-                _linksGrid(cols),
+                _linksGrid(cols, links),
 
                 const SizedBox(height: 56),
 
                 // Developer & Study Tools
-                _sectionLabel('Developer & Study Tools'),
+                _sectionLabel(s.tr('res.section.dev_tools')),
                 const SizedBox(height: 20),
-                _toolsGrid(w > 800 ? 2 : 1),
+                _toolsGrid(w > 800 ? 2 : 1, tools),
 
                 const SizedBox(height: 56),
 
                 // Important Dates
                 const SizedBox(height: 20),
-                _buildImportantDates(context),
+                _buildImportantDates(context, s),
 
                 const SizedBox(height: 56),
 
                 // FAQ
-                _sectionLabel('Frequently Asked Questions'),
+                _sectionLabel(s.tr('res.section.faq')),
                 const SizedBox(height: 24),
                 ..._faqs.asMap().entries.map(
                   (e) => Padding(
@@ -196,26 +195,25 @@ class _ResourcesPageState extends State<ResourcesPage> {
         const SizedBox(width: 12),
         Text(
           text,
-          style: TextStyle(
+          style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w700,
             color: AppTheme.textDark,
             letterSpacing: 0.5,
-            fontFamily: 'sans-serif',
           ),
         ),
       ],
     );
   }
 
-  Widget _buildImportantDates(BuildContext context) {
-    const dates = [
-      _Date('1 Mar', 'Applications open for 2027 intake'),
-      _Date('15 Jul', 'Semester 2 registration deadline'),
-      _Date('22 Aug', 'CS Research Colloquium'),
-      _Date('3 Oct', 'Honours project showcase'),
-      _Date('14 Nov', 'Graduation ceremony'),
-      _Date('6 Dec', 'Exam results released'),
+  Widget _buildImportantDates(BuildContext context, AppSettings s) {
+    final dates = [
+      _Date('1 Mar', s.tr('res.date.1.label')),
+      _Date('15 Jul', s.tr('res.date.2.label')),
+      _Date('22 Aug', s.tr('res.date.3.label')),
+      _Date('3 Oct', s.tr('res.date.4.label')),
+      _Date('14 Nov', s.tr('res.date.5.label')),
+      _Date('6 Dec', s.tr('res.date.6.label')),
     ];
 
     final isWide = MediaQuery.of(context).size.width > 700;
@@ -223,18 +221,18 @@ class _ResourcesPageState extends State<ResourcesPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionLabel('Important Dates \u2014 2026'),
+        _sectionLabel(s.tr('res.section.dates')),
         const SizedBox(height: 28),
         _AnimatedTimeline(dates: dates, isWide: isWide),
       ],
     );
   }
 
-  Widget _linksGrid(int cols) {
+  Widget _linksGrid(int cols, List<_RL> links) {
     final rows = <Widget>[];
-    for (int i = 0; i < _links.length; i += cols) {
-      final end = (i + cols < _links.length) ? i + cols : _links.length;
-      final row = _links.sublist(i, end);
+    for (int i = 0; i < links.length; i += cols) {
+      final end = (i + cols < links.length) ? i + cols : links.length;
+      final row = links.sublist(i, end);
       final fill = cols - row.length;
       rows.add(
         Padding(
@@ -266,11 +264,11 @@ class _ResourcesPageState extends State<ResourcesPage> {
     return Column(children: rows);
   }
 
-  Widget _toolsGrid(int cols) {
+  Widget _toolsGrid(int cols, List<_Tool> tools) {
     final rows = <Widget>[];
-    for (int i = 0; i < _tools.length; i += cols) {
-      final end = (i + cols < _tools.length) ? i + cols : _tools.length;
-      final row = _tools.sublist(i, end);
+    for (int i = 0; i < tools.length; i += cols) {
+      final end = (i + cols < tools.length) ? i + cols : tools.length;
+      final row = tools.sublist(i, end);
       final fill = cols - row.length;
       rows.add(
         Padding(
@@ -374,11 +372,10 @@ class _LinkCard extends StatelessWidget {
                 Flexible(
                   child: Text(
                     link.url,
-                    style: TextStyle(
+                    style: GoogleFonts.openSans(
                       fontSize: 11,
                       color: AppTheme.maroon,
                       fontWeight: FontWeight.w500,
-                      fontFamily: 'sans-serif',
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -646,8 +643,8 @@ class _TimelineEntryState extends State<_TimelineEntry>
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: _hovered
-                ? Colors.white
-                : Colors.white.withValues(alpha: 0.85),
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context).colorScheme.surface.withValues(alpha: 0.85),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: _hovered
@@ -686,12 +683,11 @@ class _TimelineEntryState extends State<_TimelineEntry>
                   children: [
                     Text(
                       widget.date.date,
-                      style: TextStyle(
+                      style: GoogleFonts.openSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: widget.accent,
                         letterSpacing: 0.5,
-                        fontFamily: 'sans-serif',
                       ),
                     ),
                     const SizedBox(height: 4),

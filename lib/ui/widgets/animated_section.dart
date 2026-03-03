@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import '../../settings/app_settings.dart';
 
 class AnimatedSection extends StatefulWidget {
   final Widget child;
@@ -24,6 +25,11 @@ class _AnimatedSectionState extends State<AnimatedSection> {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = AppSettingsProvider.of(context).reduceMotion;
+
+    // If reduce motion is on, skip animations entirely
+    if (reduceMotion) return widget.child;
+
     return VisibilityDetector(
       key: widget.key ?? Key(widget.hashCode.toString()),
       onVisibilityChanged: (info) {

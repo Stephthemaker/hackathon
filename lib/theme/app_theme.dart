@@ -14,10 +14,9 @@ class AppTheme {
   static const Color textMuted = Color(0xFF6B6B6B);
   static const Color divider = Color(0xFFE5E0D8);
   static const Color darkBg = Color(0xFF0E0608);
-  static const TextStyle uiControlText = TextStyle(
+  static final TextStyle uiControlText = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    fontFamily: 'sans-serif',
     letterSpacing: 0.2,
   );
 
@@ -55,7 +54,7 @@ class AppTheme {
           height: 1.15,
           letterSpacing: -0.5,
         ),
-        displaySmall: GoogleFonts.openSans(
+        displaySmall: GoogleFonts.playfairDisplay(
           fontSize: 36,
           fontWeight: FontWeight.w600,
           color: textDark,
@@ -73,7 +72,7 @@ class AppTheme {
           color: textDark,
           height: 1.3,
         ),
-        headlineSmall: GoogleFonts.openSans(
+        headlineSmall: GoogleFonts.playfairDisplay(
           fontSize: 22,
           fontWeight: FontWeight.w600,
           color: textDark,
@@ -100,11 +99,10 @@ class AppTheme {
           color: textMuted,
           height: 1.6,
         ),
-        labelLarge: const TextStyle(
+        labelLarge: GoogleFonts.openSans(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
-          fontFamily: 'sans-serif',
           color: textDark,
         ),
       ),
@@ -144,16 +142,14 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,
-        labelStyle: const TextStyle(
+        labelStyle: GoogleFonts.openSans(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          fontFamily: 'sans-serif',
           color: textMuted,
         ),
-        hintStyle: const TextStyle(
+        hintStyle: GoogleFonts.openSans(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          fontFamily: 'sans-serif',
           color: textMuted,
         ),
         border: OutlineInputBorder(
@@ -176,10 +172,9 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: background,
         selectedColor: maroon,
-        labelStyle: const TextStyle(
+        labelStyle: GoogleFonts.openSans(
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          fontFamily: 'sans-serif',
         ),
         side: const BorderSide(color: divider),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -230,7 +225,7 @@ class AppTheme {
           height: 1.15,
           letterSpacing: -0.5,
         ),
-        displaySmall: GoogleFonts.openSans(
+        displaySmall: GoogleFonts.playfairDisplay(
           fontSize: 36,
           fontWeight: FontWeight.w600,
           color: darkText,
@@ -248,7 +243,7 @@ class AppTheme {
           color: darkText,
           height: 1.3,
         ),
-        headlineSmall: GoogleFonts.openSans(
+        headlineSmall: GoogleFonts.playfairDisplay(
           fontSize: 22,
           fontWeight: FontWeight.w600,
           color: darkText,
@@ -275,11 +270,10 @@ class AppTheme {
           color: darkMuted,
           height: 1.6,
         ),
-        labelLarge: const TextStyle(
+        labelLarge: GoogleFonts.openSans(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.2,
-          fontFamily: 'sans-serif',
           color: darkText,
         ),
       ),
@@ -322,16 +316,14 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: darkCard,
-        labelStyle: TextStyle(
+        labelStyle: GoogleFonts.openSans(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          fontFamily: 'sans-serif',
           color: darkMuted,
         ),
-        hintStyle: TextStyle(
+        hintStyle: GoogleFonts.openSans(
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          fontFamily: 'sans-serif',
           color: darkMuted,
         ),
         border: OutlineInputBorder(
@@ -354,10 +346,9 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: darkCard,
         selectedColor: maroon,
-        labelStyle: const TextStyle(
+        labelStyle: GoogleFonts.openSans(
           fontSize: 13,
           fontWeight: FontWeight.w500,
-          fontFamily: 'sans-serif',
         ),
         side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -369,14 +360,32 @@ class AppTheme {
   // ── High-contrast light theme ───────────────────────────────────────
   static ThemeData get highContrastLightTheme {
     return lightTheme.copyWith(
-      colorScheme: lightTheme.colorScheme.copyWith(onSurface: Colors.black),
+      colorScheme: lightTheme.colorScheme.copyWith(
+        onSurface: Colors.black,
+        onSurfaceVariant: Colors.black87,
+        outline: Colors.black54,
+      ),
+      textTheme: lightTheme.textTheme.apply(
+        bodyColor: Colors.black,
+        displayColor: Colors.black,
+      ),
+      dividerTheme: const DividerThemeData(color: Colors.black26),
     );
   }
 
   // ── High-contrast dark theme ────────────────────────────────────────
   static ThemeData get highContrastDarkTheme {
     return darkTheme.copyWith(
-      colorScheme: darkTheme.colorScheme.copyWith(onSurface: Colors.white),
+      colorScheme: darkTheme.colorScheme.copyWith(
+        onSurface: Colors.white,
+        onSurfaceVariant: Colors.white70,
+        outline: Colors.white54,
+      ),
+      textTheme: darkTheme.textTheme.apply(
+        bodyColor: Colors.white,
+        displayColor: Colors.white,
+      ),
+      dividerTheme: const DividerThemeData(color: Colors.white24),
     );
   }
 }

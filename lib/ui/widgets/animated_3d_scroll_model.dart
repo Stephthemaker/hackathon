@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math' as math;
 import '../layout/app_shell.dart';
 import '../../theme/app_theme.dart';
+import '../../settings/app_settings.dart';
 
 class Interactive3DScrollModel extends StatefulWidget {
   final double size;
@@ -40,6 +41,16 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = AppSettingsProvider.of(context).reduceMotion;
+
+    // If reduce motion is on, show a static version
+    if (reduceMotion) {
+      if (widget.variant == 1) {
+        return _buildStellenboschLocation(0);
+      }
+      return SizedBox(width: widget.size * 1.5, height: widget.size * 1.5);
+    }
+
     // Rebuilds smoothly whenever scroll offset changes!
     final scrollCtrl = ScrollProvider.of(context);
     final offset = scrollCtrl.hasClients ? scrollCtrl.offset : 0.0;
@@ -372,7 +383,7 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
                     padding: const EdgeInsets.all(12.0),
                     child: Center(
                       child: SvgPicture.asset(
-                        'web/assets/general/logo.svg',
+                        'web/assets/general/favicon.svg',
                         fit: BoxFit.contain,
                       ),
                     ),

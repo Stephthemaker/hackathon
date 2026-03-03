@@ -18,6 +18,16 @@ class _ContactPageState extends State<ContactPage> {
   String _name = '', _email = '', _subject = 'General Enquiry', _message = '';
   bool _submitted = false;
 
+  static const _subjectKeys = {
+    'General Enquiry': 'contact.subject.general',
+    'Undergraduate Admissions': 'contact.subject.ug_admissions',
+    'Postgraduate Admissions': 'contact.subject.pg_admissions',
+    'Research Collaboration': 'contact.subject.research',
+    'Industry Partnership': 'contact.subject.industry',
+    'Media / Press': 'contact.subject.media',
+    'IT Support': 'contact.subject.it_support',
+  };
+
   static const _subjects = [
     'General Enquiry',
     'Undergraduate Admissions',
@@ -50,7 +60,7 @@ class _ContactPageState extends State<ContactPage> {
     final w = MediaQuery.of(context).size.width;
     final wide = w > 860;
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -117,14 +127,17 @@ class _ContactPageState extends State<ContactPage> {
               ),
               const SizedBox(height: 20),
               Text(
-                'Message Sent!',
+                AppSettingsProvider.of(context).tr('contact.success.title'),
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 10),
               Text(
-                'Thank you $_name. We\'ll respond to $_email within two business days.',
+                AppSettingsProvider.of(context)
+                    .tr('contact.success.body')
+                    .replaceAll('{name}', _name)
+                    .replaceAll('{email}', _email),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: AppTheme.textMuted,
@@ -138,7 +151,11 @@ class _ContactPageState extends State<ContactPage> {
                     _submitted = false;
                     _formKey.currentState?.reset();
                   }),
-                  child: const Text('Send another message'),
+                  child: Text(
+                    AppSettingsProvider.of(
+                      context,
+                    ).tr('contact.btn.send_another'),
+                  ),
                 ),
               ),
             ],
@@ -159,7 +176,7 @@ class _ContactPageState extends State<ContactPage> {
                   Container(width: 3, height: 20, color: AppTheme.gold),
                   const SizedBox(width: 10),
                   Text(
-                    'Send a Message',
+                    AppSettingsProvider.of(context).tr('contact.form.heading'),
                     style: GoogleFonts.openSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -173,18 +190,20 @@ class _ContactPageState extends State<ContactPage> {
                 children: [
                   Expanded(
                     child: _textField(
-                      'Full Name',
+                      AppSettingsProvider.of(context).tr('contact.form.name'),
                       onSaved: (v) => _name = v ?? '',
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: _textField(
-                      'Email Address',
+                      AppSettingsProvider.of(context).tr('contact.form.email'),
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) => (v?.contains('@') ?? false)
                           ? null
-                          : 'Enter a valid email',
+                          : AppSettingsProvider.of(
+                              context,
+                            ).tr('contact.form.email_error'),
                       onSaved: (v) => _email = v ?? '',
                     ),
                   ),
@@ -194,16 +213,29 @@ class _ContactPageState extends State<ContactPage> {
               DropdownButtonFormField<String>(
                 initialValue: _subject,
                 style: Theme.of(context).textTheme.bodyMedium,
-                decoration: const InputDecoration(labelText: 'Subject'),
+                decoration: InputDecoration(
+                  labelText: AppSettingsProvider.of(
+                    context,
+                  ).tr('contact.form.subject'),
+                ),
                 items: _subjects
-                    .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                    .map(
+                      (s) => DropdownMenuItem(
+                        value: s,
+                        child: Text(
+                          AppSettingsProvider.of(
+                            context,
+                          ).tr(_subjectKeys[s] ?? s),
+                        ),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) => setState(() => _subject = v ?? _subject),
                 onSaved: (v) => _subject = v ?? _subject,
               ),
               const SizedBox(height: 16),
               _textField(
-                'Message',
+                AppSettingsProvider.of(context).tr('contact.form.message'),
                 maxLines: 5,
                 onSaved: (v) => _message = v ?? '',
               ),
@@ -218,7 +250,7 @@ class _ContactPageState extends State<ContactPage> {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                     child: Text(
-                      'Send Message',
+                      AppSettingsProvider.of(context).tr('contact.btn.send'),
                       style: GoogleFonts.openSans(
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -246,7 +278,10 @@ class _ContactPageState extends State<ContactPage> {
       keyboardType: keyboardType,
       decoration: InputDecoration(labelText: label),
       validator:
-          validator ?? (v) => (v?.trim().isEmpty ?? true) ? 'Required' : null,
+          validator ??
+          (v) => (v?.trim().isEmpty ?? true)
+              ? AppSettingsProvider.of(context).tr('contact.form.required')
+              : null,
       onSaved: onSaved,
     );
   }
@@ -257,6 +292,7 @@ class _InfoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -271,7 +307,7 @@ class _InfoPanel extends StatelessWidget {
                     Container(width: 3, height: 20, color: AppTheme.gold),
                     const SizedBox(width: 10),
                     Text(
-                      'Contact Details',
+                      s.tr('contact.info.heading'),
                       style: GoogleFonts.openSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -286,7 +322,7 @@ class _InfoPanel extends StatelessWidget {
                 ),
                 const _InfoRow(Icons.phone, '+27 21 808 4200'),
                 const _InfoRow(Icons.email, 'cs@sun.ac.za'),
-                const _InfoRow(Icons.access_time, 'Mon–Fri 08:00–16:30'),
+                _InfoRow(Icons.access_time, s.tr('contact.info.hours')),
               ],
             ),
           ),
@@ -303,7 +339,7 @@ class _InfoPanel extends StatelessWidget {
                     Container(width: 3, height: 20, color: AppTheme.gold),
                     const SizedBox(width: 10),
                     Text(
-                      'Key Contacts',
+                      s.tr('contact.key_contacts.heading'),
                       style: GoogleFonts.openSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -312,10 +348,22 @@ class _InfoPanel extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-                const _KeyContact('Undergraduate Office', 'ug@cs.sun.ac.za'),
-                const _KeyContact('Postgraduate Office', 'pg@cs.sun.ac.za'),
-                const _KeyContact('Research Office', 'research@cs.sun.ac.za'),
-                const _KeyContact('IT & Lab Support', 'it@cs.sun.ac.za'),
+                _KeyContact(
+                  s.tr('contact.key_contacts.ug_office'),
+                  'ug@cs.sun.ac.za',
+                ),
+                _KeyContact(
+                  s.tr('contact.key_contacts.pg_office'),
+                  'pg@cs.sun.ac.za',
+                ),
+                _KeyContact(
+                  s.tr('contact.key_contacts.research_office'),
+                  'research@cs.sun.ac.za',
+                ),
+                _KeyContact(
+                  s.tr('contact.key_contacts.it_support'),
+                  'it@cs.sun.ac.za',
+                ),
               ],
             ),
           ),

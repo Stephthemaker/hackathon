@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../layout/app_shell.dart';
 import '../../theme/app_theme.dart';
+import '../../settings/app_settings.dart';
 import 'animated_3d_scroll_model.dart';
 
 class Global3DBackground extends StatelessWidget {
@@ -9,6 +10,11 @@ class Global3DBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Skip all background animations when reduce motion is on
+    if (AppSettingsProvider.of(context).reduceMotion) {
+      return const SizedBox.expand();
+    }
+
     final scrollCtrl = ScrollProvider.of(context);
     final offset = scrollCtrl.hasClients ? scrollCtrl.offset : 0.0;
 
@@ -32,19 +38,7 @@ class Global3DBackground extends StatelessWidget {
               ),
             ),
           ),
-        // Bottom right large cube moving very slowly (Tailored to SU CS)
-        Positioned(
-          top: 1500 - (offset * 0.2),
-          right: -50,
-          child: Opacity(
-            opacity: 0.85,
-            child: Interactive3DScrollModel(
-              size: 300,
-              variant: 0,
-            ), // 0 = default layer cubes
-          ),
-        ),
-        // More floating glass panes, purely decorative
+        // Bottom right floating glass pane
         Positioned(
           top: 400 - (offset * 0.6),
           left: width * 0.8,

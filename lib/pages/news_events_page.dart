@@ -23,6 +23,15 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
     'Industry',
   ];
 
+  static const _catTranslationKeys = {
+    'All': 'news.cat.all',
+    'Research': 'news.cat.research',
+    'Awards': 'news.cat.awards',
+    'Events': 'news.cat.events',
+    'Student Life': 'news.cat.student_life',
+    'Industry': 'news.cat.industry',
+  };
+
   static const _news = [
     _NI(
       'Prof. Fourie receives NRF A-rating',
@@ -76,10 +85,11 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppSettingsProvider.of(context);
     final w = MediaQuery.of(context).size.width;
     final wide = w > 860;
     return Container(
-      color: AppTheme.background,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1280),
@@ -100,7 +110,7 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
                   children: _cats
                       .map(
                         (c) => _CatChip(
-                          label: c,
+                          label: s.tr(_catTranslationKeys[c] ?? c),
                           selected: _cat == c,
                           onTap: () => setState(() => _cat = c),
                         ),
@@ -169,7 +179,9 @@ class _CatChip extends StatelessWidget {
             duration: const Duration(milliseconds: 180),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
             decoration: BoxDecoration(
-              color: selected ? AppTheme.maroon : Colors.white,
+              color: selected
+                  ? AppTheme.maroon
+                  : Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: selected ? AppTheme.maroon : AppTheme.divider,
@@ -200,7 +212,7 @@ class _NewsList extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Text(
-          'No articles in this category.',
+          AppSettingsProvider.of(context).tr('news.empty'),
           style: Theme.of(
             context,
           ).textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
@@ -267,7 +279,11 @@ class _NewsCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          item.cat,
+                          AppSettingsProvider.of(context).tr(
+                            _NewsEventsPageState._catTranslationKeys[item
+                                    .cat] ??
+                                item.cat,
+                          ),
                           style: GoogleFonts.openSans(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
@@ -328,7 +344,7 @@ class _EventsSidebar extends StatelessWidget {
             Container(width: 3, height: 20, color: AppTheme.gold),
             const SizedBox(width: 10),
             Text(
-              'Upcoming Events',
+              AppSettingsProvider.of(context).tr('news.events.heading'),
               style: GoogleFonts.openSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,

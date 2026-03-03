@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../../settings/app_settings.dart';
 import '../../theme/app_theme.dart';
 
 class AnimatedHeroBackground extends StatefulWidget {
@@ -21,7 +22,18 @@ class _AnimatedHeroBackgroundState extends State<AnimatedHeroBackground>
     _ctrl = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 40),
-    )..repeat();
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final reduce = AppSettingsProvider.of(context).reduceMotion;
+    if (reduce && _ctrl.isAnimating) {
+      _ctrl.stop();
+    } else if (!reduce && !_ctrl.isAnimating) {
+      _ctrl.repeat();
+    }
   }
 
   @override
@@ -58,7 +70,13 @@ class _AnimatedHeroBackgroundState extends State<AnimatedHeroBackground>
 class _Particle {
   final double x, y, size;
   final double vx, vy;
-  _Particle({required this.x, required this.y, required this.size, required this.vx, required this.vy});
+  _Particle({
+    required this.x,
+    required this.y,
+    required this.size,
+    required this.vx,
+    required this.vy,
+  });
 }
 
 class _SpectacularHeroPainter extends CustomPainter {
@@ -125,7 +143,7 @@ class _SpectacularHeroPainter extends CustomPainter {
     final linePaint = Paint()
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
-    
+
     final dotPaint = Paint()..style = PaintingStyle.fill;
 
     List<Offset> currentPositions = [];
@@ -134,7 +152,7 @@ class _SpectacularHeroPainter extends CustomPainter {
       double py = (p.y + p.vy * t * 1000) % 1.0;
       if (px < 0) px += 1.0;
       if (py < 0) py += 1.0;
-      
+
       px += math.sin(phase * 2 + py * 10) * 0.02;
       py += math.cos(phase * 2 + px * 10) * 0.02;
 
@@ -160,7 +178,7 @@ class _SpectacularHeroPainter extends CustomPainter {
         double dx = currentPositions[i].dx - currentPositions[j].dx;
         double dy = currentPositions[i].dy - currentPositions[j].dy;
         double dist = math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < 150) {
           double opacity = ((150 - dist) / 150) * 0.3;
           linePaint.color = AppTheme.goldLight.withValues(alpha: opacity);
@@ -170,11 +188,11 @@ class _SpectacularHeroPainter extends CustomPainter {
     }
 
     for (int i = 0; i < currentPositions.length; i++) {
-       dotPaint.color = AppTheme.goldLight.withValues(alpha: 0.5);
-       canvas.drawCircle(currentPositions[i], _particles![i].size, dotPaint);
-       
-       dotPaint.color = AppTheme.gold.withValues(alpha: 0.2);
-       canvas.drawCircle(currentPositions[i], _particles![i].size * 3, dotPaint);
+      dotPaint.color = AppTheme.goldLight.withValues(alpha: 0.5);
+      canvas.drawCircle(currentPositions[i], _particles![i].size, dotPaint);
+
+      dotPaint.color = AppTheme.gold.withValues(alpha: 0.2);
+      canvas.drawCircle(currentPositions[i], _particles![i].size * 3, dotPaint);
     }
   }
 
