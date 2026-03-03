@@ -172,7 +172,10 @@ class ProgrammeDetailPage extends StatelessWidget {
     if (prog == null) {
       return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        padding: const EdgeInsets.all(80),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 80,
+          vertical: 80,
+        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

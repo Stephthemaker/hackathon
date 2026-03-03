@@ -383,9 +383,9 @@ class _GroupInfo extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).colorScheme.primary,
                                   decoration: TextDecoration.underline,
-                                  decorationColor: Theme.of(context).colorScheme.primary.withValues(
-                                    alpha: 0.3,
-                                  ),
+                                  decorationColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primary.withValues(alpha: 0.3),
                                 ),
                               ),
                             ],
@@ -773,7 +773,12 @@ class _ResourcesSection extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1240),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(48, 72, 48, 72),
+            padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              72,
+              MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              72,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -850,7 +855,10 @@ class _PostgradBanner extends StatelessWidget {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1240),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 64),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              vertical: 64,
+            ),
             child: isDesktop
                 ? Row(
                     children: [

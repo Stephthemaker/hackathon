@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../settings/app_settings.dart';
 
-
 /// A card that lifts slightly and gains a shadow on hover.
 class HoverCard extends StatefulWidget {
   final Widget child;
@@ -115,7 +114,9 @@ class _HoverCardState extends State<HoverCard> {
                 borderRadius: BorderRadius.circular(widget.borderRadius),
                 border: Border.all(
                   color: _hovered
-                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.8)
+                      ? Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.8)
                       : Theme.of(context).dividerColor,
                   width: _hovered ? 1.2 : 1.0,
                 ),

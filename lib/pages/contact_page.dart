@@ -186,28 +186,39 @@ class _ContactPageState extends State<ContactPage> {
                 ],
               ),
               const SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: _textField(
-                      AppSettingsProvider.of(context).tr('contact.form.name'),
-                      onSaved: (v) => _name = v ?? '',
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _textField(
-                      AppSettingsProvider.of(context).tr('contact.form.email'),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (v) => (v?.contains('@') ?? false)
-                          ? null
-                          : AppSettingsProvider.of(
-                              context,
-                            ).tr('contact.form.email_error'),
-                      onSaved: (v) => _email = v ?? '',
-                    ),
-                  ),
-                ],
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final nameField = _textField(
+                    AppSettingsProvider.of(context).tr('contact.form.name'),
+                    onSaved: (v) => _name = v ?? '',
+                  );
+                  final emailField = _textField(
+                    AppSettingsProvider.of(context).tr('contact.form.email'),
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (v) => (v?.contains('@') ?? false)
+                        ? null
+                        : AppSettingsProvider.of(
+                            context,
+                          ).tr('contact.form.email_error'),
+                    onSaved: (v) => _email = v ?? '',
+                  );
+                  if (constraints.maxWidth > 500) {
+                    return Row(
+                      children: [
+                        Expanded(child: nameField),
+                        const SizedBox(width: 16),
+                        Expanded(child: emailField),
+                      ],
+                    );
+                  }
+                  return Column(
+                    children: [
+                      nameField,
+                      const SizedBox(height: 16),
+                      emailField,
+                    ],
+                  );
+                },
               ),
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(

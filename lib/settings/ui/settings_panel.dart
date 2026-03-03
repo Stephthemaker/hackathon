@@ -211,7 +211,9 @@ class _LanguageTileState extends State<_LanguageTile> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: widget.isSelected
-                    ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
+                    ? Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.4)
                     : Colors.transparent,
               ),
             ),
@@ -237,7 +239,11 @@ class _LanguageTileState extends State<_LanguageTile> {
                   ),
                 ),
                 if (widget.isSelected)
-                  Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary, size: 20),
+                  Icon(
+                    Icons.check_circle,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 20,
+                  ),
               ],
             ),
           ),

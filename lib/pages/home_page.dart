@@ -67,301 +67,316 @@ class _HeroSectionState extends State<_HeroSection>
     final width = MediaQuery.of(context).size.width;
     final isDesktop = width >= 900;
 
-    return Container(
-      color: Colors.white,
-      height: isDesktop
-          ? 680 + 72
-          : 520 + 72, // accommodate for nav bar overlay
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Background image with parallax
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: ScrollProvider.of(context),
-              builder: (context, child) {
-                final controller = ScrollProvider.of(context);
-                final offset = controller.hasClients ? controller.offset : 0.0;
-                final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
-                return Transform.scale(scale: scale, child: child);
-              },
-              child: FadeTransition(
-                opacity: CurvedAnimation(
-                  parent: _fadeCtrl,
-                  curve: Curves.easeOut,
-                ),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final dpr = MediaQuery.of(context).devicePixelRatio;
-                    final cw = (constraints.maxWidth * dpr).round();
-                    return Image.asset(
-                      'web/assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                      alignment: Alignment.center,
-                      cacheWidth: cw,
-                      filterQuality: FilterQuality.medium,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-          // Animated hero background (particles overlay)
-          Positioned.fill(
-            child: AnimatedBuilder(
-              animation: ScrollProvider.of(context),
-              builder: (context, child) {
-                final controller = ScrollProvider.of(context);
-                final offset = controller.hasClients ? controller.offset : 0.0;
-                // Avoid translating to prevent border exposure; gently scale instead
-                final scale = 1.0 + (offset * 0.0001).clamp(0.0, 0.05);
-                return Transform.scale(scale: scale, child: child);
-              },
-              child: Opacity(
-                opacity: 0.6,
-                child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
-              ),
-            ),
-          ),
-          // Gradient overlays for text readability
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: const [0.0, 0.4, 0.8, 1.0],
-                  colors: [
-                    AppTheme.maroonDark.withValues(alpha: 0.95),
-                    AppTheme.maroonDark.withValues(alpha: 0.80),
-                    AppTheme.maroonDark.withValues(alpha: 0.40),
-                    AppTheme.maroonDark.withValues(alpha: 0.10),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Subtle vignette for depth
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment.center,
-                  radius: 1.2,
-                  colors: [
-                    Colors.transparent,
-                    Colors.black.withValues(alpha: 0.3),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Text content and 3D Model
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1280),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 40,
-                  right: 40,
-                  top: 72,
-                ), // Offset text down for the nav bar
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 7,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppTheme.gold.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: AppTheme.gold.withValues(alpha: 0.5),
-                              ),
-                            ),
-                            child: Text(
-                              AppSettingsProvider.of(context).tr('home.badge'),
-                              style: GoogleFonts.openSans(
-                                color: AppTheme.gold,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 2.5,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          isDesktop
-                              ? Text(
-                                  AppSettingsProvider.of(
-                                    context,
-                                  ).tr('home.title'),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayLarge
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                        height: 1.05,
-                                      ),
-                                )
-                              : Text(
-                                  AppSettingsProvider.of(
-                                    context,
-                                  ).tr('home.title'),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .displayMedium
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                        height: 1.1,
-                                      ),
-                                ),
-                          const SizedBox(height: 24),
-                          SizedBox(
-                            width: isDesktop ? 520 : double.infinity,
-                            child: Text(
-                              AppSettingsProvider.of(
-                                context,
-                              ).tr('home.subtitle'),
-                              style: Theme.of(context).textTheme.bodyLarge
-                                  ?.copyWith(
-                                    color: Colors.white.withValues(alpha: 0.85),
-                                    fontSize: isDesktop ? 18 : 15,
-                                  ),
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          Wrap(
-                            spacing: 16,
-                            runSpacing: 12,
-                            children: [
-                              SelectionContainer.disabled(
-                                child: ElevatedButton(
-                                  onPressed: () => context.go('/programmes'),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppTheme.gold,
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 28,
-                                      vertical: 18,
-                                    ),
-                                    elevation: 8,
-                                    shadowColor: AppTheme.gold.withValues(
-                                      alpha: 0.5,
-                                    ),
-                                  ),
-                                  child: Builder(
-                                    builder: (ctx) => Text(
-                                      AppSettingsProvider.of(
-                                        ctx,
-                                      ).tr('home.btn.programmes'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SelectionContainer.disabled(
-                                child: OutlinedButton(
-                                  onPressed: () => context.go('/research'),
-                                  style: OutlinedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    side: const BorderSide(
-                                      color: Colors.white,
-                                      width: 1.5,
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 28,
-                                      vertical: 18,
-                                    ),
-                                  ),
-                                  child: Builder(
-                                    builder: (ctx) => Text(
-                                      AppSettingsProvider.of(
-                                        ctx,
-                                      ).tr('home.btn.research'),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-
-          // Scroll hint
-          Positioned(
-            bottom: 32,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    // scroll passed stats to the about section
-                    final contextToScroll = _aboutKey.currentContext;
-                    if (contextToScroll != null) {
-                      Scrollable.ensureVisible(
-                        contextToScroll,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                        alignment: 0.0,
+    return ClipRect(
+      child: Container(
+        color: Colors.white,
+        height: isDesktop
+            ? 680 + 72
+            : 520 + 72, // accommodate for nav bar overlay
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            // Background image with parallax
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: ScrollProvider.of(context),
+                builder: (context, child) {
+                  final controller = ScrollProvider.of(context);
+                  final offset = controller.hasClients
+                      ? controller.offset
+                      : 0.0;
+                  final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
+                  return Transform.scale(scale: scale, child: child);
+                },
+                child: FadeTransition(
+                  opacity: CurvedAnimation(
+                    parent: _fadeCtrl,
+                    curve: Curves.easeOut,
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final dpr = MediaQuery.of(context).devicePixelRatio;
+                      final cw = (constraints.maxWidth * dpr).round();
+                      return Image.asset(
+                        'web/assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        alignment: Alignment.center,
+                        cacheWidth: cw,
+                        filterQuality: FilterQuality.medium,
                       );
-                    } else {
-                      // fallback to original hero offset
-                      final controller = ScrollProvider.of(context);
-                      final double offset = isDesktop ? (680 + 72) : (520 + 72);
-                      controller.animateTo(
-                        offset,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  child: Column(
+                    },
+                  ),
+                ),
+              ),
+            ),
+            // Animated hero background (particles overlay)
+            Positioned.fill(
+              child: AnimatedBuilder(
+                animation: ScrollProvider.of(context),
+                builder: (context, child) {
+                  final controller = ScrollProvider.of(context);
+                  final offset = controller.hasClients
+                      ? controller.offset
+                      : 0.0;
+                  // Avoid translating to prevent border exposure; gently scale instead
+                  final scale = 1.0 + (offset * 0.0001).clamp(0.0, 0.05);
+                  return Transform.scale(scale: scale, child: child);
+                },
+                child: Opacity(
+                  opacity: 0.6,
+                  child: AnimatedHeroBackground(height: isDesktop ? 752 : 592),
+                ),
+              ),
+            ),
+            // Gradient overlays for text readability
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: const [0.0, 0.4, 0.8, 1.0],
+                    colors: [
+                      AppTheme.maroonDark.withValues(alpha: 0.95),
+                      AppTheme.maroonDark.withValues(alpha: 0.80),
+                      AppTheme.maroonDark.withValues(alpha: 0.40),
+                      AppTheme.maroonDark.withValues(alpha: 0.10),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // Subtle vignette for depth
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: Alignment.center,
+                    radius: 1.2,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.3),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // Text content and 3D Model
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1280),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 40,
+                    right: 40,
+                    top: 72,
+                  ), // Offset text down for the nav bar
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Builder(
-                        builder: (context) {
-                          return Text(
-                            AppSettingsProvider.of(
-                              context,
-                            ).tr('home.scroll_explore'),
-                            textAlign: TextAlign.center,
-                            style: AppTheme.uiControlText.copyWith(
-                              color: Colors.white.withValues(alpha: 0.7),
-                              fontSize: 11,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 1.5,
+                      Expanded(
+                        flex: 7,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 14,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppTheme.gold.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(4),
+                                border: Border.all(
+                                  color: AppTheme.gold.withValues(alpha: 0.5),
+                                ),
+                              ),
+                              child: Text(
+                                AppSettingsProvider.of(
+                                  context,
+                                ).tr('home.badge'),
+                                style: GoogleFonts.openSans(
+                                  color: AppTheme.gold,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 2.5,
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 8),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.white.withValues(alpha: 0.7),
-                        size: 24,
+                            const SizedBox(height: 24),
+                            isDesktop
+                                ? Text(
+                                    AppSettingsProvider.of(
+                                      context,
+                                    ).tr('home.title'),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          height: 1.05,
+                                        ),
+                                  )
+                                : Text(
+                                    AppSettingsProvider.of(
+                                      context,
+                                    ).tr('home.title'),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          height: 1.1,
+                                        ),
+                                  ),
+                            const SizedBox(height: 24),
+                            SizedBox(
+                              width: isDesktop ? 520 : double.infinity,
+                              child: Text(
+                                AppSettingsProvider.of(
+                                  context,
+                                ).tr('home.subtitle'),
+                                style: Theme.of(context).textTheme.bodyLarge
+                                    ?.copyWith(
+                                      color: Colors.white.withValues(
+                                        alpha: 0.85,
+                                      ),
+                                      fontSize: isDesktop ? 18 : 15,
+                                    ),
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            Wrap(
+                              spacing: 16,
+                              runSpacing: 12,
+                              children: [
+                                SelectionContainer.disabled(
+                                  child: ElevatedButton(
+                                    onPressed: () => context.go('/programmes'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppTheme.gold,
+                                      foregroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 28,
+                                        vertical: 18,
+                                      ),
+                                      elevation: 8,
+                                      shadowColor: AppTheme.gold.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                    ),
+                                    child: Builder(
+                                      builder: (ctx) => Text(
+                                        AppSettingsProvider.of(
+                                          ctx,
+                                        ).tr('home.btn.programmes'),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SelectionContainer.disabled(
+                                  child: OutlinedButton(
+                                    onPressed: () => context.go('/research'),
+                                    style: OutlinedButton.styleFrom(
+                                      foregroundColor: Colors.white,
+                                      side: const BorderSide(
+                                        color: Colors.white,
+                                        width: 1.5,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 28,
+                                        vertical: 18,
+                                      ),
+                                    ),
+                                    child: Builder(
+                                      builder: (ctx) => Text(
+                                        AppSettingsProvider.of(
+                                          ctx,
+                                        ).tr('home.btn.research'),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+
+            // Scroll hint
+            Positioned(
+              bottom: 32,
+              left: 0,
+              right: 0,
+              child: Column(
+                children: [
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: GestureDetector(
+                      onTap: () {
+                        // scroll passed stats to the about section
+                        final contextToScroll = _aboutKey.currentContext;
+                        if (contextToScroll != null) {
+                          Scrollable.ensureVisible(
+                            contextToScroll,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                            alignment: 0.0,
+                          );
+                        } else {
+                          // fallback to original hero offset
+                          final controller = ScrollProvider.of(context);
+                          final double offset = isDesktop
+                              ? (680 + 72)
+                              : (520 + 72);
+                          controller.animateTo(
+                            offset,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      child: Column(
+                        children: [
+                          Builder(
+                            builder: (context) {
+                              return Text(
+                                AppSettingsProvider.of(
+                                  context,
+                                ).tr('home.scroll_explore'),
+                                textAlign: TextAlign.center,
+                                style: AppTheme.uiControlText.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.7),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 1.5,
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.white.withValues(alpha: 0.7),
+                            size: 24,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -433,7 +448,7 @@ class _StatItem extends StatelessWidget {
         Text(
           stat.value,
           style: GoogleFonts.playfairDisplay(
-            fontSize: 44,
+            fontSize: MediaQuery.of(context).size.width >= 900 ? 44 : 32,
             fontWeight: FontWeight.w700,
             color: AppTheme.goldLight,
             height: 1,
@@ -872,9 +887,11 @@ class _NewsPreviewSection extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SectionHeading(
-                        label: s.tr('home.news.label'),
-                        title: s.tr('home.news.title'),
+                      Flexible(
+                        child: SectionHeading(
+                          label: s.tr('home.news.label'),
+                          title: s.tr('home.news.title'),
+                        ),
                       ),
                       SelectionContainer.disabled(
                         child: TextButton.icon(

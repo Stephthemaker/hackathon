@@ -34,7 +34,7 @@ class NotFoundPage extends StatelessWidget {
               Text(
                 '404',
                 style: GoogleFonts.playfairDisplay(
-                  fontSize: 72,
+                  fontSize: MediaQuery.of(context).size.width < 600 ? 52 : 72,
                   fontWeight: FontWeight.w700,
                   color: Theme.of(context).colorScheme.primary,
                 ),

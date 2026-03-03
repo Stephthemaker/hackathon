@@ -311,59 +311,59 @@ class _NavLogoState extends State<_NavLogo> {
           cursor: SystemMouseCursors.click,
           child: GestureDetector(
             onTap: () => context.go('/'),
-          child: SelectionContainer.disabled(
-            child: Row(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 42,
-                  height: 42,
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(6),
+            child: SelectionContainer.disabled(
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 42,
+                    height: 42,
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: SvgPicture.asset(
+                      'web/assets/general/favicon.svg',
+                      fit: BoxFit.contain,
+                      semanticsLabel: 'Computer Science Division logo',
+                    ),
                   ),
-                  child: SvgPicture.asset(
-                    'web/assets/general/favicon.svg',
-                    fit: BoxFit.contain,
-                    semanticsLabel: 'Computer Science Division logo',
+                  const SizedBox(width: 12),
+                  Builder(
+                    builder: (ctx) {
+                      final s = AppSettingsProvider.of(ctx);
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            s.tr('brand.cs'),
+                            style: AppTheme.uiControlText.copyWith(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                          Text(
+                            s.tr('brand.su'),
+                            style: AppTheme.uiControlText.copyWith(
+                              color: Colors.white.withValues(alpha: 0.6),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.2,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(width: 12),
-                Builder(
-                  builder: (ctx) {
-                    final s = AppSettingsProvider.of(ctx);
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          s.tr('brand.cs'),
-                          style: AppTheme.uiControlText.copyWith(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.3,
-                          ),
-                        ),
-                        Text(
-                          s.tr('brand.su'),
-                          style: AppTheme.uiControlText.copyWith(
-                            color: Colors.white.withValues(alpha: 0.6),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -404,45 +404,49 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
           child: GestureDetector(
             onTap: () => context.go(widget.item.route),
             child: SelectionContainer.disabled(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedDefaultTextStyle(
-                    duration: const Duration(milliseconds: 150),
-                    style: AppTheme.uiControlText.copyWith(
-                      fontSize: 13.5,
-                      fontWeight: widget.isActive
-                          ? FontWeight.w700
-                          : FontWeight.w400,
-                      color: widget.isActive || _hovered
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.7),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 150),
+                      style: AppTheme.uiControlText.copyWith(
+                        fontSize: 13.5,
+                        fontWeight: widget.isActive
+                            ? FontWeight.w700
+                            : FontWeight.w400,
+                        color: widget.isActive || _hovered
+                            ? Colors.white
+                            : Colors.white.withValues(alpha: 0.7),
+                      ),
+                      child: Text(widget.item.title),
                     ),
-                    child: Text(widget.item.title),
-                  ),
-                  const SizedBox(height: 3),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeOut,
-                    height: 2,
-                    width: widget.isActive ? 24 : (_hovered ? 12 : 0),
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold,
-                      borderRadius: BorderRadius.circular(1),
+                    const SizedBox(height: 3),
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut,
+                      height: 2,
+                      width: widget.isActive ? 24 : (_hovered ? 12 : 0),
+                      decoration: BoxDecoration(
+                        color: AppTheme.gold,
+                        borderRadius: BorderRadius.circular(1),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-      ),
     );
   }
 }
+
 // ---------------------------------------------------------------------------
 class _MobileDrawer extends StatelessWidget {
   final List<_NavItem> navItems;
@@ -603,32 +607,32 @@ class _BackToTopButtonState extends State<_BackToTopButton> {
             child: Semantics(
               button: true,
               label: 'Back to top',
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: _hovered
-                    ? AppTheme.maroon
-                    : AppTheme.maroon.withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.maroon.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.keyboard_arrow_up,
-                color: Colors.white,
-                size: 24,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: _hovered
+                      ? AppTheme.maroon
+                      : AppTheme.maroon.withValues(alpha: 0.85),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.maroon.withValues(alpha: 0.3),
+                      blurRadius: 12,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
             ),
           ),
         ),
-      ),
       ),
     );
   }

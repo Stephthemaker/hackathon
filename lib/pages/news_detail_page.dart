@@ -138,7 +138,10 @@ Ms. Botha is expected to defend her dissertation later this year.''',
     if (article == null) {
       return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        padding: const EdgeInsets.all(80),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 80,
+          vertical: 80,
+        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -234,7 +237,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                   child: Text(
                     article.title,
                     style: GoogleFonts.playfairDisplay(
-                      fontSize: 36,
+                      fontSize: w < 600 ? 28 : 36,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).colorScheme.onSurface,
                       height: 1.25,
@@ -282,7 +285,10 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Theme.of(context).dividerColor),
                   ),
-                  child: Row(
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    spacing: 8,
+                    runSpacing: 8,
                     children: [
                       Text(
                         s.tr('news.share'),
@@ -292,34 +298,38 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
-                      const Spacer(),
-                      _ShareButton(
-                        icon: Icons.email_outlined,
-                        label: 'Email',
-                        onTap: () {
-                          final uri = Uri(
-                            scheme: 'mailto',
-                            queryParameters: {
-                              'subject': article.title,
-                              'body':
-                                  '${article.blurb}\n\nRead more: ${Uri.base}',
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _ShareButton(
+                            icon: Icons.email_outlined,
+                            label: 'Email',
+                            onTap: () {
+                              final uri = Uri(
+                                scheme: 'mailto',
+                                queryParameters: {
+                                  'subject': article.title,
+                                  'body':
+                                      '${article.blurb}\n\nRead more: ${Uri.base}',
+                                },
+                              );
+                              launchUrl(uri);
                             },
-                          );
-                          launchUrl(uri);
-                        },
-                      ),
-                      const SizedBox(width: 8),
-                      _ShareButton(
-                        icon: Icons.link,
-                        label: s.tr('news.copy_link'),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(s.tr('news.link_copied')),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        },
+                          ),
+                          const SizedBox(width: 8),
+                          _ShareButton(
+                            icon: Icons.link,
+                            label: s.tr('news.copy_link'),
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(s.tr('news.link_copied')),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

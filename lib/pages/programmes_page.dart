@@ -295,10 +295,11 @@ class _ProgrammesPageState extends State<ProgrammesPage>
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 44),
+            padding: const EdgeInsets.symmetric(vertical: 44),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final isWide = constraints.maxWidth > 700;
+                final hPad = constraints.maxWidth < 500 ? 24.0 : 48.0;
 
                 final leftColumn = Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -416,22 +417,28 @@ class _ProgrammesPageState extends State<ProgrammesPage>
                 );
 
                 if (isWide) {
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: leftColumn),
-                      const SizedBox(width: 40),
-                      const _CTAChecklist(),
-                    ],
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: hPad),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(child: leftColumn),
+                        const SizedBox(width: 40),
+                        const _CTAChecklist(),
+                      ],
+                    ),
                   );
                 } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      leftColumn,
-                      const SizedBox(height: 48),
-                      const _CTAChecklist(),
-                    ],
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: hPad),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        leftColumn,
+                        const SizedBox(height: 48),
+                        const _CTAChecklist(),
+                      ],
+                    ),
                   );
                 }
               },
@@ -609,8 +616,11 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 500;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: isMobile
+          ? MainAxisAlignment.start
+          : MainAxisAlignment.center,
       children: [
         Container(
           width: 40,
@@ -706,31 +716,34 @@ class _ModuleCatalogueHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(width: 4, height: 32, color: AppTheme.gold),
         const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              s.tr('prog.modules.heading'),
-              style: GoogleFonts.openSans(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.5,
-                color: Theme.of(context).colorScheme.onSurface,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                s.tr('prog.modules.heading'),
+                style: GoogleFonts.openSans(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              s.tr('prog.modules.subtitle'),
-              style: GoogleFonts.openSans(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                height: 1.4,
+              const SizedBox(height: 6),
+              Text(
+                s.tr('prog.modules.subtitle'),
+                style: GoogleFonts.openSans(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  height: 1.4,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -980,76 +993,80 @@ class _ProgTabBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Theme.of(context).dividerColor),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: labels.asMap().entries.map((e) {
-          final sel = controller.index == e.key;
-          return Semantics(
-            button: true,
-            selected: sel,
-            label: e.value,
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () => controller.animateTo(e.key),
-                child: SelectionContainer.disabled(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 18,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      color: sel ? AppTheme.maroon : Colors.transparent,
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          e.value,
-                          style: GoogleFonts.openSans(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                            color: sel
-                                ? Colors.white
-                                : Theme.of(
-                                    context,
-                                  ).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 180),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: sel
-                                ? Colors.white.withValues(alpha: 0.2)
-                                : AppTheme.maroon.withValues(alpha: 0.08),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            '${counts[e.key]}',
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: labels.asMap().entries.map((e) {
+            final sel = controller.index == e.key;
+            return Semantics(
+              button: true,
+              selected: sel,
+              label: e.value,
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () => controller.animateTo(e.key),
+                  child: SelectionContainer.disabled(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: sel ? AppTheme.maroon : Colors.transparent,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            e.value,
                             style: GoogleFonts.openSans(
-                              fontSize: 10,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
                               color: sel
                                   ? Colors.white
-                                  : Theme.of(context).colorScheme.primary,
+                                  : Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                             ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 6),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 180),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: sel
+                                  ? Colors.white.withValues(alpha: 0.2)
+                                  : AppTheme.maroon.withValues(alpha: 0.08),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '${counts[e.key]}',
+                              style: GoogleFonts.openSans(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w500,
+                                color: sel
+                                    ? Colors.white
+                                    : Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        }).toList(),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -1099,6 +1116,7 @@ class _ModuleRowState extends State<_ModuleRow> {
       expanded: widget.isOpen,
       label: widget.mod.name,
       child: MouseRegion(
+        cursor: SystemMouseCursors.click,
         onEnter: (_) => setState(() => _isHovered = true),
         onExit: (_) => setState(() => _isHovered = false),
         child: GestureDetector(
