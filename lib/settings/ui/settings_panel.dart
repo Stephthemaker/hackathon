@@ -13,8 +13,8 @@ class SettingsPanel extends StatelessWidget {
     final s = AppSettingsProvider.of(context);
     final isDark = s.darkMode;
     final bg = isDark ? AppTheme.darkSurface : Colors.white;
-    final fg = isDark ? Colors.white : AppTheme.textDark;
-    final muted = isDark ? Colors.white60 : AppTheme.textMuted;
+    final fg = Theme.of(context).colorScheme.onSurface;
+    final muted = Theme.of(context).colorScheme.onSurfaceVariant;
     final divider = isDark
         ? Colors.white.withValues(alpha: 0.1)
         : AppTheme.divider;
@@ -38,7 +38,11 @@ class SettingsPanel extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.tune_rounded, color: AppTheme.maroon, size: 22),
+                    Icon(
+                      Icons.tune_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 22,
+                    ),
                     const SizedBox(width: 10),
                     Text(
                       s.tr('settings.title'),
@@ -151,7 +155,7 @@ class _SectionLabel extends StatelessWidget {
         fontSize: 11,
         fontWeight: FontWeight.w700,
         letterSpacing: 1.8,
-        color: AppTheme.gold,
+        color: Theme.of(context).colorScheme.secondary,
       ),
     );
   }
@@ -475,7 +479,9 @@ class _FontSizeButtonState extends State<_FontSizeButton> {
                   fontWeight: widget.selected
                       ? FontWeight.w700
                       : FontWeight.w500,
-                  color: widget.selected ? AppTheme.maroon : widget.fg,
+                  color: widget.selected
+                      ? Theme.of(context).colorScheme.primary
+                      : widget.fg,
                 ),
               ),
               const SizedBox(height: 4),
@@ -484,7 +490,9 @@ class _FontSizeButtonState extends State<_FontSizeButton> {
                 style: GoogleFonts.openSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: widget.selected ? AppTheme.maroon : AppTheme.textMuted,
+                  color: widget.selected
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ],

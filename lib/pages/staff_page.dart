@@ -642,7 +642,9 @@ class _GroupFilterButtonState extends State<_GroupFilterButton> {
                 widget.label,
                 style: AppTheme.uiControlText.copyWith(
                   fontSize: 12.5,
-                  color: selected ? Colors.white : AppTheme.textDark,
+                  color: selected
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.onSurface,
                   fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                 ),
               ),

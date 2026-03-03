@@ -619,7 +619,11 @@ class _StatItem extends StatelessWidget {
             color: AppTheme.maroon.withValues(alpha: 0.07),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, size: 18, color: AppTheme.maroon),
+          child: Icon(
+            icon,
+            size: 18,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
         const SizedBox(width: 12),
         Column(
@@ -630,7 +634,7 @@ class _StatItem extends StatelessWidget {
               style: GoogleFonts.playfairDisplay(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
-                color: AppTheme.maroon,
+                color: Theme.of(context).colorScheme.primary,
                 height: 1.1,
               ),
             ),
@@ -1007,7 +1011,11 @@ class _ProgTabBar extends StatelessWidget {
                           style: GoogleFonts.openSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: sel ? Colors.white : AppTheme.textMuted,
+                            color: sel
+                                ? Colors.white
+                                : Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(width: 6),
@@ -1028,7 +1036,9 @@ class _ProgTabBar extends StatelessWidget {
                             style: GoogleFonts.openSans(
                               fontSize: 10,
                               fontWeight: FontWeight.w500,
-                              color: sel ? Colors.white : AppTheme.maroon,
+                              color: sel
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),
@@ -1157,8 +1167,9 @@ class _ModuleRowState extends State<_ModuleRow> {
                                 ? FontWeight.w600
                                 : FontWeight.w500,
                             color: widget.isOpen
-                                ? AppTheme.textDark
-                                : AppTheme.textDark.withValues(alpha: 0.9),
+                                ? Theme.of(context).colorScheme.onSurface
+                                : Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.9),
                           ),
                         ),
                       ),
@@ -1175,7 +1186,9 @@ class _ModuleRowState extends State<_ModuleRow> {
                         curve: Curves.easeOutBack,
                         child: Icon(
                           Icons.expand_more_rounded,
-                          color: widget.isOpen ? accent : AppTheme.textMuted,
+                          color: widget.isOpen
+                              ? accent
+                              : Theme.of(context).colorScheme.onSurfaceVariant,
                           size: 22,
                         ),
                       ),

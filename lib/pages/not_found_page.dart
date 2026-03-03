@@ -24,10 +24,10 @@ class NotFoundPage extends StatelessWidget {
                   color: AppTheme.maroon.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.explore_off_outlined,
                   size: 48,
-                  color: AppTheme.maroon,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 32),
@@ -36,7 +36,7 @@ class NotFoundPage extends StatelessWidget {
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 72,
                   fontWeight: FontWeight.w700,
-                  color: AppTheme.maroon,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 12),

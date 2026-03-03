@@ -41,7 +41,7 @@ class SectionHeading extends StatelessWidget {
               style: GoogleFonts.openSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppTheme.gold,
+                color: Theme.of(context).colorScheme.secondary,
                 letterSpacing: 2.0,
               ),
             ),

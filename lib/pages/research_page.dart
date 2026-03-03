@@ -309,7 +309,11 @@ class _GroupInfo extends StatelessWidget {
                   color: AppTheme.maroon.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(group.icon, color: AppTheme.maroon, size: 24),
+                child: Icon(
+                  group.icon,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 24,
+                ),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -366,10 +370,10 @@ class _GroupInfo extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.link,
                                 size: 14,
-                                color: AppTheme.gold,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                               const SizedBox(width: 6),
                               Text(
@@ -377,7 +381,7 @@ class _GroupInfo extends StatelessWidget {
                                 style: GoogleFonts.openSans(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  color: AppTheme.maroon,
+                                  color: Theme.of(context).colorScheme.primary,
                                   decoration: TextDecoration.underline,
                                   decorationColor: AppTheme.maroon.withValues(
                                     alpha: 0.3,
@@ -409,14 +413,14 @@ class _GroupInfo extends StatelessWidget {
                       style: GoogleFonts.openSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.maroon,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const SizedBox(width: 6),
-                    const Icon(
+                    Icon(
                       Icons.arrow_forward,
                       size: 16,
-                      color: AppTheme.maroon,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ],
                 ),
@@ -600,7 +604,7 @@ class _InitialsAvatar extends StatelessWidget {
           style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: AppTheme.maroon,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),
@@ -715,7 +719,7 @@ class _ResourcesSection extends StatelessWidget {
                               ),
                               child: Icon(
                                 e.value.icon,
-                                color: AppTheme.maroon,
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 24,
                               ),
                             ),
@@ -731,7 +735,7 @@ class _ResourcesSection extends StatelessWidget {
                               style: GoogleFonts.openSans(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: AppTheme.gold,
+                                color: Theme.of(context).colorScheme.secondary,
                                 letterSpacing: 0.4,
                               ),
                             ),
@@ -803,14 +807,14 @@ class _ResourcesSection extends StatelessWidget {
                               style: GoogleFonts.openSans(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: AppTheme.maroon,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
                             const SizedBox(width: 4),
-                            const Icon(
+                            Icon(
                               Icons.arrow_forward,
                               size: 16,
-                              color: AppTheme.maroon,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ],
                         ),

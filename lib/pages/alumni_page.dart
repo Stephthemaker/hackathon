@@ -233,7 +233,7 @@ class _AlumniCard extends StatelessWidget {
                         alumnus.graduation,
                         style: GoogleFonts.openSans(
                           fontSize: 11,
-                          color: AppTheme.maroon,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

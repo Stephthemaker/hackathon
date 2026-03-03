@@ -315,7 +315,11 @@ class _LinkCard extends StatelessWidget {
                 color: AppTheme.maroon.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(link.icon, color: AppTheme.maroon, size: 22),
+              child: Icon(
+                link.icon,
+                color: Theme.of(context).colorScheme.primary,
+                size: 22,
+              ),
             ),
             const SizedBox(height: 14),
             Text(
@@ -336,14 +340,18 @@ class _LinkCard extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                const Icon(Icons.open_in_new, size: 12, color: AppTheme.maroon),
+                Icon(
+                  Icons.open_in_new,
+                  size: 12,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(width: 5),
                 Flexible(
                   child: Text(
                     link.url,
                     style: GoogleFonts.openSans(
                       fontSize: 11,
-                      color: AppTheme.maroon,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                     ),
                     overflow: TextOverflow.ellipsis,
@@ -379,7 +387,11 @@ class _ToolCard extends StatelessWidget {
                 color: AppTheme.gold.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(tool.icon, color: AppTheme.gold, size: 22),
+              child: Icon(
+                tool.icon,
+                color: Theme.of(context).colorScheme.secondary,
+                size: 22,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -406,7 +418,11 @@ class _ToolCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Icon(Icons.open_in_new, size: 14, color: AppTheme.gold),
+            Icon(
+              Icons.open_in_new,
+              size: 14,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ],
         ),
       ),

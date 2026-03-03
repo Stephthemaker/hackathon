@@ -276,7 +276,7 @@ class _ContactPageState extends State<ContactPage> {
     return TextFormField(
       maxLines: maxLines,
       keyboardType: keyboardType,
-      decoration: InputDecoration(labelText: label),
+      decoration: InputDecoration(labelText: label, alignLabelWithHint: true),
       validator:
           validator ??
           (v) => (v?.trim().isEmpty ?? true)
@@ -385,7 +385,7 @@ class _InfoRow extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 16, color: AppTheme.maroon),
+          Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -444,11 +444,11 @@ class _KeyContactState extends State<_KeyContact> {
                     widget.email,
                     style: GoogleFonts.openSans(
                       fontSize: 12,
-                      color: AppTheme.maroon,
+                      color: Theme.of(context).colorScheme.primary,
                       decoration: _hovered
                           ? TextDecoration.underline
                           : TextDecoration.none,
-                      decorationColor: AppTheme.maroon,
+                      decorationColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),

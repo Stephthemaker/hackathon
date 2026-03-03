@@ -590,7 +590,7 @@ class _AboutHighlights extends StatelessWidget {
                         ),
                         child: Icon(
                           e.value.icon,
-                          color: AppTheme.maroon,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 22,
                         ),
                       ),
@@ -811,11 +811,15 @@ class _QuickLinkCard extends StatelessWidget {
                 style: GoogleFonts.openSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.maroon,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(width: 4),
-              const Icon(Icons.arrow_forward, size: 14, color: AppTheme.maroon),
+              Icon(
+                Icons.arrow_forward,
+                size: 14,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ],
           ),
         ],
@@ -878,7 +882,9 @@ class _NewsPreviewSection extends StatelessWidget {
                           icon: const Icon(Icons.arrow_forward, size: 16),
                           label: Text(s.tr('home.news.all_news')),
                           style: TextButton.styleFrom(
-                            foregroundColor: AppTheme.maroon,
+                            foregroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -954,7 +960,7 @@ class _NewsCard extends StatelessWidget {
                   item.date,
                   style: GoogleFonts.openSans(
                     fontSize: 12,
-                    color: AppTheme.gold,
+                    color: Theme.of(context).colorScheme.secondary,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1,
                   ),

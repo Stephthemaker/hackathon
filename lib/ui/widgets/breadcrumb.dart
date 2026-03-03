@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
-import '../../theme/app_theme.dart';
 
 class BreadcrumbItem {
   final String label;
@@ -41,10 +40,12 @@ class Breadcrumb extends StatelessWidget {
                     items[i].label,
                     style: GoogleFonts.openSans(
                       fontSize: 13,
-                      color: AppTheme.maroon,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w500,
                       decoration: TextDecoration.underline,
-                      decorationColor: AppTheme.maroon.withValues(alpha: 0.4),
+                      decorationColor: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.4),
                     ),
                   ),
                 ),

@@ -207,7 +207,9 @@ class _CatChip extends StatelessWidget {
                 style: GoogleFonts.openSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: selected ? Colors.white : AppTheme.textDark,
+                  color: selected
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
@@ -454,7 +456,9 @@ class _EventsSidebar extends StatelessWidget {
                                     Icon(
                                       Icons.calendar_today,
                                       size: 11,
-                                      color: AppTheme.maroon,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
@@ -464,7 +468,9 @@ class _EventsSidebar extends StatelessWidget {
                                       style: GoogleFonts.openSans(
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,
-                                        color: AppTheme.maroon,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
                                       ),
                                     ),
                                   ],

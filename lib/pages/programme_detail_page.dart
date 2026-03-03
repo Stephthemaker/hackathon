@@ -484,7 +484,7 @@ class ProgrammeDetailPage extends StatelessWidget {
                     icon: const Icon(Icons.arrow_back, size: 16),
                     label: Text(s.tr('prog.detail.back')),
                     style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.maroon,
+                      foregroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 ),

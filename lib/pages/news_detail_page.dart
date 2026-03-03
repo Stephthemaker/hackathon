@@ -350,7 +350,9 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                                 width: 4,
                                 height: 48,
                                 decoration: BoxDecoration(
-                                  color: _catColors[r.cat] ?? AppTheme.maroon,
+                                  color:
+                                      _catColors[r.cat] ??
+                                      Theme.of(context).colorScheme.primary,
                                   borderRadius: BorderRadius.circular(2),
                                 ),
                               ),
@@ -396,20 +398,6 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     ),
                   ),
                 ],
-
-                const SizedBox(height: 32),
-
-                // Back to news
-                Center(
-                  child: TextButton.icon(
-                    onPressed: () => context.go('/news'),
-                    icon: const Icon(Icons.arrow_back, size: 16),
-                    label: Text(s.tr('news.back')),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.maroon,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
