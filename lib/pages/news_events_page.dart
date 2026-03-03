@@ -197,7 +197,9 @@ class _CatChip extends StatelessWidget {
                     : Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: selected ? AppTheme.maroon : AppTheme.divider,
+                  color: selected
+                      ? AppTheme.maroon
+                      : Theme.of(context).dividerColor,
                 ),
               ),
               child: Text(
@@ -227,9 +229,9 @@ class _NewsList extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 40),
         child: Text(
           AppSettingsProvider.of(context).tr('news.empty'),
-          style: Theme.of(
-            context,
-          ).textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       );
     }
@@ -313,7 +315,7 @@ class _NewsCard extends StatelessWidget {
                         item.date,
                         style: GoogleFonts.openSans(
                           fontSize: 12,
-                          color: AppTheme.textMuted,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -330,7 +332,7 @@ class _NewsCard extends StatelessWidget {
                   Text(
                     item.blurb,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       height: 1.6,
                     ),
                     maxLines: 2,
@@ -364,7 +366,7 @@ class _EventsSidebar extends StatelessWidget {
               style: GoogleFonts.openSans(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: AppTheme.textDark,
+                color: Theme.of(context).colorScheme.onSurface,
                 letterSpacing: 0.5,
               ),
             ),
@@ -413,7 +415,7 @@ class _EventsSidebar extends StatelessWidget {
                             style: GoogleFonts.openSans(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.textDark,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -421,7 +423,9 @@ class _EventsSidebar extends StatelessWidget {
                             e.location,
                             style: GoogleFonts.openSans(
                               fontSize: 11,
-                              color: AppTheme.textMuted,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
                             ),
                           ),
                           const SizedBox(height: 6),

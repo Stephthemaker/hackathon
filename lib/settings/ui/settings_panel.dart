@@ -12,11 +12,11 @@ class SettingsPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
     final isDark = s.darkMode;
-    final bg = isDark ? const Color(0xFF1A1A2E) : Colors.white;
+    final bg = isDark ? AppTheme.darkSurface : Colors.white;
     final fg = isDark ? Colors.white : AppTheme.textDark;
     final muted = isDark ? Colors.white60 : AppTheme.textMuted;
     final divider = isDark
-        ? Colors.white.withValues(alpha: 0.08)
+        ? Colors.white.withValues(alpha: 0.1)
         : AppTheme.divider;
 
     return Material(
@@ -267,7 +267,11 @@ class _ToggleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: AppTheme.textMuted),
+        Icon(
+          icon,
+          size: 20,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
         const SizedBox(width: 12),
         Expanded(
           child: Text(
@@ -279,15 +283,83 @@ class _ToggleTile extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
-          height: 28,
-          child: Switch.adaptive(
-            value: value,
-            onChanged: onChanged,
-            activeTrackColor: AppTheme.maroon,
+        _WebToggle(value: value, onChanged: onChanged),
+      ],
+    );
+  }
+}
+
+/// A web-native toggle switch (pill-shaped, smooth animation).
+class _WebToggle extends StatefulWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  const _WebToggle({required this.value, required this.onChanged});
+
+  @override
+  State<_WebToggle> createState() => _WebToggleState();
+}
+
+class _WebToggleState extends State<_WebToggle> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    const w = 44.0;
+    const h = 24.0;
+    const thumbSize = 18.0;
+    const pad = (h - thumbSize) / 2;
+
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final trackColor = widget.value
+        ? AppTheme.maroon
+        : (_hovered
+              ? (isDark ? const Color(0xFF555555) : const Color(0xFFBBBBBB))
+              : (isDark ? const Color(0xFF444444) : const Color(0xFFCCCCCC)));
+    final thumbColor = Colors.white;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: GestureDetector(
+        onTap: () => widget.onChanged(!widget.value),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeInOut,
+          width: w,
+          height: h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(h / 2),
+            color: trackColor,
+          ),
+          child: AnimatedAlign(
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeInOut,
+            alignment: widget.value
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(pad),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                width: thumbSize,
+                height: thumbSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: thumbColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.15),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

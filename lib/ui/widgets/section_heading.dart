@@ -59,9 +59,9 @@ class SectionHeading extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             subtitle!,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyLarge?.copyWith(color: AppTheme.textMuted),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             textAlign: alignment == CrossAxisAlignment.center
                 ? TextAlign.center
                 : TextAlign.start,

@@ -327,7 +327,7 @@ class _GroupInfo extends StatelessWidget {
           Text(
             group.description,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: AppTheme.textMuted,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               height: 1.7,
             ),
           ),
@@ -346,7 +346,7 @@ class _GroupInfo extends StatelessWidget {
               style: GoogleFonts.openSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 letterSpacing: 1.2,
               ),
             ),
@@ -501,7 +501,7 @@ class _MembersPane extends StatelessWidget {
                             style: GoogleFonts.openSans(
                               fontSize: 13.5,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.textDark,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ),
@@ -542,7 +542,7 @@ class _MembersPane extends StatelessWidget {
             style: GoogleFonts.openSans(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: AppTheme.textMuted,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               letterSpacing: 1.5,
             ),
           ),
@@ -563,9 +563,11 @@ class _MembersPane extends StatelessWidget {
                 style: GoogleFonts.openSans(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   decoration: TextDecoration.underline,
-                  decorationColor: AppTheme.textMuted,
+                  decorationColor: Theme.of(
+                    context,
+                  ).colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -617,14 +619,14 @@ class _FocusChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: AppTheme.divider),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Text(
         label,
         style: GoogleFonts.openSans(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: AppTheme.textDark,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
@@ -738,7 +740,9 @@ class _ResourcesSection extends StatelessWidget {
                               e.value.description,
                               style: Theme.of(context).textTheme.bodyMedium
                                   ?.copyWith(
-                                    color: AppTheme.textMuted,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                     height: 1.6,
                                   ),
                             ),

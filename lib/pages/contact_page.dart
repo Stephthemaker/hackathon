@@ -140,7 +140,7 @@ class _ContactPageState extends State<ContactPage> {
                     .replaceAll('{email}', _email),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.textMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.6,
                 ),
               ),
@@ -180,7 +180,7 @@ class _ContactPageState extends State<ContactPage> {
                     style: GoogleFonts.openSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ],
@@ -424,7 +424,7 @@ class _KeyContactState extends State<_KeyContact> {
             style: GoogleFonts.openSans(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: AppTheme.textDark,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 2),

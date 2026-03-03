@@ -13,7 +13,7 @@ class AppTheme {
   static const Color textDark = Color(0xFF1A1A1A);
   static const Color textMuted = Color(0xFF6B6B6B);
   static const Color divider = Color(0xFFE5E0D8);
-  static const Color darkBg = Color(0xFF0E0608);
+  static const Color darkBg = Color(0xFF141418);
   static final TextStyle uiControlText = GoogleFonts.openSans(
     fontSize: 14,
     fontWeight: FontWeight.w600,
@@ -184,8 +184,8 @@ class AppTheme {
   }
 
   // ── Dark theme ──────────────────────────────────────────────────────
-  static const Color darkSurface = Color(0xFF1E1E2E);
-  static const Color darkCard = Color(0xFF2A2A3C);
+  static const Color darkSurface = Color(0xFF1C1C24);
+  static const Color darkCard = Color(0xFF252530);
   static const Color darkText = Color(0xFFE4E4E4);
   static const Color darkMuted = Color(0xFF9E9E9E);
 
@@ -359,33 +359,48 @@ class AppTheme {
 
   // ── High-contrast light theme ───────────────────────────────────────
   static ThemeData get highContrastLightTheme {
-    return lightTheme.copyWith(
-      colorScheme: lightTheme.colorScheme.copyWith(
+    final base = lightTheme;
+    return base.copyWith(
+      colorScheme: base.colorScheme.copyWith(
         onSurface: Colors.black,
-        onSurfaceVariant: Colors.black87,
+        onSurfaceVariant: const Color(0xFF1A1A1A),
         outline: Colors.black54,
       ),
-      textTheme: lightTheme.textTheme.apply(
+      scaffoldBackgroundColor: const Color(0xFFF0F0F0),
+      textTheme: base.textTheme.apply(
         bodyColor: Colors.black,
         displayColor: Colors.black,
       ),
       dividerTheme: const DividerThemeData(color: Colors.black26),
+      iconTheme: const IconThemeData(color: Colors.black87),
     );
   }
 
   // ── High-contrast dark theme ────────────────────────────────────────
   static ThemeData get highContrastDarkTheme {
-    return darkTheme.copyWith(
-      colorScheme: darkTheme.colorScheme.copyWith(
+    final base = darkTheme;
+    return base.copyWith(
+      colorScheme: base.colorScheme.copyWith(
         onSurface: Colors.white,
-        onSurfaceVariant: Colors.white70,
+        onSurfaceVariant: const Color(0xFFE0E0E0),
         outline: Colors.white54,
+        surface: const Color(0xFF1A1A22),
       ),
-      textTheme: darkTheme.textTheme.apply(
+      scaffoldBackgroundColor: const Color(0xFF0F0F14),
+      textTheme: base.textTheme.apply(
         bodyColor: Colors.white,
         displayColor: Colors.white,
       ),
-      dividerTheme: const DividerThemeData(color: Colors.white24),
+      dividerTheme: const DividerThemeData(color: Colors.white30),
+      iconTheme: const IconThemeData(color: Colors.white),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: const Color(0xFF222230),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: Colors.white24, width: 1),
+        ),
+      ),
     );
   }
 }

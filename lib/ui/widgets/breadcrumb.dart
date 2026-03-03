@@ -26,7 +26,7 @@ class Breadcrumb extends StatelessWidget {
               child: Icon(
                 Icons.chevron_right,
                 size: 16,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           if (items[i].route != null)
@@ -55,7 +55,7 @@ class Breadcrumb extends StatelessWidget {
               items[i].label,
               style: GoogleFonts.openSans(
                 fontSize: 13,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w500,
               ),
               maxLines: 1,

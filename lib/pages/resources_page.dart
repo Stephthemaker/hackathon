@@ -167,7 +167,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
           style: GoogleFonts.openSans(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: AppTheme.textDark,
+            color: Theme.of(context).colorScheme.onSurface,
             letterSpacing: 0.5,
           ),
         ),
@@ -328,7 +328,7 @@ class _LinkCard extends StatelessWidget {
             Text(
               link.desc,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 height: 1.5,
               ),
             ),
@@ -396,7 +396,7 @@ class _ToolCard extends StatelessWidget {
                   Text(
                     tool.desc,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       height: 1.5,
                     ),
                     maxLines: 2,
@@ -533,6 +533,9 @@ class _TimelineEntryState extends State<_TimelineEntry>
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // Left spacer when card is on the right
+              if (widget.isWide && !widget.isLeft)
+                const Expanded(child: SizedBox()),
               if (widget.isWide && widget.isLeft) ...[
                 Expanded(child: card),
                 const SizedBox(width: 20),
@@ -550,7 +553,10 @@ class _TimelineEntryState extends State<_TimelineEntry>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: widget.accent,
-                        border: Border.all(color: Colors.white, width: 3),
+                        border: Border.all(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 3,
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: widget.accent.withValues(alpha: 0.35),
@@ -590,7 +596,7 @@ class _TimelineEntryState extends State<_TimelineEntry>
                 const SizedBox(width: 16),
                 Expanded(child: card),
               ],
-              // Spacer for alternating layout
+              // Right spacer when card is on the left
               if (widget.isWide && widget.isLeft)
                 const Expanded(child: SizedBox()),
             ],
@@ -618,7 +624,7 @@ class _TimelineEntryState extends State<_TimelineEntry>
             border: Border.all(
               color: _hovered
                   ? widget.accent.withValues(alpha: 0.3)
-                  : AppTheme.divider,
+                  : Theme.of(context).dividerColor,
             ),
             boxShadow: [
               BoxShadow(
@@ -663,7 +669,7 @@ class _TimelineEntryState extends State<_TimelineEntry>
                     Text(
                       widget.date.label,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.textDark,
+                        color: Theme.of(context).colorScheme.onSurface,
                         height: 1.4,
                         fontWeight: FontWeight.w500,
                       ),
@@ -717,9 +723,9 @@ class _FaqRow extends StatelessWidget {
                   AnimatedRotation(
                     turns: isOpen ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: const Icon(
+                    child: Icon(
                       Icons.keyboard_arrow_down,
-                      color: AppTheme.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       size: 20,
                     ),
                   ),
@@ -737,7 +743,9 @@ class _FaqRow extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppTheme.maroon.withValues(alpha: 0.04),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppTheme.divider),
+                          border: Border.all(
+                            color: Theme.of(context).dividerColor,
+                          ),
                         ),
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -745,7 +753,9 @@ class _FaqRow extends StatelessWidget {
                           textAlign: TextAlign.left,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color: AppTheme.textMuted,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                                 height: 1.65,
                               ),
                         ),

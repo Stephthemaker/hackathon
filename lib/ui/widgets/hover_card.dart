@@ -116,7 +116,7 @@ class _HoverCardState extends State<HoverCard> {
                 border: Border.all(
                   color: _hovered
                       ? AppTheme.maroon.withValues(alpha: 0.8)
-                      : AppTheme.divider,
+                      : Theme.of(context).dividerColor,
                   width: _hovered ? 1.2 : 1.0,
                 ),
                 boxShadow: [

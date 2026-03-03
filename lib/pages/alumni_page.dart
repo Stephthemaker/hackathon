@@ -116,7 +116,7 @@ class AlumniPage extends StatelessWidget {
                         style: GoogleFonts.openSans(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ],
@@ -226,7 +226,7 @@ class _AlumniCard extends StatelessWidget {
                         style: GoogleFonts.openSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: AppTheme.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Text(
@@ -259,23 +259,23 @@ class _AlumniCard extends StatelessWidget {
                     style: GoogleFonts.openSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.location_on_outlined,
                         size: 12,
-                        color: AppTheme.textMuted,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         alumnus.location,
                         style: GoogleFonts.openSans(
                           fontSize: 11,
-                          color: AppTheme.textMuted,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],
@@ -300,7 +300,9 @@ class _AlumniCard extends StatelessWidget {
                     alumnus.testimonial,
                     style: GoogleFonts.openSans(
                       fontSize: 13,
-                      color: AppTheme.textDark.withValues(alpha: 0.8),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.8),
                       height: 1.65,
                       fontStyle: FontStyle.italic,
                     ),
@@ -406,7 +408,7 @@ class _AlumniCTA extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.divider),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         children: [
@@ -415,7 +417,7 @@ class _AlumniCTA extends StatelessWidget {
             style: GoogleFonts.playfairDisplay(
               fontSize: 24,
               fontWeight: FontWeight.w600,
-              color: AppTheme.textDark,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
           ),
@@ -424,7 +426,7 @@ class _AlumniCTA extends StatelessWidget {
             s.tr('alumni.cta.body'),
             style: GoogleFonts.openSans(
               fontSize: 14,
-              color: AppTheme.textMuted,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
               height: 1.6,
             ),
             textAlign: TextAlign.center,

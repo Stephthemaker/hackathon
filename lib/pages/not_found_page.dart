@@ -9,9 +9,9 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Center(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 120),
           child: Column(
@@ -45,7 +45,7 @@ class NotFoundPage extends StatelessWidget {
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
-                  color: AppTheme.textDark,
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 12),
@@ -53,7 +53,7 @@ class NotFoundPage extends StatelessWidget {
                 AppSettingsProvider.of(context).tr('notfound.body'),
                 style: GoogleFonts.openSans(
                   fontSize: 15,
-                  color: AppTheme.textMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   height: 1.6,
                 ),
                 textAlign: TextAlign.center,

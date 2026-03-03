@@ -386,9 +386,11 @@ class _StaffPageState extends State<StaffPage> {
                           hintText: AppSettingsProvider.of(
                             context,
                           ).tr('staff.search.hint'),
-                          prefixIcon: const Icon(
+                          prefixIcon: Icon(
                             Icons.search,
-                            color: AppTheme.textMuted,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                             size: 20,
                           ),
                         ),
@@ -401,7 +403,7 @@ class _StaffPageState extends State<StaffPage> {
                         value: _sort,
                         style: AppTheme.uiControlText.copyWith(
                           fontSize: 13.5,
-                          color: AppTheme.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         decoration: InputDecoration(
                           labelText: AppSettingsProvider.of(
@@ -416,7 +418,7 @@ class _StaffPageState extends State<StaffPage> {
                               AppSettingsProvider.of(context).tr(trKey),
                               style: AppTheme.uiControlText.copyWith(
                                 fontSize: 13.5,
-                                color: AppTheme.textDark,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -483,7 +485,9 @@ class _StaffPageState extends State<StaffPage> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: AppTheme.divider),
+                        border: Border.all(
+                          color: Theme.of(context).dividerColor,
+                        ),
                       ),
                       child: filterContent,
                     );
@@ -620,7 +624,9 @@ class _GroupFilterButtonState extends State<_GroupFilterButton> {
                 border: Border.all(
                   color: selected
                       ? AppTheme.maroon
-                      : (_hovered ? AppTheme.maroonLight : AppTheme.divider),
+                      : (_hovered
+                            ? AppTheme.maroonLight
+                            : Theme.of(context).dividerColor),
                 ),
                 boxShadow: selected
                     ? [
@@ -890,20 +896,24 @@ class _Chip extends StatelessWidget {
               color: onTap != null
                   ? Theme.of(context).colorScheme.surface
                   : Colors.transparent,
-              border: Border.all(color: AppTheme.divider),
+              border: Border.all(color: Theme.of(context).dividerColor),
               borderRadius: BorderRadius.circular(4),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 11, color: AppTheme.textMuted),
+                Icon(
+                  icon,
+                  size: 11,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(width: 5),
                 Text(
                   label,
                   style: AppTheme.uiControlText.copyWith(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color: AppTheme.textMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],

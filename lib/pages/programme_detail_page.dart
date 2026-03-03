@@ -177,10 +177,10 @@ class ProgrammeDetailPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.school_outlined,
                 size: 64,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               const SizedBox(height: 16),
               Text(
@@ -240,7 +240,7 @@ class ProgrammeDetailPage extends StatelessWidget {
                     prog.overview,
                     style: GoogleFonts.openSans(
                       fontSize: 15,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                       height: 1.8,
                     ),
                   ),
@@ -274,7 +274,7 @@ class ProgrammeDetailPage extends StatelessWidget {
                             r,
                             style: GoogleFonts.openSans(
                               fontSize: 14,
-                              color: AppTheme.textDark,
+                              color: Theme.of(context).colorScheme.onSurface,
                               height: 1.6,
                             ),
                           ),
@@ -327,7 +327,9 @@ class ProgrammeDetailPage extends StatelessWidget {
                                   width: 4,
                                   height: 4,
                                   decoration: BoxDecoration(
-                                    color: AppTheme.textMuted,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -337,7 +339,9 @@ class ProgrammeDetailPage extends StatelessWidget {
                                     mod,
                                     style: GoogleFonts.openSans(
                                       fontSize: 14,
-                                      color: AppTheme.textDark,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
                                       height: 1.5,
                                     ),
                                   ),
@@ -548,7 +552,7 @@ class _ProgrammeHeader extends StatelessWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 26,
                     fontWeight: FontWeight.w600,
-                    color: AppTheme.textDark,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -556,7 +560,7 @@ class _ProgrammeHeader extends StatelessWidget {
                   prog.duration,
                   style: GoogleFonts.openSans(
                     fontSize: 14,
-                    color: AppTheme.textMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -592,7 +596,7 @@ class _SectionTitle extends StatelessWidget {
           style: GoogleFonts.openSans(
             fontSize: 18,
             fontWeight: FontWeight.w600,
-            color: AppTheme.textDark,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ],

@@ -143,10 +143,10 @@ Ms. Botha is expected to defend her dissertation later this year.''',
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.article_outlined,
                 size: 64,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               const SizedBox(height: 16),
               Text(
@@ -222,7 +222,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                       article.date,
                       style: GoogleFonts.openSans(
                         fontSize: 13,
-                        color: AppTheme.textMuted,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
@@ -236,7 +236,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 36,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                       height: 1.25,
                     ),
                   ),
@@ -249,7 +249,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     article.blurb,
                     style: GoogleFonts.openSans(
                       fontSize: 17,
-                      color: AppTheme.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       height: 1.6,
                       fontWeight: FontWeight.w500,
                     ),
@@ -258,7 +258,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                 const SizedBox(height: 32),
 
                 // Divider
-                Container(height: 1, color: AppTheme.divider),
+                Container(height: 1, color: Theme.of(context).dividerColor),
                 const SizedBox(height: 32),
 
                 // Body text
@@ -267,7 +267,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     article.body,
                     style: GoogleFonts.openSans(
                       fontSize: 15,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                       height: 1.85,
                     ),
                   ),
@@ -280,7 +280,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.divider),
+                    border: Border.all(color: Theme.of(context).dividerColor),
                   ),
                   child: Row(
                     children: [
@@ -289,7 +289,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                         style: GoogleFonts.openSans(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.textDark,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       const Spacer(),
@@ -333,7 +333,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                     style: GoogleFonts.openSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.textDark,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -364,7 +364,9 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                                       style: GoogleFonts.openSans(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
-                                        color: AppTheme.textDark,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -372,15 +374,19 @@ Ms. Botha is expected to defend her dissertation later this year.''',
                                       r.date,
                                       style: GoogleFonts.openSans(
                                         fontSize: 12,
-                                        color: AppTheme.textMuted,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              const Icon(
+                              Icon(
                                 Icons.chevron_right,
-                                color: AppTheme.textMuted,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                                 size: 20,
                               ),
                             ],
@@ -436,19 +442,23 @@ class _ShareButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppTheme.divider),
+              border: Border.all(color: Theme.of(context).dividerColor),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 16, color: AppTheme.textMuted),
+                Icon(
+                  icon,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(width: 6),
                 Text(
                   label,
                   style: GoogleFonts.openSans(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    color: AppTheme.textDark,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
               ],

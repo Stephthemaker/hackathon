@@ -485,7 +485,7 @@ class _StatsBar extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.divider),
+            border: Border.all(color: Theme.of(context).dividerColor),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.03),
@@ -512,7 +512,7 @@ class _StatsBar extends StatelessWidget {
                             Container(
                               width: 1,
                               height: 40,
-                              color: AppTheme.divider,
+                              color: Theme.of(context).dividerColor,
                               margin: const EdgeInsets.symmetric(
                                 horizontal: 16,
                               ),
@@ -537,7 +537,7 @@ class _StatsBar extends StatelessWidget {
                         Container(
                           width: 1,
                           height: 40,
-                          color: AppTheme.divider,
+                          color: Theme.of(context).dividerColor,
                           margin: const EdgeInsets.symmetric(horizontal: 16),
                         ),
                         Expanded(
@@ -550,7 +550,7 @@ class _StatsBar extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Divider(height: 1, color: AppTheme.divider),
+                    Divider(height: 1, color: Theme.of(context).dividerColor),
                     const SizedBox(height: 16),
                     Row(
                       children: [
@@ -564,7 +564,7 @@ class _StatsBar extends StatelessWidget {
                         Container(
                           width: 1,
                           height: 40,
-                          color: AppTheme.divider,
+                          color: Theme.of(context).dividerColor,
                           margin: const EdgeInsets.symmetric(horizontal: 16),
                         ),
                         Expanded(
@@ -585,9 +585,12 @@ class _StatsBar extends StatelessWidget {
                       children: [
                         _StatItem(e.value.$1, e.value.$2, e.value.$3),
                         if (!isLast)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            child: Divider(height: 1, color: AppTheme.divider),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Divider(
+                              height: 1,
+                              color: Theme.of(context).dividerColor,
+                            ),
                           ),
                       ],
                     );
@@ -636,7 +639,7 @@ class _StatItem extends StatelessWidget {
               style: GoogleFonts.openSans(
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 height: 1.4,
               ),
             ),
@@ -711,7 +714,7 @@ class _ModuleCatalogueHeader extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 letterSpacing: 0.5,
-                color: AppTheme.textDark,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 6),
@@ -719,7 +722,7 @@ class _ModuleCatalogueHeader extends StatelessWidget {
               s.tr('prog.modules.subtitle'),
               style: GoogleFonts.openSans(
                 fontSize: 14,
-                color: AppTheme.textMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 height: 1.4,
               ),
             ),
@@ -773,7 +776,7 @@ class _ProgCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.divider),
+          border: Border.all(color: Theme.of(context).dividerColor),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),
@@ -841,7 +844,7 @@ class _ProgCard extends StatelessWidget {
                           style: GoogleFonts.openSans(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
-                            color: AppTheme.textDark,
+                            color: Theme.of(context).colorScheme.onSurface,
                             height: 1.3,
                           ),
                         ),
@@ -860,7 +863,7 @@ class _ProgCard extends StatelessWidget {
                   Text(
                     prog.blurb,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.textMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       height: 1.65,
                     ),
                   ),
@@ -874,7 +877,7 @@ class _ProgCard extends StatelessWidget {
                   _InfoRow(
                     icon: Icons.checklist_rounded,
                     label: prog.requirements,
-                    color: AppTheme.textMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(height: 20),
                   Wrap(
@@ -971,7 +974,7 @@ class _ProgTabBar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppTheme.divider),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -1108,8 +1111,10 @@ class _ModuleRowState extends State<_ModuleRow> {
                 color: widget.isOpen
                     ? accent.withValues(alpha: 0.3)
                     : (_isHovered
-                          ? AppTheme.divider
-                          : AppTheme.divider.withValues(alpha: 0.5)),
+                          ? Theme.of(context).dividerColor
+                          : Theme.of(
+                              context,
+                            ).dividerColor.withValues(alpha: 0.5)),
               ),
               boxShadow: [
                 BoxShadow(
@@ -1193,7 +1198,9 @@ class _ModuleRowState extends State<_ModuleRow> {
                           widget.mod.desc,
                           style: GoogleFonts.openSans(
                             fontSize: 14,
-                            color: AppTheme.textDark.withValues(alpha: 0.75),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.75),
                             height: 1.6,
                           ),
                         ),
