@@ -383,7 +383,7 @@ class _Interactive3DScrollModelState extends State<Interactive3DScrollModel>
                     padding: const EdgeInsets.all(12.0),
                     child: Center(
                       child: SvgPicture.asset(
-                        'web/assets/general/favicon.svg',
+                        'assets/general/favicon.svg',
                         fit: BoxFit.contain,
                       ),
                     ),

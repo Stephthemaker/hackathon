@@ -238,38 +238,6 @@ class _AppShellState extends State<AppShell>
                         navItems: navItems,
                         currentPath: currentPath,
                       ),
-                      // Nav loading indicator
-                      AnimatedBuilder(
-                        animation: _navLoadingCtrl,
-                        builder: (context, _) {
-                          final v = _navLoadingCtrl.value;
-                          if (v == 0) return const SizedBox.shrink();
-                          return Opacity(
-                            opacity: v < 0.8 ? 1.0 : (1.0 - v) * 5,
-                            child: Container(
-                              height: 2,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.transparent,
-                                    AppTheme.gold,
-                                    AppTheme.goldLight,
-                                    AppTheme.gold,
-                                    Colors.transparent,
-                                  ],
-                                  stops: [
-                                    0.0,
-                                    (v * 0.3).clamp(0.0, 0.3),
-                                    v.clamp(0.0, 0.5),
-                                    (v * 0.8).clamp(0.0, 0.8),
-                                    1.0,
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
                     ],
                   ),
                 ),
@@ -445,7 +413,7 @@ class _NavLogoState extends State<_NavLogo> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: SvgPicture.asset(
-                      'web/assets/general/favicon.svg',
+                      'assets/general/favicon.svg',
                       fit: BoxFit.contain,
                       semanticsLabel: 'Computer Science Division logo',
                     ),

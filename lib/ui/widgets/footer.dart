@@ -217,7 +217,7 @@ class _FooterBrand extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: SvgPicture.asset(
-                  'web/assets/general/favicon.svg',
+                  'assets/general/favicon.svg',
                   fit: BoxFit.contain,
                   semanticsLabel: 'Computer Science Division logo',
                 ),
