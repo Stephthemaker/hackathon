@@ -69,12 +69,9 @@ class _HeroSectionState extends State<_HeroSection>
 
     return ClipRect(
       child: Container(
+        height: isDesktop ? 880 : 760, // Explicit height for Hero
         color: Colors.white,
-        height: isDesktop
-            ? 680 + 72
-            : 520 + 72, // accommodate for nav bar overlay
         child: Stack(
-          fit: StackFit.expand,
           children: [
             // Background image with parallax
             Positioned.fill(
@@ -99,7 +96,7 @@ class _HeroSectionState extends State<_HeroSection>
                         final dpr = MediaQuery.devicePixelRatioOf(context);
                         final cw = (constraints.maxWidth * dpr).round();
                         return Image.asset(
-                          'assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
+                          'assets/general/stellenbosch-university.jpg',
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: double.infinity,
@@ -155,7 +152,7 @@ class _HeroSectionState extends State<_HeroSection>
                   padding: const EdgeInsets.only(
                     left: 40,
                     right: 40,
-                    top: 72,
+                    top: 10, // Adjusted top padding to move content higher
                   ), // Offset text down for the nav bar
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
