@@ -58,7 +58,13 @@ class _AnimatedSectionState extends State<AnimatedSection> {
                   duration: widget.duration,
                   curve: Curves.easeOutQuart,
                 )
-          : Opacity(opacity: 0, child: widget.child),
+          : Visibility(
+              visible: false,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: widget.child,
+            ),
     );
   }
 }

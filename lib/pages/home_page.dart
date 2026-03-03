@@ -64,7 +64,7 @@ class _HeroSectionState extends State<_HeroSection>
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final isDesktop = width >= 900;
 
     return ClipRect(
@@ -78,35 +78,37 @@ class _HeroSectionState extends State<_HeroSection>
           children: [
             // Background image with parallax
             Positioned.fill(
-              child: AnimatedBuilder(
-                animation: ScrollProvider.of(context),
-                builder: (context, child) {
-                  final controller = ScrollProvider.of(context);
-                  final offset = controller.hasClients
-                      ? controller.offset
-                      : 0.0;
-                  final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
-                  return Transform.scale(scale: scale, child: child);
-                },
-                child: FadeTransition(
-                  opacity: CurvedAnimation(
-                    parent: _fadeCtrl,
-                    curve: Curves.easeOut,
-                  ),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final dpr = MediaQuery.of(context).devicePixelRatio;
-                      final cw = (constraints.maxWidth * dpr).round();
-                      return Image.asset(
-                        'assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                        alignment: Alignment.center,
-                        cacheWidth: cw,
-                        filterQuality: FilterQuality.medium,
-                      );
-                    },
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: ScrollProvider.of(context),
+                  builder: (context, child) {
+                    final controller = ScrollProvider.of(context);
+                    final offset = controller.hasClients
+                        ? controller.offset
+                        : 0.0;
+                    final scale = 1.0 + (offset * 0.0003).clamp(0.0, 0.15);
+                    return Transform.scale(scale: scale, child: child);
+                  },
+                  child: FadeTransition(
+                    opacity: CurvedAnimation(
+                      parent: _fadeCtrl,
+                      curve: Curves.easeOut,
+                    ),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final dpr = MediaQuery.devicePixelRatioOf(context);
+                        final cw = (constraints.maxWidth * dpr).round();
+                        return Image.asset(
+                          'assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          alignment: Alignment.center,
+                          cacheWidth: cw,
+                          filterQuality: FilterQuality.medium,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -449,10 +451,13 @@ class _StatItemState extends State<_StatItem>
     }
   }
 
+  // Cache the regex to avoid recompiling it on every animation frame
+  static final _numericPrefixRegex = RegExp(r'^(\d+)(.*)$');
+
   String _interpolateValue(double t) {
     final raw = widget.stat.value;
     // Parse numeric prefix e.g. "40+" -> 40, "800+" -> 800, "Top 5" -> null
-    final match = RegExp(r'^(\d+)(.*)$').firstMatch(raw);
+    final match = _numericPrefixRegex.firstMatch(raw);
     if (match == null) return raw; // non-numeric like "Top 5"
     final num = int.parse(match.group(1)!);
     final suffix = match.group(2)!;
@@ -474,7 +479,7 @@ class _StatItemState extends State<_StatItem>
               Text(
                 _interpolateValue(_ctrl.value),
                 style: GoogleFonts.playfairDisplay(
-                  fontSize: MediaQuery.of(context).size.width >= 900 ? 44 : 32,
+                  fontSize: MediaQuery.sizeOf(context).width >= 900 ? 44 : 32,
                   fontWeight: FontWeight.w700,
                   color: AppTheme.goldLight,
                   height: 1,
@@ -505,7 +510,7 @@ class _AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDesktop = MediaQuery.of(context).size.width >= 900;
+    final isDesktop = MediaQuery.sizeOf(context).width >= 900;
     return Container(
       color: Colors.transparent,
       child: Center(

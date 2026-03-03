@@ -29,48 +29,57 @@ class _HoverCardState extends State<HoverCard> {
   Offset _mousePos = Offset.zero;
   final GlobalKey _key = GlobalKey();
 
+  // Cache the render box size to avoid calling findRenderObject every frame
+  Size? _cachedSize;
+  Offset? _cachedCenter;
+
+  void _updateCachedSize() {
+    final RenderBox? box =
+        _key.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null) {
+      _cachedSize = box.size;
+      _cachedCenter = Offset(box.size.width / 2, box.size.height / 2);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final reduceMotion = AppSettingsProvider.of(context).reduceMotion;
     Matrix4 transform = Matrix4.identity();
     double activeDepth = widget.depth;
 
-    if (_hovered && !reduceMotion) {
-      final RenderBox? box =
-          _key.currentContext?.findRenderObject() as RenderBox?;
-      if (box != null) {
-        final size = box.size;
-        final center = Offset(size.width / 2, size.height / 2);
+    if (_hovered && !reduceMotion && _cachedSize != null) {
+      final size = _cachedSize!;
+      final center = _cachedCenter!;
 
-        // Adaptive lift dependent on widget dimensions and interaction.
-        // Larger items float less to appear naturally heavier.
-        double area = size.width * size.height;
-        double areaScale = area > 0 ? (60000 / area).clamp(0.2, 1.0) : 1.0;
-        double interactionScale = widget.onTap != null ? 1.0 : 0.2;
-        activeDepth = widget.depth * areaScale * interactionScale;
+      // Adaptive lift dependent on widget dimensions and interaction.
+      // Larger items float less to appear naturally heavier.
+      double area = size.width * size.height;
+      double areaScale = area > 0 ? (60000 / area).clamp(0.2, 1.0) : 1.0;
+      double interactionScale = widget.onTap != null ? 1.0 : 0.2;
+      activeDepth = widget.depth * areaScale * interactionScale;
 
-        double dx = (_mousePos.dx - center.dx) / center.dx;
-        double dy = (_mousePos.dy - center.dy) / center.dy;
+      double dx = (_mousePos.dx - center.dx) / center.dx;
+      double dy = (_mousePos.dy - center.dy) / center.dy;
 
-        dx = dx.clamp(-1.0, 1.0);
-        dy = dy.clamp(-1.0, 1.0);
+      dx = dx.clamp(-1.0, 1.0);
+      dy = dy.clamp(-1.0, 1.0);
 
-        // Calculate mathematically consistent depth limit based on card dimensions
-        double maxAngleX = 6.0 / (center.dy > 1 ? center.dy : 1);
-        double maxAngleY = 6.0 / (center.dx > 1 ? center.dx : 1);
+      // Calculate mathematically consistent depth limit based on card dimensions
+      double maxAngleX = 6.0 / (center.dy > 1 ? center.dy : 1);
+      double maxAngleY = 6.0 / (center.dx > 1 ? center.dx : 1);
 
-        // Bound cards from over-rotating or under-rotating
-        maxAngleX = maxAngleX.clamp(0.005, 0.02);
-        maxAngleY = maxAngleY.clamp(0.005, 0.02);
+      // Bound cards from over-rotating or under-rotating
+      maxAngleX = maxAngleX.clamp(0.005, 0.02);
+      maxAngleY = maxAngleY.clamp(0.005, 0.02);
 
-        transform
-          ..setEntry(3, 2, 0.001) // perspective
-          ..rotateX(-dy * maxAngleX * activeDepth) // pitch up/down
-          ..rotateY(dx * maxAngleY * activeDepth); // yaw left/right
+      transform
+        ..setEntry(3, 2, 0.001) // perspective
+        ..rotateX(-dy * maxAngleX * activeDepth) // pitch up/down
+        ..rotateY(dx * maxAngleY * activeDepth); // yaw left/right
 
-        transform = Matrix4.translationValues(0.0, -3.5 * activeDepth, 0.0)
-          ..multiply(transform); // lift slightly
-      }
+      transform = Matrix4.translationValues(0.0, -3.5 * activeDepth, 0.0)
+        ..multiply(transform); // lift slightly
     }
 
     return Semantics(
@@ -80,16 +89,24 @@ class _HoverCardState extends State<HoverCard> {
         cursor: widget.onTap != null
             ? SystemMouseCursors.click
             : SystemMouseCursors.basic,
-        onEnter: (_) => setState(() => _hovered = true),
+        onEnter: (_) {
+          _updateCachedSize();
+          setState(() => _hovered = true);
+        },
         onExit: (_) => setState(() {
           _hovered = false;
           _mousePos = Offset.zero;
         }),
         onHover: (e) {
-          setState(() {
-            _hovered = true; // Ensure hovered is true while tracking
-            _mousePos = e.localPosition;
-          });
+          // Only rebuild if position changed significantly (>2px)
+          final dx = (e.localPosition.dx - _mousePos.dx).abs();
+          final dy = (e.localPosition.dy - _mousePos.dy).abs();
+          if (dx > 2 || dy > 2) {
+            setState(() {
+              _hovered = true;
+              _mousePos = e.localPosition;
+            });
+          }
         },
         child: GestureDetector(
           onTap: widget.onTap,

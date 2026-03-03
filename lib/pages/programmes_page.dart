@@ -193,7 +193,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
   @override
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     final cols = w > 1100
         ? 4
         : w > 700
@@ -616,7 +616,7 @@ class _StatItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 500;
+    final isMobile = MediaQuery.sizeOf(context).width < 500;
     return Row(
       mainAxisAlignment: isMobile
           ? MainAxisAlignment.start

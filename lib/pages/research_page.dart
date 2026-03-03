@@ -238,7 +238,7 @@ class _GroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final isDesktop = width > 960;
 
     return HoverCard(
@@ -476,24 +476,22 @@ class _MembersPane extends StatelessWidget {
                           ),
                           child: ClipOval(
                             child: m.photoPath != null
-                                ? Image.asset(
-                                    m.photoPath!,
-                                    fit: BoxFit.cover,
-                                    cacheWidth:
-                                        (48 *
-                                                MediaQuery.of(
-                                                  context,
-                                                ).devicePixelRatio)
-                                            .round(),
-                                    cacheHeight:
-                                        (48 *
-                                                MediaQuery.of(
-                                                  context,
-                                                ).devicePixelRatio)
-                                            .round(),
-                                    filterQuality: FilterQuality.medium,
-                                    errorBuilder: (_, __, ___) =>
-                                        _InitialsAvatar(name: m.name),
+                                ? Builder(
+                                    builder: (context) {
+                                      final dpr = MediaQuery.devicePixelRatioOf(
+                                        context,
+                                      );
+                                      final cacheSize = (48 * dpr).round();
+                                      return Image.asset(
+                                        m.photoPath!,
+                                        fit: BoxFit.cover,
+                                        cacheWidth: cacheSize,
+                                        cacheHeight: cacheSize,
+                                        filterQuality: FilterQuality.medium,
+                                        errorBuilder: (_, __, ___) =>
+                                            _InitialsAvatar(name: m.name),
+                                      );
+                                    },
                                   )
                                 : _InitialsAvatar(name: m.name),
                           ),
@@ -683,7 +681,7 @@ class _ResourcesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final cols = width > 960 ? 3 : (width > 640 ? 2 : 1);
 
     final rows = <Widget>[];
@@ -774,9 +772,9 @@ class _ResourcesSection extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1240),
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              MediaQuery.sizeOf(context).width < 600 ? 24 : 48,
               72,
-              MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              MediaQuery.sizeOf(context).width < 600 ? 24 : 48,
               72,
             ),
             child: Column(
@@ -846,7 +844,7 @@ class _PostgradBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final isDesktop = width > 800;
 
     return Container(
@@ -856,7 +854,7 @@ class _PostgradBanner extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1240),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 48,
+              horizontal: MediaQuery.sizeOf(context).width < 600 ? 24 : 48,
               vertical: 64,
             ),
             child: isDesktop

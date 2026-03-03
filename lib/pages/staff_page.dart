@@ -17,6 +17,21 @@ class _StaffPageState extends State<StaffPage> {
   String _query = '';
   String _sort = 'Name (A–Z)';
 
+  // Cached filtered lists – invalidated only when filter params change
+  List<_SM>? _cachedAcademic;
+  List<_SM>? _cachedAdmin;
+
+  void _invalidateCache() {
+    _cachedAcademic = null;
+    _cachedAdmin = null;
+  }
+
+  List<_SM> get _filteredAcademic =>
+      _cachedAcademic ??= _applyFilters(_academicStaff, filterByGroup: true);
+
+  List<_SM> get _filteredAdmin =>
+      _cachedAdmin ??= _applyFilters(_adminStaff, filterByGroup: false);
+
   static const _groups = [
     'All',
     'Theory & Algorithms',
@@ -337,15 +352,9 @@ class _StaffPageState extends State<StaffPage> {
     return filtered;
   }
 
-  List<_SM> get _filteredAcademic =>
-      _applyFilters(_academicStaff, filterByGroup: true);
-
-  List<_SM> get _filteredAdmin =>
-      _applyFilters(_adminStaff, filterByGroup: false);
-
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     final cols = w > 1000
         ? 3
         : w > 650
@@ -394,7 +403,10 @@ class _StaffPageState extends State<StaffPage> {
                             size: 20,
                           ),
                         ),
-                        onChanged: (v) => setState(() => _query = v),
+                        onChanged: (v) => setState(() {
+                          _query = v;
+                          _invalidateCache();
+                        }),
                       ),
                     ),
                     ConstrainedBox(
@@ -426,7 +438,10 @@ class _StaffPageState extends State<StaffPage> {
                         }).toList(),
                         onChanged: (v) {
                           if (v != null) {
-                            setState(() => _sort = v);
+                            setState(() {
+                              _sort = v;
+                              _invalidateCache();
+                            });
                           }
                         },
                       ),
@@ -447,7 +462,10 @@ class _StaffPageState extends State<StaffPage> {
                             (g) => _GroupFilterButton(
                               label: s.tr(_groupTranslationKeys[g] ?? g),
                               selected: _group == g,
-                              onTap: () => setState(() => _group = g),
+                              onTap: () => setState(() {
+                                _group = g;
+                                _invalidateCache();
+                              }),
                             ),
                           )
                           .toList(),
@@ -469,7 +487,10 @@ class _StaffPageState extends State<StaffPage> {
                                         _groupTranslationKeys[g] ?? g,
                                       ),
                                       selected: _group == g,
-                                      onTap: () => setState(() => _group = g),
+                                      onTap: () => setState(() {
+                                        _group = g;
+                                        _invalidateCache();
+                                      }),
                                     ),
                                   ),
                                 )
@@ -816,7 +837,8 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
-    )..repeat();
+    );
+    // Don't repeat yet — wait for frameBuilder to decide
   }
 
   @override
@@ -827,6 +849,8 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
 
   @override
   Widget build(BuildContext context) {
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final cacheSize = (56 * dpr).round();
     return SizedBox(
       width: 56,
       height: 56,
@@ -836,12 +860,19 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
           width: 56,
           height: 56,
           fit: BoxFit.cover,
-          cacheWidth: (56 * MediaQuery.of(context).devicePixelRatio).round(),
-          cacheHeight: (56 * MediaQuery.of(context).devicePixelRatio).round(),
+          cacheWidth: cacheSize,
+          cacheHeight: cacheSize,
           filterQuality: FilterQuality.medium,
           semanticLabel: widget.semanticLabel,
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (wasSynchronouslyLoaded) return child;
+            if (wasSynchronouslyLoaded) {
+              _loaded = true;
+              return child;
+            }
+            // Start shimmer only if image hasn't loaded yet
+            if (!_loaded && !_controller.isAnimating) {
+              _controller.repeat();
+            }
             if (frame != null && !_loaded) {
               _loaded = true;
               _controller.stop();

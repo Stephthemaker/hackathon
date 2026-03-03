@@ -6,6 +6,7 @@ import 'router/app_router.dart';
 import 'settings/app_settings.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
 
   // Graceful error fallback instead of red error screen in production

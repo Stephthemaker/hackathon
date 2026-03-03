@@ -114,7 +114,7 @@ class _NotFoundPageState extends State<NotFoundPage> {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(

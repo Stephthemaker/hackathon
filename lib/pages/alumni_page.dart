@@ -77,7 +77,7 @@ class AlumniPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     final cols = w > 1000
         ? 3
         : w > 650
@@ -323,7 +323,7 @@ class _AlumniStatsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     final isWide = w > 800;
 
     return Container(

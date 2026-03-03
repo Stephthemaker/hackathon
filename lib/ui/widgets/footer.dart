@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../theme/app_theme.dart';
 import '../../settings/app_settings.dart';
-import '../layout/app_shell.dart';
 
 class SiteFooter extends StatelessWidget {
   const SiteFooter({super.key});
@@ -13,7 +12,7 @@ class SiteFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
-    final isDesktop = MediaQuery.of(context).size.width >= 900;
+    final isDesktop = MediaQuery.sizeOf(context).width >= 900;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -364,10 +363,7 @@ class _FooterLinks extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        ...links.map(
-          (l) =>
-              _FooterLinkItem(label: l.label, route: l.route, context: context),
-        ),
+        ...links.map((l) => _FooterLinkItem(label: l.label, route: l.route)),
       ],
     );
   }
@@ -382,13 +378,8 @@ class _Link {
 class _FooterLinkItem extends StatefulWidget {
   final String label;
   final String route;
-  final BuildContext context;
 
-  const _FooterLinkItem({
-    required this.label,
-    required this.route,
-    required this.context,
-  });
+  const _FooterLinkItem({required this.label, required this.route});
 
   @override
   State<_FooterLinkItem> createState() => _FooterLinkItemState();

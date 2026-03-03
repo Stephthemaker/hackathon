@@ -88,7 +88,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
   @override
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
     final cols = w > 900
         ? 3
         : w > 600
@@ -185,7 +185,7 @@ class _ResourcesPageState extends State<ResourcesPage> {
       _Date('6 Dec', s.tr('res.date.6.label')),
     ];
 
-    final isWide = MediaQuery.of(context).size.width > 700;
+    final isWide = MediaQuery.sizeOf(context).width > 700;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

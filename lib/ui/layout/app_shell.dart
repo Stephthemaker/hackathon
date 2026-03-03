@@ -160,7 +160,7 @@ class _AppShellState extends State<AppShell>
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final isDesktop = width >= 900;
     final currentPath = GoRouterState.of(context).uri.path;
     final settings = AppSettingsProvider.of(context);
@@ -215,7 +215,7 @@ class _AppShellState extends State<AppShell>
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints(
-                          minHeight: MediaQuery.of(context).size.height,
+                          minHeight: MediaQuery.sizeOf(context).height,
                         ),
                         child: widget.child,
                       ),
@@ -270,7 +270,7 @@ class _NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.sizeOf(context).width;
     final maxNavWidth = 1280.0;
 
     double edgeSpacing = 0.0;

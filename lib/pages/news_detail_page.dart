@@ -139,7 +139,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
       return Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width < 600 ? 24 : 80,
+          horizontal: MediaQuery.sizeOf(context).width < 600 ? 24 : 80,
           vertical: 80,
         ),
         child: Center(
@@ -177,7 +177,7 @@ Ms. Botha is expected to defend her dissertation later this year.''',
         .where((a) => a.slug != slug && a.cat == article.cat)
         .take(2)
         .toList();
-    final w = MediaQuery.of(context).size.width;
+    final w = MediaQuery.sizeOf(context).width;
 
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
