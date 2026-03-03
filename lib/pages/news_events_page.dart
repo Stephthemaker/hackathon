@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
 import '../ui/widgets/hover_card.dart';
@@ -38,36 +40,42 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
       'Research',
       'The NRF has awarded an A-rating to Prof Johan Fourie for groundbreaking work in African-language NLP.',
       '12 Jun 2026',
+      slug: 'prof-fourie-nrf-a-rating',
     ),
     _NI(
       'CS students win DevSoc Hackathon 2026',
       'Awards',
       'Two teams swept the top spots at the DevSoc 24-hour hackathon with AI-powered solutions.',
       '4 May 2026',
+      slug: 'cs-students-win-devsoc-hackathon',
     ),
     _NI(
       'New AI Lab opens in Engineering A Building',
       'Research',
       'The department inaugurates a state-of-the-art GPU cluster lab for large-scale model training.',
       '28 Apr 2026',
+      slug: 'new-ai-lab-opens',
     ),
     _NI(
       'Industry Day 2026 — over 40 companies attending',
       'Industry',
       'Our annual Industry Day connects final-year students with top tech employers across the Western Cape.',
       '15 Mar 2026',
+      slug: 'industry-day-2026',
     ),
     _NI(
       'Undergraduate open day report',
       'Events',
       'Over 800 prospective students visited campus; virtual sessions drew another 1,200 attendees online.',
       '5 Mar 2026',
+      slug: 'undergraduate-open-day',
     ),
     _NI(
       'PhD student publishes in Nature Machine Intelligence',
       'Research',
       'Doctoral candidate Lena Botha co-authored a landmark paper on federated learning for medical imaging.',
       '20 Feb 2026',
+      slug: 'phd-nature-machine-intelligence',
     ),
   ];
 
@@ -150,7 +158,8 @@ class _NewsEventsPageState extends State<NewsEventsPage> {
 
 class _NI {
   final String title, cat, blurb, date;
-  const _NI(this.title, this.cat, this.blurb, this.date);
+  final String slug;
+  const _NI(this.title, this.cat, this.blurb, this.date, {this.slug = ''});
 }
 
 class _EV {
@@ -170,29 +179,34 @@ class _CatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: onTap,
-        child: SelectionContainer.disabled(
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 180),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-            decoration: BoxDecoration(
-              color: selected
-                  ? AppTheme.maroon
-                  : Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: selected ? AppTheme.maroon : AppTheme.divider,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: onTap,
+          child: SelectionContainer.disabled(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: selected
+                    ? AppTheme.maroon
+                    : Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: selected ? AppTheme.maroon : AppTheme.divider,
+                ),
               ),
-            ),
-            child: Text(
-              label,
-              style: GoogleFonts.openSans(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: selected ? Colors.white : AppTheme.textDark,
+              child: Text(
+                label,
+                style: GoogleFonts.openSans(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  color: selected ? Colors.white : AppTheme.textDark,
+                ),
               ),
             ),
           ),
@@ -249,7 +263,9 @@ class _NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = _catColors[item.cat] ?? AppTheme.maroon;
     return HoverCard(
-      onTap: null,
+      onTap: item.slug.isNotEmpty
+          ? () => context.go('/news/${item.slug}')
+          : null,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Row(
@@ -406,6 +422,50 @@ class _EventsSidebar extends StatelessWidget {
                             style: GoogleFonts.openSans(
                               fontSize: 11,
                               color: AppTheme.textMuted,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Semantics(
+                            link: true,
+                            label: 'Add ${e.name} to calendar',
+                            child: MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Google Calendar "Add Event" URL
+                                  final title = Uri.encodeComponent(e.name);
+                                  final location = Uri.encodeComponent(
+                                    e.location,
+                                  );
+                                  final url =
+                                      'https://calendar.google.com/calendar/render?action=TEMPLATE&text=$title&location=$location&details=CS+Department+Event';
+                                  launchUrl(
+                                    Uri.parse(url),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today,
+                                      size: 11,
+                                      color: AppTheme.maroon,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      AppSettingsProvider.of(
+                                        context,
+                                      ).tr('news.events.add_cal'),
+                                      style: GoogleFonts.openSans(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.maroon,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],

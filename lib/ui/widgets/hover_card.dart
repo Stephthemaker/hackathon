@@ -74,61 +74,65 @@ class _HoverCardState extends State<HoverCard> {
       }
     }
 
-    return MouseRegion(
-      cursor: widget.onTap != null
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() {
-        _hovered = false;
-        _mousePos = Offset.zero;
-      }),
-      onHover: (e) {
-        setState(() {
-          _hovered = true; // Ensure hovered is true while tracking
-          _mousePos = e.localPosition;
-        });
-      },
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: TweenAnimationBuilder<Matrix4>(
-          tween: Matrix4Tween(begin: Matrix4.identity(), end: transform),
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOutCubic,
-          builder: (context, mat, child) {
-            return Transform(
-              alignment: FractionalOffset.center,
-              transform: mat,
-              child: child,
-            );
-          },
-          child: AnimatedContainer(
-            key: _key,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOut,
-            padding: widget.padding,
-            decoration: BoxDecoration(
-              color: widget.color ?? Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              border: Border.all(
-                color: _hovered
-                    ? AppTheme.maroon.withValues(alpha: 0.8)
-                    : AppTheme.divider,
-                width: _hovered ? 1.2 : 1.0,
+    return Semantics(
+      button: widget.onTap != null,
+      enabled: widget.onTap != null,
+      child: MouseRegion(
+        cursor: widget.onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() {
+          _hovered = false;
+          _mousePos = Offset.zero;
+        }),
+        onHover: (e) {
+          setState(() {
+            _hovered = true; // Ensure hovered is true while tracking
+            _mousePos = e.localPosition;
+          });
+        },
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: TweenAnimationBuilder<Matrix4>(
+            tween: Matrix4Tween(begin: Matrix4.identity(), end: transform),
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOutCubic,
+            builder: (context, mat, child) {
+              return Transform(
+                alignment: FractionalOffset.center,
+                transform: mat,
+                child: child,
+              );
+            },
+            child: AnimatedContainer(
+              key: _key,
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+              padding: widget.padding,
+              decoration: BoxDecoration(
+                color: widget.color ?? Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                border: Border.all(
+                  color: _hovered
+                      ? AppTheme.maroon.withValues(alpha: 0.8)
+                      : AppTheme.divider,
+                  width: _hovered ? 1.2 : 1.0,
+                ),
+                boxShadow: [
+                  if (_hovered)
+                    BoxShadow(
+                      color: AppTheme.maroon.withValues(
+                        alpha: 0.16 * activeDepth.clamp(0.2, 1.0),
+                      ), // Deepened shadow for 3D effect scaled by depth
+                      blurRadius: 20 * activeDepth,
+                      spreadRadius: 5 * activeDepth,
+                      offset: Offset(0, 8 * activeDepth),
+                    ),
+                ],
               ),
-              boxShadow: [
-                if (_hovered)
-                  BoxShadow(
-                    color: AppTheme.maroon.withValues(
-                      alpha: 0.16 * activeDepth.clamp(0.2, 1.0),
-                    ), // Deepened shadow for 3D effect scaled by depth
-                    blurRadius: 20 * activeDepth,
-                    spreadRadius: 5 * activeDepth,
-                    offset: Offset(0, 8 * activeDepth),
-                  ),
-              ],
+              child: widget.child,
             ),
-            child: widget.child,
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../settings/app_settings.dart';
@@ -32,6 +33,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
 
   static List<_Prog> _getProgrammes(AppSettings s) => [
     _Prog(
+      'bsc',
       s.tr('prog.bsc.name'),
       s.tr('prog.bsc.blurb'),
       ['Programming', 'Data Structures', 'Networks', 'Databases'],
@@ -42,6 +44,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
       s.tr('prog.level.undergrad'),
     ),
     _Prog(
+      'hons',
       s.tr('prog.hons.name'),
       s.tr('prog.hons.blurb'),
       [
@@ -57,6 +60,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
       s.tr('prog.level.honours'),
     ),
     _Prog(
+      'msc',
       s.tr('prog.msc.name'),
       s.tr('prog.msc.blurb'),
       ['Independent Research', 'Thesis Defence'],
@@ -67,6 +71,7 @@ class _ProgrammesPageState extends State<ProgrammesPage>
       s.tr('prog.level.postgrad'),
     ),
     _Prog(
+      'phd',
       s.tr('prog.phd.name'),
       s.tr('prog.phd.blurb'),
       ['Original Research', 'Dissertation', 'Publication'],
@@ -728,6 +733,7 @@ class _ModuleCatalogueHeader extends StatelessWidget {
 // ── Data models ────────────────────────────────────────────────────────────
 
 class _Prog {
+  final String id;
   final String name, blurb;
   final List<String> highlights;
   final String duration;
@@ -736,6 +742,7 @@ class _Prog {
   final IconData icon;
   final String level;
   const _Prog(
+    this.id,
     this.name,
     this.blurb,
     this.highlights,
@@ -761,12 +768,7 @@ class _ProgCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HoverCard(
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('${prog.name} details \u2014 coming soon'),
-          duration: const Duration(seconds: 2),
-        ),
-      ),
+      onTap: () => context.go('/programmes/${prog.id}'),
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
@@ -975,55 +977,60 @@ class _ProgTabBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: labels.asMap().entries.map((e) {
           final sel = controller.index == e.key;
-          return MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () => controller.animateTo(e.key),
-              child: SelectionContainer.disabled(
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: sel ? AppTheme.maroon : Colors.transparent,
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        e.value,
-                        style: GoogleFonts.openSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: sel ? Colors.white : AppTheme.textMuted,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 180),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
-                          vertical: 2,
-                        ),
-                        decoration: BoxDecoration(
-                          color: sel
-                              ? Colors.white.withValues(alpha: 0.2)
-                              : AppTheme.maroon.withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          '${counts[e.key]}',
+          return Semantics(
+            button: true,
+            selected: sel,
+            label: e.value,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => controller.animateTo(e.key),
+                child: SelectionContainer.disabled(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: sel ? AppTheme.maroon : Colors.transparent,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          e.value,
                           style: GoogleFonts.openSans(
-                            fontSize: 10,
+                            fontSize: 13,
                             fontWeight: FontWeight.w500,
-                            color: sel ? Colors.white : AppTheme.maroon,
+                            color: sel ? Colors.white : AppTheme.textMuted,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 6),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 180),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: sel
+                                ? Colors.white.withValues(alpha: 0.2)
+                                : AppTheme.maroon.withValues(alpha: 0.08),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${counts[e.key]}',
+                            style: GoogleFonts.openSans(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: sel ? Colors.white : AppTheme.maroon,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -1074,122 +1081,127 @@ class _ModuleRowState extends State<_ModuleRow> {
   Widget build(BuildContext context) {
     final s = AppSettingsProvider.of(context);
     final accent = _accentColor;
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-          margin: EdgeInsets.only(bottom: widget.isOpen ? 12 : 6),
-          decoration: BoxDecoration(
-            color: widget.isOpen
-                ? Theme.of(context).colorScheme.surface
-                : (_isHovered
-                      ? Theme.of(
-                          context,
-                        ).colorScheme.surface.withValues(alpha: 0.8)
-                      : Theme.of(context).colorScheme.surface),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
+    return Semantics(
+      button: true,
+      expanded: widget.isOpen,
+      label: widget.mod.name,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          behavior: HitTestBehavior.opaque,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOutCubic,
+            margin: EdgeInsets.only(bottom: widget.isOpen ? 12 : 6),
+            decoration: BoxDecoration(
               color: widget.isOpen
-                  ? accent.withValues(alpha: 0.3)
+                  ? Theme.of(context).colorScheme.surface
                   : (_isHovered
-                        ? AppTheme.divider
-                        : AppTheme.divider.withValues(alpha: 0.5)),
-            ),
-            boxShadow: [
-              BoxShadow(
+                        ? Theme.of(
+                            context,
+                          ).colorScheme.surface.withValues(alpha: 0.8)
+                        : Theme.of(context).colorScheme.surface),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
                 color: widget.isOpen
-                    ? accent.withValues(alpha: 0.08)
-                    : Colors.black.withOpacity(_isHovered ? 0.05 : 0.02),
-                blurRadius: widget.isOpen ? 20 : (_isHovered ? 12 : 8),
-                offset: Offset(0, widget.isOpen ? 8 : 2),
+                    ? accent.withValues(alpha: 0.3)
+                    : (_isHovered
+                          ? AppTheme.divider
+                          : AppTheme.divider.withValues(alpha: 0.5)),
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
+              boxShadow: [
+                BoxShadow(
+                  color: widget.isOpen
+                      ? accent.withValues(alpha: 0.08)
+                      : Colors.black.withOpacity(_isHovered ? 0.05 : 0.02),
+                  blurRadius: widget.isOpen ? 20 : (_isHovered ? 12 : 8),
+                  offset: Offset(0, widget.isOpen ? 8 : 2),
                 ),
-                child: Row(
-                  children: [
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 400),
-                      width: 4,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: widget.isOpen
-                            ? accent
-                            : accent.withValues(alpha: 0.4),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        widget.mod.name,
-                        style: GoogleFonts.openSans(
-                          fontSize: 15,
-                          fontWeight: widget.isOpen
-                              ? FontWeight.w600
-                              : FontWeight.w500,
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        width: 4,
+                        height: 32,
+                        decoration: BoxDecoration(
                           color: widget.isOpen
-                              ? AppTheme.textDark
-                              : AppTheme.textDark.withValues(alpha: 0.9),
+                              ? accent
+                              : accent.withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    _ModuleBadge(
-                      label:
-                          '${widget.mod.credits} ${s.tr('prog.module.credits')}',
-                      color: accent,
-                    ),
-                    const SizedBox(width: 12),
-                    AnimatedRotation(
-                      turns: widget.isOpen ? 0.5 : 0,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Curves.easeOutBack,
-                      child: Icon(
-                        Icons.expand_more_rounded,
-                        color: widget.isOpen ? accent : AppTheme.textMuted,
-                        size: 22,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          widget.mod.name,
+                          style: GoogleFonts.openSans(
+                            fontSize: 15,
+                            fontWeight: widget.isOpen
+                                ? FontWeight.w600
+                                : FontWeight.w500,
+                            color: widget.isOpen
+                                ? AppTheme.textDark
+                                : AppTheme.textDark.withValues(alpha: 0.9),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              if (widget.isOpen)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 24, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 1,
-                        width: 40,
-                        color: accent.withValues(alpha: 0.2),
-                        margin: const EdgeInsets.only(bottom: 16),
+                      const SizedBox(width: 12),
+                      _ModuleBadge(
+                        label:
+                            '${widget.mod.credits} ${s.tr('prog.module.credits')}',
+                        color: accent,
                       ),
-                      Text(
-                        widget.mod.desc,
-                        style: GoogleFonts.openSans(
-                          fontSize: 14,
-                          color: AppTheme.textDark.withValues(alpha: 0.75),
-                          height: 1.6,
+                      const SizedBox(width: 12),
+                      AnimatedRotation(
+                        turns: widget.isOpen ? 0.5 : 0,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeOutBack,
+                        child: Icon(
+                          Icons.expand_more_rounded,
+                          color: widget.isOpen ? accent : AppTheme.textMuted,
+                          size: 22,
                         ),
                       ),
                     ],
                   ),
                 ),
-            ],
+                if (widget.isOpen)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(40, 0, 24, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 1,
+                          width: 40,
+                          color: accent.withValues(alpha: 0.2),
+                          margin: const EdgeInsets.only(bottom: 16),
+                        ),
+                        Text(
+                          widget.mod.desc,
+                          style: GoogleFonts.openSans(
+                            fontSize: 14,
+                            color: AppTheme.textDark.withValues(alpha: 0.75),
+                            height: 1.6,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

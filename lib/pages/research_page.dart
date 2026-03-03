@@ -20,7 +20,11 @@ class ResearchPage extends StatelessWidget {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: const [_GroupsSection(), _ResourcesSection()],
+          children: const [
+            _GroupsSection(),
+            _ResourcesSection(),
+            _PostgradBanner(),
+          ],
         ),
       ),
     );
@@ -352,32 +356,36 @@ class _GroupInfo extends StatelessWidget {
               runSpacing: 8,
               children: group.officialLinks
                   .map(
-                    (link) => MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () => launchUrl(Uri.parse(link.url)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.link,
-                              size: 14,
-                              color: AppTheme.gold,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              link.label,
-                              style: GoogleFonts.openSans(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.maroon,
-                                decoration: TextDecoration.underline,
-                                decorationColor: AppTheme.maroon.withValues(
-                                  alpha: 0.3,
+                    (link) => Semantics(
+                      link: true,
+                      label: link.label,
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () => launchUrl(Uri.parse(link.url)),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.link,
+                                size: 14,
+                                color: AppTheme.gold,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                link.label,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.maroon,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppTheme.maroon.withValues(
+                                    alpha: 0.3,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -386,28 +394,32 @@ class _GroupInfo extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 28),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () => context.go(group.ctaRoute),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    group.ctaLabel,
-                    style: GoogleFonts.openSans(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
+          Semantics(
+            link: true,
+            label: group.ctaLabel,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () => context.go(group.ctaRoute),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      group.ctaLabel,
+                      style: GoogleFonts.openSans(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.maroon,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Icon(
+                      Icons.arrow_forward,
+                      size: 16,
                       color: AppTheme.maroon,
                     ),
-                  ),
-                  const SizedBox(width: 6),
-                  const Icon(
-                    Icons.arrow_forward,
-                    size: 16,
-                    color: AppTheme.maroon,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -463,6 +475,19 @@ class _MembersPane extends StatelessWidget {
                                 ? Image.asset(
                                     m.photoPath!,
                                     fit: BoxFit.cover,
+                                    cacheWidth:
+                                        (48 *
+                                                MediaQuery.of(
+                                                  context,
+                                                ).devicePixelRatio)
+                                            .round(),
+                                    cacheHeight:
+                                        (48 *
+                                                MediaQuery.of(
+                                                  context,
+                                                ).devicePixelRatio)
+                                            .round(),
+                                    filterQuality: FilterQuality.medium,
                                     errorBuilder: (_, __, ___) =>
                                         _InitialsAvatar(name: m.name),
                                   )
@@ -914,36 +939,40 @@ class _BannerButtonState extends State<_BannerButton> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
-          decoration: BoxDecoration(
-            color: _hovered
-                ? Colors.white.withValues(alpha: 0.14)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.55)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(widget.icon, size: 18, color: Colors.white),
-              const SizedBox(width: 10),
-              Text(
-                widget.label,
-                style: GoogleFonts.openSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+    return Semantics(
+      button: true,
+      label: widget.label,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 160),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+            decoration: BoxDecoration(
+              color: _hovered
+                  ? Colors.white.withValues(alpha: 0.14)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.55)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(widget.icon, size: 18, color: Colors.white),
+                const SizedBox(width: 10),
+                Text(
+                  widget.label,
+                  style: GoogleFonts.openSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

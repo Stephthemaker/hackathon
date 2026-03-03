@@ -44,7 +44,7 @@ class _ContactPageState extends State<ContactPage> {
       // Open the user's email client with pre-filled fields
       final mailUri = Uri(
         scheme: 'mailto',
-        path: 'stephhenning1@gmail.com',
+        path: 'info@cs.sun.ac.za',
         queryParameters: {
           'subject': '[$_subject] from $_name',
           'body': 'From: $_name ($_email)\n\n$_message',
@@ -428,24 +428,28 @@ class _KeyContactState extends State<_KeyContact> {
             ),
           ),
           const SizedBox(height: 2),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            onEnter: (_) => setState(() => _hovered = true),
-            onExit: (_) => setState(() => _hovered = false),
-            child: GestureDetector(
-              onTap: () {
-                launchUrl(Uri(scheme: 'mailto', path: widget.email));
-              },
-              child: SelectionContainer.disabled(
-                child: Text(
-                  widget.email,
-                  style: GoogleFonts.openSans(
-                    fontSize: 12,
-                    color: AppTheme.maroon,
-                    decoration: _hovered
-                        ? TextDecoration.underline
-                        : TextDecoration.none,
-                    decorationColor: AppTheme.maroon,
+          Semantics(
+            link: true,
+            label: 'Email ${widget.name}: ${widget.email}',
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              onEnter: (_) => setState(() => _hovered = true),
+              onExit: (_) => setState(() => _hovered = false),
+              child: GestureDetector(
+                onTap: () {
+                  launchUrl(Uri(scheme: 'mailto', path: widget.email));
+                },
+                child: SelectionContainer.disabled(
+                  child: Text(
+                    widget.email,
+                    style: GoogleFonts.openSans(
+                      fontSize: 12,
+                      color: AppTheme.maroon,
+                      decoration: _hovered
+                          ? TextDecoration.underline
+                          : TextDecoration.none,
+                      decorationColor: AppTheme.maroon,
+                    ),
                   ),
                 ),
               ),

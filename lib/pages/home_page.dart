@@ -90,12 +90,20 @@ class _HeroSectionState extends State<_HeroSection>
                   parent: _fadeCtrl,
                   curve: Curves.easeOut,
                 ),
-                child: Image.asset(
-                  'web/assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: double.infinity,
-                  alignment: Alignment.center,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final dpr = MediaQuery.of(context).devicePixelRatio;
+                    final cw = (constraints.maxWidth * dpr).round();
+                    return Image.asset(
+                      'web/assets/general/stellenbosch-university-library-1.jpeg-1024x576.webp',
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      alignment: Alignment.center,
+                      cacheWidth: cw,
+                      filterQuality: FilterQuality.medium,
+                    );
+                  },
                 ),
               ),
             ),

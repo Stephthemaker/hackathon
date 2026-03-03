@@ -192,6 +192,89 @@ class _StaffPageState extends State<StaffPage> {
       'https://www.linkedin.com/in/mcelory/',
       email: 'mcelory@praelexis.co.za',
     ),
+    _SM(
+      'Prof. Judith Bishop',
+      'Professor Extraordinary',
+      'Software Engineering',
+      'Programming languages, software engineering, mobile computing, open source software.',
+      'web/assets/staff/academic/jbishop.jpg',
+      'https://jbishop.pages.cs.sun.ac.za/',
+      email: 'jbishop@sun.ac.za',
+    ),
+    _SM(
+      'Assoc Prof. Loek Cleophas',
+      'Assoc Prof Extraordinary',
+      'Software Engineering',
+      'Model-driven engineering, digital twins, algorithm and model variability.',
+      'web/assets/staff/academic/lcleophas.jpg',
+      'https://lcleophas.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Dr. David Baker Effendi',
+      'Research Fellow',
+      'Software Engineering',
+      'Program analysis, static analysis.',
+      'web/assets/staff/academic/deffendi.jpg',
+      'https://deffendi.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Prof. Maria Keet',
+      'Professor Extraordinary',
+      'Artificial Intelligence',
+      'Ontology, Semantic Web, Conceptual Modeling, Knowledge Representation and reasoning.',
+      'web/assets/staff/academic/mkeet.png',
+      'https://mkeet.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Prof. Francesco Petruccione',
+      'Visiting Academic',
+      'Science & Engineering',
+      'Interim director of NITheCS and Professor Extraordinary in the Department of Physics at SU.',
+      'web/assets/staff/academic/petruccione.jpg',
+      'https://petruccione.pages.cs.sun.ac.za/',
+      email: 'petruccione@sun.ac.za',
+    ),
+    _SM(
+      'Assoc Prof. Laurette Pretorius',
+      'Assoc Prof Extraordinary',
+      'Artificial Intelligence',
+      'Multilingual NLP, Semantic computing, Ontology development, Machine translation.',
+      'web/assets/staff/academic/lpretorius.jpg',
+      'https://lpretorius.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Mr. Moeketsi Raselimo',
+      'Lecturer Extraordinary',
+      'Software Engineering',
+      'Programming Languages, Software Testing, Fuzzing.',
+      'web/assets/staff/academic/mraselimo.jpg',
+      'https://mraselimo.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Prof. Wolf-Tilo Balke',
+      'Visiting Academic',
+      'Theory & Algorithms',
+      'Query Processing, User Preferences and Personalization, Peer-to-Peer Networks.',
+      'web/assets/staff/academic/tbalke.jpg',
+      'https://www.ifis.cs.tu-bs.de/staff/balke',
+      email: 'balke@ifis.cs.tu-bs.de',
+    ),
+    _SM(
+      'Mr. Walter Schulze',
+      'Researcher',
+      'Theory & Algorithms',
+      'Formal language theory, derivative-based parsing, and automata.',
+      'web/assets/staff/academic/wschulze.jpg',
+      'https://wschulze.pages.cs.sun.ac.za/',
+    ),
+    _SM(
+      'Mr. Steyn van Litsenborgh',
+      'Researcher',
+      'Theory & Algorithms',
+      'Automata theory and applications.',
+      'web/assets/staff/academic/svanlitsenborgh.jpg',
+      'https://cs.sun.ac.za/people/staff/',
+    ),
   ];
 
   static const _adminStaff = [
@@ -477,6 +560,7 @@ class _StaffPageState extends State<StaffPage> {
 
 class _SM {
   final String name, title, group, research, photoUrl, websiteUrl, email;
+  final String scholarUrl;
   const _SM(
     this.name,
     this.title,
@@ -485,6 +569,7 @@ class _SM {
     this.photoUrl,
     this.websiteUrl, {
     this.email = '',
+    this.scholarUrl = '',
   });
 }
 
@@ -510,45 +595,50 @@ class _GroupFilterButtonState extends State<_GroupFilterButton> {
   Widget build(BuildContext context) {
     final selected = widget.selected;
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: SelectionContainer.disabled(
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
-            curve: Curves.easeOut,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-            decoration: BoxDecoration(
-              color: selected
-                  ? AppTheme.maroon
-                  : (_hovered
-                        ? Theme.of(context).scaffoldBackgroundColor
-                        : Theme.of(context).colorScheme.surface),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
+    return Semantics(
+      button: true,
+      selected: widget.selected,
+      label: widget.label,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: SelectionContainer.disabled(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              curve: Curves.easeOut,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              decoration: BoxDecoration(
                 color: selected
                     ? AppTheme.maroon
-                    : (_hovered ? AppTheme.maroonLight : AppTheme.divider),
+                    : (_hovered
+                          ? Theme.of(context).scaffoldBackgroundColor
+                          : Theme.of(context).colorScheme.surface),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: selected
+                      ? AppTheme.maroon
+                      : (_hovered ? AppTheme.maroonLight : AppTheme.divider),
+                ),
+                boxShadow: selected
+                    ? [
+                        BoxShadow(
+                          color: AppTheme.maroon.withValues(alpha: 0.18),
+                          blurRadius: 14,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
+                    : const [],
               ),
-              boxShadow: selected
-                  ? [
-                      BoxShadow(
-                        color: AppTheme.maroon.withValues(alpha: 0.18),
-                        blurRadius: 14,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                  : const [],
-            ),
-            child: Text(
-              widget.label,
-              style: AppTheme.uiControlText.copyWith(
-                fontSize: 12.5,
-                color: selected ? Colors.white : AppTheme.textDark,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+              child: Text(
+                widget.label,
+                style: AppTheme.uiControlText.copyWith(
+                  fontSize: 12.5,
+                  color: selected ? Colors.white : AppTheme.textDark,
+                  fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -673,7 +763,19 @@ class _StaffCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                     ],
-                    _Chip(Icons.article, 'Publications'),
+                    _Chip(
+                      Icons.article,
+                      'Publications',
+                      onTap: () {
+                        final url = member.scholarUrl.isNotEmpty
+                            ? member.scholarUrl
+                            : 'https://scholar.google.com/scholar?q=author:"${Uri.encodeComponent(member.name.replaceAll(RegExp(r'(Prof\.|Dr\.|Mr\.|Ms\.|Assoc Prof\.)\s*'), ''))}"+ stellenbosch';
+                        launchUrl(
+                          Uri.parse(url),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -725,6 +827,9 @@ class _ProfileAvatarState extends State<_ProfileAvatar>
           width: 56,
           height: 56,
           fit: BoxFit.cover,
+          cacheWidth: (56 * MediaQuery.of(context).devicePixelRatio).round(),
+          cacheHeight: (56 * MediaQuery.of(context).devicePixelRatio).round(),
+          filterQuality: FilterQuality.medium,
           semanticLabel: widget.semanticLabel,
           frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
             if (wasSynchronouslyLoaded || frame != null) {
@@ -770,35 +875,39 @@ class _Chip extends StatelessWidget {
   const _Chip(this.icon, this.label, {this.onTap});
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: onTap != null
-          ? SystemMouseCursors.click
-          : SystemMouseCursors.basic,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-          decoration: BoxDecoration(
-            color: onTap != null
-                ? Theme.of(context).colorScheme.surface
-                : Colors.transparent,
-            border: Border.all(color: AppTheme.divider),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon, size: 11, color: AppTheme.textMuted),
-              const SizedBox(width: 5),
-              Text(
-                label,
-                style: AppTheme.uiControlText.copyWith(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  color: AppTheme.textMuted,
+    return Semantics(
+      button: onTap != null,
+      label: label,
+      child: MouseRegion(
+        cursor: onTap != null
+            ? SystemMouseCursors.click
+            : SystemMouseCursors.basic,
+        child: GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+            decoration: BoxDecoration(
+              color: onTap != null
+                  ? Theme.of(context).colorScheme.surface
+                  : Colors.transparent,
+              border: Border.all(color: AppTheme.divider),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 11, color: AppTheme.textMuted),
+                const SizedBox(width: 5),
+                Text(
+                  label,
+                  style: AppTheme.uiControlText.copyWith(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textMuted,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

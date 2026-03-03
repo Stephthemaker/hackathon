@@ -1523,6 +1523,245 @@ const Map<String, Map<AppLocale, String>> _strings = {
     AppLocale.af: 'Eksamenuitslae vrygestel',
     AppLocale.xh: 'Iziphumo zeemviwo zikhutshiwe',
   },
+
+  // ── News Detail Page ────────────────────────────────────────────────
+  'news.back': {
+    AppLocale.en: '← Back to News & Events',
+    AppLocale.af: '← Terug na Nuus & Geleenthede',
+    AppLocale.xh: '← Buyela kwiNdaba & Imisitho',
+  },
+  'news.share': {
+    AppLocale.en: 'Share this article',
+    AppLocale.af: 'Deel hierdie artikel',
+    AppLocale.xh: 'Yabelana ngenqaku',
+  },
+  'news.copy_link': {
+    AppLocale.en: 'Copy Link',
+    AppLocale.af: 'Kopieer Skakel',
+    AppLocale.xh: 'Kopa Ikhonkco',
+  },
+  'news.link_copied': {
+    AppLocale.en: 'Link copied to clipboard',
+    AppLocale.af: 'Skakel gekopieer',
+    AppLocale.xh: 'Ikhonkco likopelwe',
+  },
+  'news.related': {
+    AppLocale.en: 'Related Articles',
+    AppLocale.af: 'Verwante Artikels',
+    AppLocale.xh: 'Amanqaku Ahlobeneyo',
+  },
+
+  // ── Events Calendar ─────────────────────────────────────────────────
+  'news.events.add_cal': {
+    AppLocale.en: 'Add to Calendar',
+    AppLocale.af: 'Voeg by Kalender',
+    AppLocale.xh: 'Yongeza kwiKhalenda',
+  },
+
+  // ── Programme Detail Page ───────────────────────────────────────────
+  'prog.detail.overview': {
+    AppLocale.en: 'Programme Overview',
+    AppLocale.af: 'Program Oorsig',
+    AppLocale.xh: 'Isishwankathelo seNkqubo',
+  },
+  'prog.detail.requirements': {
+    AppLocale.en: 'Entry Requirements',
+    AppLocale.af: 'Toelatingsvereistes',
+    AppLocale.xh: 'Iimfuno zokuNgena',
+  },
+  'prog.detail.curriculum': {
+    AppLocale.en: 'Curriculum',
+    AppLocale.af: 'Kurrikulum',
+    AppLocale.xh: 'IKharityhulam',
+  },
+  'prog.detail.careers': {
+    AppLocale.en: 'Career Paths',
+    AppLocale.af: 'Loopbaanpaaie',
+    AppLocale.xh: 'Iindlela zomSebenzi',
+  },
+  'prog.detail.apply_title': {
+    AppLocale.en: 'Ready to Apply?',
+    AppLocale.af: 'Gereed om Aansoek te Doen?',
+    AppLocale.xh: 'Ulungele ukuFaka isiCelo?',
+  },
+  'prog.detail.apply_body': {
+    AppLocale.en:
+        'Start your journey in Computer Science at Stellenbosch University.',
+    AppLocale.af:
+        'Begin jou reis in Rekenaarwetenskap by Universiteit Stellenbosch.',
+    AppLocale.xh:
+        'Qala uhambo lwakho kwiSayensi yeKhompyutha eYunivesithi yaseStellenbosch.',
+  },
+  'prog.detail.apply_btn': {
+    AppLocale.en: 'Apply Now',
+    AppLocale.af: 'Dien Nou Aansoek',
+    AppLocale.xh: 'Faka isiCelo Ngoku',
+  },
+  'prog.detail.contact_btn': {
+    AppLocale.en: 'Contact Us',
+    AppLocale.af: 'Kontak Ons',
+    AppLocale.xh: 'Qhagamshelana Nathi',
+  },
+  'prog.detail.back': {
+    AppLocale.en: '← Back to Programmes',
+    AppLocale.af: '← Terug na Programme',
+    AppLocale.xh: '← Buyela kwiinkqubo',
+  },
+
+  // ── Alumni Page ─────────────────────────────────────────────────────
+  'nav.alumni': {
+    AppLocale.en: 'Alumni',
+    AppLocale.af: 'Alumni',
+    AppLocale.xh: 'Abafundi baNgaphambili',
+  },
+  'alumni.label': {
+    AppLocale.en: 'ALUMNI NETWORK',
+    AppLocale.af: 'ALUMNI NETWERK',
+    AppLocale.xh: 'UTHUNGELWANO LWABAFUNDI',
+  },
+  'alumni.title': {
+    AppLocale.en: 'Where Our Graduates Go',
+    AppLocale.af: 'Waarheen Ons Gegradueerdes Gaan',
+    AppLocale.xh: 'Apho Abaphumeleleyo Bethu Bakhona',
+  },
+  'alumni.subtitle': {
+    AppLocale.en:
+        'Our alumni are building the future across the globe — from Silicon Valley to the Western Cape.',
+    AppLocale.af:
+        'Ons alumni bou die toekoms regoor die wêreld — van Silicon Valley tot die Wes-Kaap.',
+    AppLocale.xh:
+        'Abafundi bethu bangaphambili bakha ikamva kwihlabathi lonke — ukusuka eSilicon Valley ukuya eNtshona Koloni.',
+  },
+  'alumni.stories.heading': {
+    AppLocale.en: 'Alumni Stories',
+    AppLocale.af: 'Alumni Verhale',
+    AppLocale.xh: 'Amabali Abafundi',
+  },
+  'alumni.cta.title': {
+    AppLocale.en: 'Stay Connected',
+    AppLocale.af: 'Bly Verbind',
+    AppLocale.xh: 'Hlala Uqhagamshelene',
+  },
+  'alumni.cta.body': {
+    AppLocale.en:
+        'Are you a CS Stellenbosch alumnus? We\'d love to hear from you and feature your story.',
+    AppLocale.af:
+        'Is jy \'n RW Stellenbosch alumnus? Ons wil graag van jou hoor en jou verhaal uitstal.',
+    AppLocale.xh:
+        'Ungumfundi wangaphambili wase-Stellenbosch CS? Singathanda ukuva kuwe kwaye sibalise ibali lakho.',
+  },
+  'alumni.cta.btn': {
+    AppLocale.en: 'Get in Touch',
+    AppLocale.af: 'Maak Kontak',
+    AppLocale.xh: 'Nxibelelana Nathi',
+  },
+
+  // ── Resources FAQ ───────────────────────────────────────────────────
+  'res.faq.q1': {
+    AppLocale.en: 'How do I register as a new postgraduate student?',
+    AppLocale.af: 'Hoe registreer ek as nuwe nagraadse student?',
+    AppLocale.xh: 'Ndibhalisela njani njengomfundi omtsha wasemva kwesidanga?',
+  },
+  'res.faq.a1': {
+    AppLocale.en:
+        'Submit your online application at apply.sun.ac.za, attach certified ID and transcripts. Once accepted, register through the student portal during the designated registration period in January.',
+    AppLocale.af:
+        'Dien jou aanlyntoepassing in by apply.sun.ac.za, heg gesertifiseerde ID en transkripsies aan. Sodra aanvaar, registreer deur die studenteportaal gedurende die aangewese registrasietydperk in Januarie.',
+    AppLocale.xh:
+        'Ngenisa isicelo sakho se-intanethi ku-apply.sun.ac.za, qhoboshela isazisi esiqinisekisiweyo kunye neerekhodi. Xa wamkelwe, bhalisa ngepothali yabafundi ngexesha lobhaliso elimiselweyo ngoJanuwari.',
+  },
+  'res.faq.q2': {
+    AppLocale.en: 'What are the laptop specifications required?',
+    AppLocale.af: 'Wat is die skootrekenaar spesifikasies wat vereis word?',
+    AppLocale.xh: 'Yeyiphi imiqathango yekhompyutha ephathwayo efunekayo?',
+  },
+  'res.faq.a2': {
+    AppLocale.en:
+        'We recommend at least 8 GB RAM (16 GB preferred), an Intel i5/AMD Ryzen 5 or better CPU, 256 GB SSD, and a 64-bit OS. The CS labs provide Windows 10 + Linux dual-boot workstations.',
+    AppLocale.af:
+        'Ons beveel ten minste 8 GB RAM aan (16 GB verkieslik), \'n Intel i5/AMD Ryzen 5 of beter SVE, 256 GB SSD, en \'n 64-bis bedryfstelsel. Die RW-laboratoriums bied Windows 10 + Linux dubbellaai-werkstasies.',
+    AppLocale.xh:
+        'Sincoma ubuncinci i-8 GB RAM (i-16 GB iyathandwa), i-Intel i5/AMD Ryzen 5 okanye i-CPU engcono, i-256 GB SSD, kunye ne-OS ye-64-bit. Iilabhoratri ze-CS zinikezela nge-Windows 10 + Linux dual-boot workstations.',
+  },
+  'res.faq.q3': {
+    AppLocale.en: 'Can I defer my acceptance to next year?',
+    AppLocale.af: 'Kan ek my aanvaarding na volgende jaar uitstel?',
+    AppLocale.xh: 'Ngaba ndinganqumamisa ukwamkelwa kwam kulo nyaka uzayo?',
+  },
+  'res.faq.a3': {
+    AppLocale.en:
+        'Deferral requests must be submitted in writing to the Undergraduate Office before 28 February. Approvals are granted per-faculty at its discretion.',
+    AppLocale.af:
+        'Uitstelversoeke moet skriftelik voor 28 Februarie by die Voorgraadse Kantoor ingedien word. Goedkeurings word per fakulteit na goeddunke toegestaan.',
+    AppLocale.xh:
+        'Izicelo zokumisa kufuneka zingeniswe ngokubhaliweyo kwiOfisi yaBafundi beSidanga phambi kowe-28 Februwari. Imvume inikezelwa ngokwefakhalthi ngokubona kwayo.',
+  },
+  'res.faq.q4': {
+    AppLocale.en: 'Where is the department located?',
+    AppLocale.af: 'Waar is die departement geleë?',
+    AppLocale.xh: 'Isebe likweyiphi indawo?',
+  },
+  'res.faq.a4': {
+    AppLocale.en:
+        'The CS Department is situated in the Engineering A Building on the main Stellenbosch campus. Reception is on the ground floor, Room A001.',
+    AppLocale.af:
+        'Die RW-departement is in die Ingenieurswese A-gebou op die hoof Stellenbosch-kampus. Ontvangs is op die grondverdieping, Kamer A001.',
+    AppLocale.xh:
+        'ISebe le-CS sihleli kwiSakhiwo se-Engineering A kwikampasi ephambili yaseStellenbosch. Ukwamkelwa kukumgangatho wokuqala, iGumbi A001.',
+  },
+  'res.faq.q5': {
+    AppLocale.en: 'How do I access the CS labs after hours?',
+    AppLocale.af: 'Hoe kry ek toegang tot die RW-laboratoriums na-ure?',
+    AppLocale.xh: 'Ndifikelela njani kwiilabhoratri ze-CS emva kwamaxesha?',
+  },
+  'res.faq.a5': {
+    AppLocale.en:
+        'After-hours access requires a valid student card and prior approval from your lecturer. The labs are open until 22:00 on weekdays and 17:00 on Saturdays during term time.',
+    AppLocale.af:
+        'Na-ure toegang vereis \'n geldige studentekaart en vooraf goedkeuring van jou dosent. Die laboratoriums is tot 22:00 op weeksdae en 17:00 op Saterdae gedurende kwartaaltyd oop.',
+    AppLocale.xh:
+        'Ukufikelela emva kwamaxesha kufuna ikhadi labafundi elisemthethweni kunye nemvume engaphambili evela kumhlohli wakho. Iilabhoratri zivuliwe ukuya nge-22:00 ngentsuku zeveki kunye nango-17:00 ngoMgqibelo ngexesha letherm.',
+  },
+  'res.faq.q6': {
+    AppLocale.en: 'What programming languages are taught?',
+    AppLocale.af: 'Watter programmeertale word onderrig?',
+    AppLocale.xh: 'Zeziphi iilwimi zenkqubo ezifundiswayo?',
+  },
+  'res.faq.a6': {
+    AppLocale.en:
+        'First-year modules use Python and Java. Upper years introduce C++, JavaScript, Haskell, and others depending on the module. Honours students may work with any language suitable for their project.',
+    AppLocale.af:
+        'Eerstejaar-modules gebruik Python en Java. Hoër jare stel C++, JavaScript, Haskell en ander voor afhangende van die module. Honneursstudente kan met enige geskikte taal vir hul projek werk.',
+    AppLocale.xh:
+        'Iimoduli zonyaka wokuqala zisebenzisa iPython noJava. Iminyaka ephakamileyo yazisa iC++, iJavaScript, iHaskell, nezinye ngokuxhomekeke kwimoduli. Abafundi beHonours bangasebenza nalo naluphi ulwimi olufanelekileyo kwiprojekthi yabo.',
+  },
+  'res.faq.q7': {
+    AppLocale.en: 'Is financial aid available for postgraduate students?',
+    AppLocale.af: 'Is finansiële hulp beskikbaar vir nagraadse studente?',
+    AppLocale.xh:
+        'Ngaba uncedo lwezimali luyafumaneka kubafundi basemva kwesidanga?',
+  },
+  'res.faq.a7': {
+    AppLocale.en:
+        'Yes. The university offers NRF bursaries, faculty merit awards, and departmental assistantships. International students may also apply for the African Scholarship Programme.',
+    AppLocale.af:
+        'Ja. Die universiteit bied NRF-beurse, fakulteitmeriettoekennings en departementele assistentskappe aan. Internasionale studente kan ook vir die Afrika-beursprogram aansoek doen.',
+    AppLocale.xh:
+        'Ewe. Iyunivesithi inikeza iibhasari ze-NRF, amabhaso amafakhalthi, kunye neesekethe zesebe. Abafundi bamazwe angaphandle banokufaka isicelo seNkqubo yeBhasari yaseAfrika.',
+  },
+  'res.faq.q8': {
+    AppLocale.en: 'How do I get involved in research?',
+    AppLocale.af: 'Hoe raak ek betrokke by navorsing?',
+    AppLocale.xh: 'Ndibandakanyeka njani kuphando?',
+  },
+  'res.faq.a8': {
+    AppLocale.en:
+        'Speak to any academic staff member whose research interests align with yours. Many research groups welcome undergraduate volunteers. Formal research begins in the Honours year with the CS 771 project.',
+    AppLocale.af:
+        'Praat met enige akademiese personeellid wie se navorsingsbelangstellings by joune pas. Baie navorsingsgroepe verwelkom voorgraadse vrywilligers. Formele navorsing begin in die Honneursjaar met die RW 771-projek.',
+    AppLocale.xh:
+        'Thetha nalo naluphi ilungu labasebenzi bezifundo oluthanda uphando lwalo luhambelana nolwakho. Amaqela ophando amaninzi amkela abavolontiya abangabafundi besidanga. Uphando olunges ngokusemthethweni luqala ngonyaka weHonours ngeprojekthi ye-CS 771.',
+  },
 };
 
 /// Look up a translated string for the given [locale].

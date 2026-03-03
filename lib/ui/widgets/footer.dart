@@ -111,6 +111,7 @@ class _FooterBrand extends StatelessWidget {
                 child: SvgPicture.asset(
                   'web/assets/general/favicon.svg',
                   fit: BoxFit.contain,
+                  semanticsLabel: 'Computer Science Division logo',
                 ),
               ),
               const SizedBox(width: 12),
@@ -289,35 +290,39 @@ class _FooterLinkItemState extends State<_FooterLinkItem> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () {
-          if (widget.route.startsWith('http')) {
-            launchUrl(
-              Uri.parse(widget.route),
-              mode: LaunchMode.externalApplication,
-            );
-          } else {
-            context.go(widget.route);
-          }
-        },
-        child: SelectionContainer.disabled(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: AnimatedDefaultTextStyle(
-              duration: const Duration(milliseconds: 150),
-              style: AppTheme.uiControlText.copyWith(
-                fontSize: 13,
-                color: _hovered
-                    ? AppTheme.gold
-                    : Colors.white.withValues(alpha: 0.5),
-                fontWeight: FontWeight.w500,
-                height: 1.5,
+    return Semantics(
+      link: true,
+      label: widget.label,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _hovered = true),
+        onExit: (_) => setState(() => _hovered = false),
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            if (widget.route.startsWith('http')) {
+              launchUrl(
+                Uri.parse(widget.route),
+                mode: LaunchMode.externalApplication,
+              );
+            } else {
+              context.go(widget.route);
+            }
+          },
+          child: SelectionContainer.disabled(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 150),
+                style: AppTheme.uiControlText.copyWith(
+                  fontSize: 13,
+                  color: _hovered
+                      ? AppTheme.gold
+                      : Colors.white.withValues(alpha: 0.5),
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
+                ),
+                child: Text(widget.label),
               ),
-              child: Text(widget.label),
             ),
           ),
         ),
