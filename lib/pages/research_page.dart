@@ -383,7 +383,7 @@ class _GroupInfo extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   color: Theme.of(context).colorScheme.primary,
                                   decoration: TextDecoration.underline,
-                                  decorationColor: AppTheme.maroon.withValues(
+                                  decorationColor: Theme.of(context).colorScheme.primary.withValues(
                                     alpha: 0.3,
                                   ),
                                 ),

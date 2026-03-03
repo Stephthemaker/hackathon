@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../theme/app_theme.dart';
 
 /// A shimmer-effect skeleton placeholder for loading states.
 class SkeletonLoader extends StatefulWidget {
@@ -52,9 +51,9 @@ class _SkeletonLoaderState extends State<SkeletonLoader>
               begin: Alignment(-1.0 + (2.0 * t), -0.3),
               end: Alignment(-0.2 + (2.0 * t), 0.3),
               colors: [
-                AppTheme.divider.withValues(alpha: 0.3),
-                AppTheme.divider.withValues(alpha: 0.6),
-                AppTheme.divider.withValues(alpha: 0.3),
+                Theme.of(context).dividerColor.withValues(alpha: 0.3),
+                Theme.of(context).dividerColor.withValues(alpha: 0.6),
+                Theme.of(context).dividerColor.withValues(alpha: 0.3),
               ],
             ),
           ),
@@ -76,7 +75,7 @@ class SkeletonCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.divider),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       padding: const EdgeInsets.all(20),
       child: Column(

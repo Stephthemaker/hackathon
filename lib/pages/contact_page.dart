@@ -259,6 +259,14 @@ class _ContactPageState extends State<ContactPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              Text(
+                AppSettingsProvider.of(context).tr('contact.form.mailto_note'),
+                style: GoogleFonts.openSans(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
             ],
           ),
         ),

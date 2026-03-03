@@ -51,7 +51,6 @@ CustomTransitionPage<void> _fadePage(GoRouterState state, Widget child) {
 final goRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/',
-  errorBuilder: (context, state) => const NotFoundPage(),
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -117,4 +116,5 @@ final goRouter = GoRouter(
       ],
     ),
   ],
+  errorBuilder: (context, state) => AppShell(child: const NotFoundPage()),
 );

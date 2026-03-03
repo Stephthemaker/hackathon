@@ -968,6 +968,11 @@ const Map<String, Map<AppLocale, String>> _strings = {
     AppLocale.af: 'Verpligtend',
     AppLocale.xh: 'Kuyafuneka',
   },
+  'contact.form.mailto_note': {
+    AppLocale.en: 'This will open your default email client. You can also email us directly at info@cs.sun.ac.za.',
+    AppLocale.af: 'Dit sal jou versteke e-poskliënt oopmaak. Jy kan ons ook direk e-pos by info@cs.sun.ac.za.',
+    AppLocale.xh: 'Oku kuya kuvula umthumeli we-imeyile wakho. Ungathumela i-imeyile kuthi ngqo ku info@cs.sun.ac.za.',
+  },
   'contact.info.heading': {
     AppLocale.en: 'Contact Details',
     AppLocale.af: 'Kontakbesonderhede',

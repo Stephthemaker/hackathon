@@ -1,4 +1,4 @@
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 import 'package:flutter/material.dart';
 import 'translations.dart';
 
@@ -19,18 +19,18 @@ class AppSettings extends ChangeNotifier {
 
   /// Load cached settings from localStorage.
   void loadFromStorage() {
-    final storage = html.window.localStorage;
-    final localeName = storage[_kLocale];
+    final storage = web.window.localStorage;
+    final localeName = storage.getItem(_kLocale);
     if (localeName != null) {
       _locale = AppLocale.values.firstWhere(
         (l) => l.name == localeName,
         orElse: () => AppLocale.en,
       );
     }
-    _darkMode = storage[_kDarkMode] == 'true';
-    _highContrast = storage[_kHighContrast] == 'true';
-    _reduceMotion = storage[_kReduceMotion] == 'true';
-    final scaleStr = storage[_kFontScale];
+    _darkMode = storage.getItem(_kDarkMode) == 'true';
+    _highContrast = storage.getItem(_kHighContrast) == 'true';
+    _reduceMotion = storage.getItem(_kReduceMotion) == 'true';
+    final scaleStr = storage.getItem(_kFontScale);
     if (scaleStr != null) {
       _fontScale = double.tryParse(scaleStr) ?? 1.0;
     }
@@ -38,12 +38,12 @@ class AppSettings extends ChangeNotifier {
 
   /// Persist current settings to localStorage.
   void _persist() {
-    final storage = html.window.localStorage;
-    storage[_kLocale] = _locale.name;
-    storage[_kDarkMode] = _darkMode.toString();
-    storage[_kHighContrast] = _highContrast.toString();
-    storage[_kReduceMotion] = _reduceMotion.toString();
-    storage[_kFontScale] = _fontScale.toString();
+    final storage = web.window.localStorage;
+    storage.setItem(_kLocale, _locale.name);
+    storage.setItem(_kDarkMode, _darkMode.toString());
+    storage.setItem(_kHighContrast, _highContrast.toString());
+    storage.setItem(_kReduceMotion, _reduceMotion.toString());
+    storage.setItem(_kFontScale, _fontScale.toString());
   }
 
   // ── Getters ──────────────────────────────────────────────────────────

@@ -725,7 +725,7 @@ class _StaffCard extends StatelessWidget {
                     style: GoogleFonts.openSans(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.gold,
+                      color: Theme.of(context).colorScheme.secondary,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -742,7 +742,7 @@ class _StaffCard extends StatelessWidget {
                   member.title,
                   style: GoogleFonts.openSans(
                     fontSize: 12,
-                    color: AppTheme.maroon,
+                    color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

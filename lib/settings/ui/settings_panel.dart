@@ -15,9 +15,7 @@ class SettingsPanel extends StatelessWidget {
     final bg = isDark ? AppTheme.darkSurface : Colors.white;
     final fg = Theme.of(context).colorScheme.onSurface;
     final muted = Theme.of(context).colorScheme.onSurfaceVariant;
-    final divider = isDark
-        ? Colors.white.withValues(alpha: 0.1)
-        : AppTheme.divider;
+    final divider = Theme.of(context).dividerColor;
 
     return Material(
       color: bg,
@@ -213,7 +211,7 @@ class _LanguageTileState extends State<_LanguageTile> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: widget.isSelected
-                    ? AppTheme.maroon.withValues(alpha: 0.4)
+                    ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
                     : Colors.transparent,
               ),
             ),
@@ -239,7 +237,7 @@ class _LanguageTileState extends State<_LanguageTile> {
                   ),
                 ),
                 if (widget.isSelected)
-                  Icon(Icons.check_circle, color: AppTheme.maroon, size: 20),
+                  Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary, size: 20),
               ],
             ),
           ),
@@ -315,7 +313,7 @@ class _WebToggleState extends State<_WebToggle> {
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final trackColor = widget.value
-        ? AppTheme.maroon
+        ? Theme.of(context).colorScheme.primary
         : (_hovered
               ? (isDark ? const Color(0xFF555555) : const Color(0xFFBBBBBB))
               : (isDark ? const Color(0xFF444444) : const Color(0xFFCCCCCC)));
@@ -464,10 +462,10 @@ class _FontSizeButtonState extends State<_FontSizeButton> {
             borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: widget.selected
-                  ? AppTheme.maroon.withValues(alpha: 0.4)
+                  ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
                   : (widget.isDark
                         ? Colors.white.withValues(alpha: 0.08)
-                        : AppTheme.divider),
+                        : Theme.of(context).dividerColor),
             ),
           ),
           child: Column(

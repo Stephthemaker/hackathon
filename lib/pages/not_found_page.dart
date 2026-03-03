@@ -9,9 +9,9 @@ class NotFoundPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 120),
           child: Column(

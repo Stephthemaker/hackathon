@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:go_router/go_router.dart';
@@ -296,10 +297,20 @@ class _NavLogoState extends State<_NavLogo> {
     return Semantics(
       button: true,
       label: 'Home — Computer Science, Stellenbosch University',
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => context.go('/'),
+      child: Focus(
+        onKeyEvent: (node, event) {
+          if (event is KeyDownEvent &&
+              (event.logicalKey == LogicalKeyboardKey.enter ||
+                  event.logicalKey == LogicalKeyboardKey.space)) {
+            context.go('/');
+            return KeyEventResult.handled;
+          }
+          return KeyEventResult.ignored;
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => context.go('/'),
           child: SelectionContainer.disabled(
             child: Row(
               children: [
@@ -353,6 +364,7 @@ class _NavLogoState extends State<_NavLogo> {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -375,13 +387,23 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
       link: true,
       label: widget.item.title,
       selected: widget.isActive,
-      child: MouseRegion(
-        onEnter: (_) => setState(() => _hovered = true),
-        onExit: (_) => setState(() => _hovered = false),
-        cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => context.go(widget.item.route),
-          child: SelectionContainer.disabled(
+      child: Focus(
+        onKeyEvent: (node, event) {
+          if (event is KeyDownEvent &&
+              (event.logicalKey == LogicalKeyboardKey.enter ||
+                  event.logicalKey == LogicalKeyboardKey.space)) {
+            context.go(widget.item.route);
+            return KeyEventResult.handled;
+          }
+          return KeyEventResult.ignored;
+        },
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () => context.go(widget.item.route),
+            child: SelectionContainer.disabled(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               child: Column(
@@ -417,12 +439,10 @@ class _NavButtonDesktopState extends State<_NavButtonDesktop> {
           ),
         ),
       ),
+      ),
     );
   }
 }
-
-// ---------------------------------------------------------------------------
-// Mobile Drawer
 // ---------------------------------------------------------------------------
 class _MobileDrawer extends StatelessWidget {
   final List<_NavItem> navItems;
@@ -564,15 +584,25 @@ class _BackToTopButtonState extends State<_BackToTopButton> {
   Widget build(BuildContext context) {
     return Tooltip(
       message: 'Back to top',
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _hovered = true),
-        onExit: (_) => setState(() => _hovered = false),
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: Semantics(
-            button: true,
-            label: 'Back to top',
+      child: Focus(
+        onKeyEvent: (node, event) {
+          if (event is KeyDownEvent &&
+              (event.logicalKey == LogicalKeyboardKey.enter ||
+                  event.logicalKey == LogicalKeyboardKey.space)) {
+            widget.onTap();
+            return KeyEventResult.handled;
+          }
+          return KeyEventResult.ignored;
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: Semantics(
+              button: true,
+              label: 'Back to top',
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               width: 44,
@@ -598,6 +628,7 @@ class _BackToTopButtonState extends State<_BackToTopButton> {
             ),
           ),
         ),
+      ),
       ),
     );
   }
