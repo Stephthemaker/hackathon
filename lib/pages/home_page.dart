@@ -222,13 +222,16 @@ class _HeroSectionState extends State<_HeroSection>
                                 text: AppSettingsProvider.of(
                                   context,
                                 ).tr('home.subtitle'),
-                                style: Theme.of(context).textTheme.bodyLarge
-                                    ?.copyWith(
+                                style:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.copyWith(
                                       color: Colors.white.withValues(
                                         alpha: 0.85,
                                       ),
                                       fontSize: isDesktop ? 18 : 15,
-                                    ) ?? const TextStyle(),
+                                    ) ??
+                                    const TextStyle(),
                               ),
                             ),
                             const SizedBox(height: 40),
@@ -387,9 +390,10 @@ class _TypewriterTextState extends State<_TypewriterText>
       vsync: this,
       duration: Duration(milliseconds: widget.text.length * 18 + 500),
     );
-    _charCount = StepTween(begin: 0, end: widget.text.length).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
-    );
+    _charCount = StepTween(
+      begin: 0,
+      end: widget.text.length,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
     Future.delayed(const Duration(milliseconds: 1200), () {
       if (mounted) _ctrl.forward();
     });
@@ -401,9 +405,10 @@ class _TypewriterTextState extends State<_TypewriterText>
     if (widget.text != _previousText) {
       _previousText = widget.text;
       _ctrl.duration = Duration(milliseconds: widget.text.length * 18 + 500);
-      _charCount = StepTween(begin: 0, end: widget.text.length).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
-      );
+      _charCount = StepTween(
+        begin: 0,
+        end: widget.text.length,
+      ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
       _ctrl.forward(from: 0);
     }
   }
@@ -489,7 +494,9 @@ class _DeanQuoteSection extends StatelessWidget {
                         fontSize: isDesktop ? 24 : 18,
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.italic,
-                        color: isDark ? Colors.white.withValues(alpha: 0.9) : AppTheme.textDark,
+                        color: isDark
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : AppTheme.textDark,
                         height: 1.6,
                       ),
                     ),
@@ -500,7 +507,11 @@ class _DeanQuoteSection extends StatelessWidget {
                     height: 2,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppTheme.gold.withValues(alpha: 0.0), AppTheme.gold, AppTheme.gold.withValues(alpha: 0.0)],
+                        colors: [
+                          AppTheme.gold.withValues(alpha: 0.0),
+                          AppTheme.gold,
+                          AppTheme.gold.withValues(alpha: 0.0),
+                        ],
                       ),
                     ),
                   ),
@@ -519,7 +530,9 @@ class _DeanQuoteSection extends StatelessWidget {
                     AppSettingsProvider.of(context).tr('home.dean.role'),
                     style: GoogleFonts.openSans(
                       fontSize: 13,
-                      color: isDark ? Colors.white.withValues(alpha: 0.5) : AppTheme.textMuted,
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.5)
+                          : AppTheme.textMuted,
                       letterSpacing: 0.3,
                     ),
                   ),
@@ -540,12 +553,42 @@ class _ResearchShowcaseSection extends StatelessWidget {
   const _ResearchShowcaseSection();
 
   static const _areas = [
-    _ResearchArea(Icons.psychology, 'Artificial Intelligence', 'Machine learning, NLP, and computer vision research pushing the boundaries of what machines can understand.', [Color(0xFF667eea), Color(0xFF764ba2)]),
-    _ResearchArea(Icons.security, 'Information Security', 'Protecting digital infrastructure through cryptography, network security, and threat analysis.', [Color(0xFFf093fb), Color(0xFFf5576c)]),
-    _ResearchArea(Icons.code, 'Software Engineering', 'Building reliable, scalable software systems with modern methodologies and testing frameworks.', [Color(0xFF4facfe), Color(0xFF00f2fe)]),
-    _ResearchArea(Icons.precision_manufacturing, 'Robotics & Automation', 'Bridging the physical and digital worlds with autonomous systems and intelligent control.', [Color(0xFF43e97b), Color(0xFF38f9d7)]),
-    _ResearchArea(Icons.hub, 'Network Systems', 'Advancing broadband, mobile networks, and distributed computing across Africa.', [Color(0xFFfa709a), Color(0xFFfee140)]),
-    _ResearchArea(Icons.biotech, 'Computational Biology', 'Applying algorithmic thinking to solve complex problems in genomics and bioinformatics.', [Color(0xFFa18cd1), Color(0xFFfbc2eb)]),
+    _ResearchArea(
+      Icons.psychology,
+      'Artificial Intelligence',
+      'Machine learning, NLP, and computer vision research pushing the boundaries of what machines can understand.',
+      [AppTheme.maroon, AppTheme.maroonDark],
+    ),
+    _ResearchArea(
+      Icons.security,
+      'Information Security',
+      'Protecting digital infrastructure through cryptography, network security, and threat analysis.',
+      [AppTheme.gold, Color(0xFF8B7340)],
+    ),
+    _ResearchArea(
+      Icons.code,
+      'Software Engineering',
+      'Building reliable, scalable software systems with modern methodologies and testing frameworks.',
+      [AppTheme.maroonDark, Color(0xFF7A3050)],
+    ),
+    _ResearchArea(
+      Icons.precision_manufacturing,
+      'Robotics & Automation',
+      'Bridging the physical and digital worlds with autonomous systems and intelligent control.',
+      [AppTheme.goldLight, AppTheme.gold],
+    ),
+    _ResearchArea(
+      Icons.hub,
+      'Network Systems',
+      'Advancing broadband, mobile networks, and distributed computing across Africa.',
+      [AppTheme.maroon, AppTheme.gold],
+    ),
+    _ResearchArea(
+      Icons.biotech,
+      'Computational Biology',
+      'Applying algorithmic thinking to solve complex problems in genomics and bioinformatics.',
+      [AppTheme.maroonLight, AppTheme.maroon],
+    ),
   ];
 
   @override
@@ -566,8 +609,12 @@ class _ResearchShowcaseSection extends StatelessWidget {
               children: [
                 AnimatedSection(
                   child: SectionHeading(
-                    label: AppSettingsProvider.of(context).tr('home.research_showcase.label'),
-                    title: AppSettingsProvider.of(context).tr('home.research_showcase.title'),
+                    label: AppSettingsProvider.of(
+                      context,
+                    ).tr('home.research_showcase.label'),
+                    title: AppSettingsProvider.of(
+                      context,
+                    ).tr('home.research_showcase.title'),
                     alignment: CrossAxisAlignment.center,
                   ),
                 ),
@@ -577,16 +624,24 @@ class _ResearchShowcaseSection extends StatelessWidget {
                   child: SizedBox(
                     width: isDesktop ? 600 : double.infinity,
                     child: Text(
-                      AppSettingsProvider.of(context).tr('home.research_showcase.subtitle'),
+                      AppSettingsProvider.of(
+                        context,
+                      ).tr('home.research_showcase.subtitle'),
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.copyWith(height: 1.6),
                     ),
                   ),
                 ),
                 const SizedBox(height: 48),
                 LayoutBuilder(
                   builder: (context, constraints) {
-                    final cols = constraints.maxWidth > 900 ? 3 : constraints.maxWidth > 600 ? 2 : 1;
+                    final cols = constraints.maxWidth > 900
+                        ? 3
+                        : constraints.maxWidth > 600
+                        ? 2
+                        : 1;
                     return _ResponsiveGrid(
                       columns: cols,
                       children: _areas
@@ -609,7 +664,11 @@ class _ResearchShowcaseSection extends StatelessWidget {
                     child: OutlinedButton.icon(
                       onPressed: () => context.go('/research'),
                       icon: const Icon(Icons.arrow_forward, size: 16),
-                      label: Text(AppSettingsProvider.of(context).tr('home.research_showcase.btn')),
+                      label: Text(
+                        AppSettingsProvider.of(
+                          context,
+                        ).tr('home.research_showcase.btn'),
+                      ),
                     ),
                   ),
                 ),
@@ -661,7 +720,9 @@ class _ResearchAreaCardState extends State<_ResearchAreaCard> {
             border: Border.all(
               color: _hovered
                   ? widget.area.gradient[0].withValues(alpha: 0.5)
-                  : (isDark ? Colors.white.withValues(alpha: 0.08) : AppTheme.divider),
+                  : (isDark
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : AppTheme.divider),
             ),
             boxShadow: _hovered
                 ? [
@@ -687,7 +748,10 @@ class _ResearchAreaCardState extends State<_ResearchAreaCard> {
                     gradient: LinearGradient(
                       colors: _hovered
                           ? widget.area.gradient
-                          : [widget.area.gradient[0].withValues(alpha: 0.15), widget.area.gradient[1].withValues(alpha: 0.15)],
+                          : [
+                              widget.area.gradient[0].withValues(alpha: 0.15),
+                              widget.area.gradient[1].withValues(alpha: 0.15),
+                            ],
                     ),
                   ),
                   child: Icon(
@@ -704,7 +768,9 @@ class _ResearchAreaCardState extends State<_ResearchAreaCard> {
                 const SizedBox(height: 8),
                 Text(
                   widget.area.description,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.6),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(height: 1.6),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
